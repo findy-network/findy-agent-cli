@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/lainio/err2"
-	"github.com/optechlab/findy-agent/agent/ssi"
+	"github.com/findy-network/findy-agent/agent/ssi"
 )
 
 const (

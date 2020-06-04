@@ -5,9 +5,9 @@ import (
 	"os"
 
 	"github.com/lainio/err2"
-	"github.com/optechlab/findy-agent/agent/ssi"
-	"github.com/optechlab/findy-agent/cmds"
-	"github.com/optechlab/findy-agent/cmds/agent/schema"
+	"github.com/findy-network/findy-agent/agent/ssi"
+	"github.com/findy-network/findy-agent/cmds"
+	"github.com/findy-network/findy-agent/cmds/agent/schema"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

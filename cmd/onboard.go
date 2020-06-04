@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/lainio/err2"
-	"github.com/optechlab/findy-agent/cmds/agent"
-	"github.com/optechlab/findy-agent/cmds/onboard"
+	"github.com/findy-network/findy-agent/cmds/agent"
+	"github.com/findy-network/findy-agent/cmds/onboard"
 	"github.com/spf13/cobra"
 )
 
