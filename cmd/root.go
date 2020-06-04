@@ -15,7 +15,7 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Version: "1.0",
-	Use:     "findy-cli",
+	Use:     "findy-agent-cli",
 	Short:   "Findy cli tool",
 	Long:    `Long description & example todo`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {

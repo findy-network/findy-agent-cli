@@ -27,7 +27,7 @@ var startAgencyCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
-		aCmd.VersionInfo = "findy-cli"
+		aCmd.VersionInfo = "findy-agent-cli"
 		err2.Check(aCmd.Validate())
 		if !rootFlags.dryRun {
 			cmd.SilenceUsage = true

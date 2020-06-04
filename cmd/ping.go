@@ -20,7 +20,7 @@ ok it prints the invitation. If the EA is a SA the command pings it as well when
 the --sa flag is on.
 
 Examples
-	findy-cli user ping \
+	findy-agent-cli user ping \
 		--sa \
 		--walletname TheNewWallet4 \
 		--walletkey 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp
