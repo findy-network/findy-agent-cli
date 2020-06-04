@@ -4,9 +4,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/lainio/err2"
 	"github.com/findy-network/findy-agent/cmds"
 	"github.com/findy-network/findy-agent/cmds/agent/creddef"
+	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
 

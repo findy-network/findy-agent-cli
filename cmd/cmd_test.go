@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/lainio/err2"
 	"github.com/findy-network/findy-agent/agent/ssi"
+	"github.com/lainio/err2"
 )
 
 const (

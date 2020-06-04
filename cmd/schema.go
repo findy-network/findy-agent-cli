@@ -4,10 +4,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/lainio/err2"
 	"github.com/findy-network/findy-agent/agent/ssi"
 	"github.com/findy-network/findy-agent/cmds"
 	"github.com/findy-network/findy-agent/cmds/agent/schema"
+	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

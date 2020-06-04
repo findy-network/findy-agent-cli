@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/lainio/err2"
 	"github.com/findy-network/findy-agent/cmds/agency"
+	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"

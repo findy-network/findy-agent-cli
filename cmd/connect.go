@@ -8,10 +8,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/lainio/err2"
 	"github.com/findy-network/findy-agent/agent/utils"
 	"github.com/findy-network/findy-agent/cmds/agent"
 	"github.com/findy-network/findy-agent/cmds/connection"
+	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
 
