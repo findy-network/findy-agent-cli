@@ -1,0 +1,23 @@
+name: Build and test
+on: push
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: optechlab/findy-go
+          token: ${{ secrets.repository_token }}
+          path: findy-go
+      - uses: actions/checkout@v2
+        with:
+          repository: optechlab/findy-agent
+          token: ${{ secrets.repository_token }}
+          path: findy-agent
+      - uses: actions/checkout@v2
+        with:
+          path: findy-cli
+      - name: Test
+        uses: ./findy-cli/action

@@ -1,0 +1,14 @@
+hostaddr: localhost
+hostport: 8080
+serverport: 8080
+service-name: ca-api
+genesis: genesis_transactions
+pool: my_pool
+seed: 000000000000000000000000Steward3
+psmdb: findy.bolt
+reset: false
+register: findy.json
+steward-name: my_steward
+steward-key: 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp
+did: my_steward_did
+a2a: a2a
