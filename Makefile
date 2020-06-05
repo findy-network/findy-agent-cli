@@ -31,9 +31,9 @@ test_cov:
 check: check_fmt vet shadow
 
 image:
-	-git clone git@github.com:optechlab/findy-go.git .docker/findy-go
-	-git clone git@github.com:optechlab/findy-agent.git .docker/findy-agent
-	docker build -t findy-cli .
+	-git clone git@github.com:findy-network/findy-wrapper-go.git .docker/findy-wrapper-go
+	-git clone git@github.com:findy-network/findy-agent.git .docker/findy-agent
+	docker build -t findy-agent-cli .
 
 issuer-api:
 	docker run --network="host" --rm findy-cli service onboard \
