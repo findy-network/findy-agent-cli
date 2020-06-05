@@ -1,0 +1,23 @@
+name: Build and test
+on: push
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: findy-network/findy-wrapper-go
+          token: ${{ secrets.repository_token }}
+          path: findy-wrapper-go
+      - uses: actions/checkout@v2
+        with:
+          repository: findy-network/findy-agent
+          token: ${{ secrets.repository_token }}
+          path: findy-agent
+      - uses: actions/checkout@v2
+        with:
+          path: findy-agent-cli
+      - name: Test
+        uses: ./findy-agent-cli/action

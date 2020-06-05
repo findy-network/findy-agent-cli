@@ -1,0 +1,11 @@
+#!/bin/bash
+
+go run ../.. agency start \
+--steward-name "sovrin_steward_wallet" \
+--steward-key "steward_wallet_key" \
+--pool "FINDY_MEM_LEDGER" \
+--did "Th7MpTaRZVRYnPiabds81Y" \
+--register "findy.json" \
+--hostaddr "localhost"
+
+
