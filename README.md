@@ -1,4 +1,7 @@
-# findy-cli
+# findy-agent-cli
+
+![Build and test](https://github.com/findy-network/findy-agent-cli/workflows/Build%20and%20test/badge.svg)
+
 CLI tool for findy-agent.
 
 ## Usage
