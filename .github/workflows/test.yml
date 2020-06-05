@@ -8,16 +8,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: optechlab/findy-go
+          repository: findy-network/findy-wrapper-go
           token: ${{ secrets.repository_token }}
-          path: findy-go
+          path: findy-wrapper-go
       - uses: actions/checkout@v2
         with:
-          repository: optechlab/findy-agent
+          repository: findy-network/findy-agent
           token: ${{ secrets.repository_token }}
           path: findy-agent
       - uses: actions/checkout@v2
         with:
-          path: findy-cli
+          path: findy-agent-cli
       - name: Test
-        uses: ./findy-cli/action
+        uses: ./findy-agent-cli/action
