@@ -16,7 +16,7 @@ import (
 var rootCmd = &cobra.Command{
 	Version: "1.0",
 	Use:     "findy-agent-cli",
-	Short:   "Findy cli tool",
+	Short:   "Findy agent cli tool",
 	Long:    `Long description & example todo`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		agency.ParseLoggingArgs(rootFlags.logging)
@@ -69,14 +69,14 @@ func init() {
 	//flags := rootCmd.Flags()
 	flags.StringVar(&cfgFile, "config", "", "config file")
 	flags.StringVar(&dataPath, "data", "~/.indy_client", "path for data files")
-	flags.StringVar(&apiURL, "apiurl", "http://localhost:8090", "api base address")
+	flags.StringVar(&apiURL, "api-url", "http://localhost:8090", "api base address")
 	flags.BoolVarP(&verbose, "verbose", "v", false, "verbose")
 	flags.StringVar(&rootFlags.salt, "salt", "", "salt")
 	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", "logging startup arguments")
 	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, "perform a trial run with no changes made")
 
 	err2.Check(viper.BindPFlag("data", flags.Lookup("data")))
-	err2.Check(viper.BindPFlag("apiurl", flags.Lookup("apiurl")))
+	err2.Check(viper.BindPFlag("api-url", flags.Lookup("api-url")))
 	err2.Check(viper.BindPFlag("verbose", flags.Lookup("verbose")))
 	err2.Check(viper.BindPFlag("salt", flags.Lookup("salt")))
 	err2.Check(viper.BindPFlag("logging", flags.Lookup("logging")))
@@ -84,7 +84,7 @@ func init() {
 }
 
 func initConfig() {
-	viper.SetEnvPrefix("FINDY_CLI")
+	viper.SetEnvPrefix("FINDY_AGENT_CLI")
 	viper.AutomaticEnv() // read in environment variables that match
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
@@ -98,7 +98,7 @@ func initConfig() {
 }
 
 func readBoundRootFlags() {
-	apiURL = viper.GetString("apiurl")
+	apiURL = viper.GetString("api-url")
 	dataPath = viper.GetString("data")
 	rootFlags.salt = viper.GetString("salt")
 	rootFlags.logging = viper.GetString("logging")

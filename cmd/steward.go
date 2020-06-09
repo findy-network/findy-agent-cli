@@ -35,8 +35,8 @@ func init() {
 	})
 
 	f := stewardCmd.Flags()
-	f.StringVar(&createStewardCmd.PoolName, "poolname", "FINDY_MEM_LEDGER", "Pool name")
-	f.StringVar(&createStewardCmd.StewardSeed, "steward-seed", "000000000000000000000000Steward2", "Steward seed")
+	f.StringVar(&createStewardCmd.PoolName, "pool-name", "FINDY_MEM_LEDGER", "pool name")
+	f.StringVar(&createStewardCmd.StewardSeed, "steward-seed", "000000000000000000000000Steward2", "steward seed")
 
 	serviceCmd.AddCommand(stewardCmd)
 }

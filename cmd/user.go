@@ -23,12 +23,12 @@ func init() {
 	})
 
 	flags := userCmd.PersistentFlags()
-	flags.StringVar(&cFlags.WalletName, "walletname", "", "wallet name")
-	flags.StringVar(&cFlags.WalletKey, "walletkey", "", "wallet key")
+	flags.StringVar(&cFlags.WalletName, "wallet-name", "", "wallet name")
+	flags.StringVar(&cFlags.WalletKey, "wallet-key", "", "wallet key")
 	flags.StringVar(&cFlags.URL, "url", "http://localhost:8080", "endpoint base address")
 
-	err2.Check(userCmd.MarkPersistentFlagRequired("walletname"))
-	err2.Check(userCmd.MarkPersistentFlagRequired("walletkey"))
+	err2.Check(userCmd.MarkPersistentFlagRequired("wallet-name"))
+	err2.Check(userCmd.MarkPersistentFlagRequired("wallet-key"))
 
 	rootCmd.AddCommand(userCmd)
 }
