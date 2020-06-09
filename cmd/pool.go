@@ -69,8 +69,8 @@ func init() {
 	})
 
 	f := poolCmd.PersistentFlags()
-	f.StringVar(&poolName, "poolname", "", "name of the pool")
-	err2.Check(poolCmd.MarkPersistentFlagRequired("poolname"))
+	f.StringVar(&poolName, "pool-name", "", "name of the pool")
+	err2.Check(poolCmd.MarkPersistentFlagRequired("pool-name"))
 
 	c := createPoolCmd.Flags()
 	c.StringVar(&poolGen, "pool-genesis", "", "pool genesis file")

@@ -63,9 +63,9 @@ func init() {
 	})
 
 	flags := startAgencyCmd.Flags()
-	flags.StringVar(&aCmd.HostAddr, "hostaddr", "localhost", "host address")
-	flags.UintVar(&aCmd.HostPort, "hostport", 8080, "host port")
-	flags.UintVar(&aCmd.ServerPort, "serverport", 8080, "server port")
+	flags.StringVar(&aCmd.HostAddr, "host-addr", "localhost", "host address")
+	flags.UintVar(&aCmd.HostPort, "host-port", 8080, "host port")
+	flags.UintVar(&aCmd.ServerPort, "server-port", 8080, "server port")
 	flags.StringVar(&aCmd.ServiceName, "service-name", "ca-api", "service name")
 	flags.StringVar(&aCmd.PoolTxnName, "genesis", "configs/genesis_transactions", "pool genesis file")
 	flags.StringVar(&aCmd.PoolName, "pool", "findy-pool", "pool name")

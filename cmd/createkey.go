@@ -11,7 +11,7 @@ import (
 
 // createKeyCmd represents the createkey subcommand
 var createKeyCmd = &cobra.Command{
-	Use:   "createkey",
+	Use:   "create-key",
 	Short: "Command for creating valid wallet keys",
 	Long:  `Long description & example todo`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {

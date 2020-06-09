@@ -19,11 +19,11 @@ Tests the connection to the CA with the given wallet. If secure connection works
 ok it prints the invitation. If the EA is a SA the command pings it as well when
 the --sa flag is on.
 
-Examples
+Example
 	findy-agent-cli user ping \
 		--sa \
-		--walletname TheNewWallet4 \
-		--walletkey 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp
+		--wallet-name TheNewWallet4 \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp
 
 	this pings the CA and the connected SA as well. 
 	`,

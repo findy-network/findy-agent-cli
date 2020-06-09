@@ -1,6 +1,6 @@
-hostaddr: localhost
-hostport: 8080
-serverport: 8080
+host-addr: localhost
+host-port: 8080
+server-port: 8080
 service-name: ca-api
 genesis: genesis_transactions
 pool: my_pool

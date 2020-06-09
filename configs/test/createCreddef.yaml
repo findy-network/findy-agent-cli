@@ -1,4 +1,4 @@
-walletname: test_wallet1
-walletkey: 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp
+wallet-name: test_wallet1
+wallet-key: 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp
 schema-id: my_schema_id
 tag: my_creddef

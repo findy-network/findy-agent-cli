@@ -36,11 +36,9 @@ image:
 	docker build -t findy-agent-cli .
 
 issuer-api:
-	docker run --network="host" --rm findy-cli service onboard \
+	docker run --network="host" --rm findy-agent-cli service onboard \
 	--url http://localhost:8080 \
-	--walletname issuer-wallet \
-	--walletkey CgM78xxAahCBG1oUrnRE3iy73ZjxbjQGuVYs2WoxpZKE \
-	--cloudpw issuer-wallet \
-	--email issuer-wallet \
-	--exportPath ~/exports/ \
-	--export=true
+	--wallet-name issuer-wallet \
+	--wallet-key CgM78xxAahCBG1oUrnRE3iy73ZjxbjQGuVYs2WoxpZKE \
+	--email issuer-wallet-email \
+	--export-file ~/exports/issuer-wallet \

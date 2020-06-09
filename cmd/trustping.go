@@ -11,7 +11,7 @@ import (
 
 // trustpingCmd represents the trustping subcommand
 var trustpingCmd = &cobra.Command{
-	Use:   "trustping",
+	Use:   "trust-ping",
 	Short: "Command for making trustping to another agent",
 	Long:  `Long description & example todo`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {

@@ -6,6 +6,6 @@ go run ../.. agency start \
 --pool "FINDY_MEM_LEDGER" \
 --did "Th7MpTaRZVRYnPiabds81Y" \
 --register "findy.json" \
---hostaddr "localhost"
+--host-addr "localhost"
 
 
