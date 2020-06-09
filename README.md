@@ -20,6 +20,18 @@ export CGO_LDFLAGS="-L/<path_to_>/indy-sdk/libindy/target/debug"
 
 Use --help flag after desired command to see detailed usage explanation of the command.
 
+### About flag usage
+
+In addition to passing command flags into your shell command, it is possible to use enviroment variables or configuration files to specify your flag values.
+
+In order to use configuration file place your configuration file path to --config flag.
+
+Example: `findy-agent-cli agency start --config path/to/my/config.yaml`
+
+You can pass flag values using enviroment variables by adding `FINDY_AGENT_CLI` in front of your flag name.
+
+Example: `export FINDY_AGENT_CLI_PSMDB="findy-cli.bolt"`
+
 ## Shell autocompletion
 
 Use `findy-agent-cli completion <shell type>` command to generate findy-agent-cli autocompletion script to your shell enviroment.

@@ -84,7 +84,7 @@ func init() {
 }
 
 func initConfig() {
-	viper.SetEnvPrefix("FINDY_CLI")
+	viper.SetEnvPrefix("FINDY_AGENT_CLI")
 	viper.AutomaticEnv() // read in environment variables that match
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
