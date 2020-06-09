@@ -5,9 +5,9 @@ wallet-key: 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp
 email: my_wallet_email
 
 # connect
-pw-name: my_pairwise_name
-pw-key: my_pairwise_key
-pw-endp: pairwise endpoint
+pairwise-name: my_pairwise_name
+pairwise-key: my_pairwise_key
+pairwise-endp: pairwise endpoint
 
 # send
 msg: hello

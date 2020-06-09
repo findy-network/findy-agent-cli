@@ -80,9 +80,9 @@ func init() {
 
 	flags := connectCmd.Flags()
 
-	flags.StringVar(&pwEndp, "pw-endp", "", "pairwise endpoint")
-	flags.StringVar(&pwName, "pw-name", "", "name of the pairwise connection")
-	flags.StringVar(&pwKey, "pw-key", "", "pairwise endpoint key")
+	flags.StringVar(&pwEndp, "pairwise-endp", "", "pairwise endpoint")
+	flags.StringVar(&pwName, "pairwise-name", "", "name of the pairwise connection")
+	flags.StringVar(&pwKey, "pairwise-key", "", "pairwise endpoint key")
 
 	userCmd.AddCommand(connectCmd)
 	serviceCopy := *connectCmd
