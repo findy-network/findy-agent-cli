@@ -32,6 +32,10 @@ You can pass flag values using enviroment variables by adding `FINDY_AGENT_CLI` 
 
 Example: `export FINDY_AGENT_CLI_PSMDB="findy-cli.bolt"`
 
+Note: when using enviroment variables, you must replace `-` character with `_`.
+
+Example: `export FINDY_AGENT_CLI_WALLET_NAME="testWallet"` 
+
 ## Shell autocompletion
 
 Use `findy-agent-cli completion <shell type>` command to generate findy-agent-cli autocompletion script to your shell enviroment.
