@@ -1,4 +1,4 @@
 package utils
 
-// Version is replaced to actual version at buildtime
+// Version is replaced with actual version at buildtime
 var Version = "dev"
