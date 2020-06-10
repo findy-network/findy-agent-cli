@@ -28,4 +28,5 @@ cd $1
   --host-port $HOST_PORT \
   --host-addr $HOST_ADDR \
   --register $REGISTRY_PATH \
-  --psmdb $PSMDB_PATH
+  --psmdb $PSMDB_PATH \
+  --salt $FINDY_AGENT_SALT
