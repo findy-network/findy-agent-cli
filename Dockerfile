@@ -7,7 +7,7 @@ COPY .docker/findy-agent /go/src/github.com/findy-network/findy-agent
 
 COPY . .
 
-RUN go get -t ./... && go install
+RUN make deps && make install
 
 FROM optechlab/indy-base:1.14.2
 
