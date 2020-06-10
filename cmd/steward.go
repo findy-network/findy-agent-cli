@@ -9,9 +9,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// stewardCmd represents the steward subcommand
+// stewardCmd represents the steward command
 var stewardCmd = &cobra.Command{
 	Use:   "steward",
+	Short: "Parent command for steward wallet actions",
+	Long:  `Long description & example todo`,
+	Run: func(cmd *cobra.Command, args []string) {
+		SubCmdNeeded(cmd)
+	},
+}
+
+// stewardCreateCmd represents the steward create subcommand
+var stewardCreateCmd = &cobra.Command{
+	Use:   "create",
 	Short: "Command for creating steward wallet",
 	Long:  `Long description & example todo`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
@@ -34,9 +44,10 @@ func init() {
 		log.Println(err)
 	})
 
-	f := stewardCmd.Flags()
+	f := stewardCreateCmd.Flags()
 	f.StringVar(&createStewardCmd.PoolName, "pool-name", "FINDY_MEM_LEDGER", "pool name")
 	f.StringVar(&createStewardCmd.StewardSeed, "steward-seed", "000000000000000000000000Steward2", "steward seed")
 
-	serviceCmd.AddCommand(stewardCmd)
+	stewardCmd.AddCommand(stewardCreateCmd)
+	ledgerCmd.AddCommand(stewardCmd)
 }

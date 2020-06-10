@@ -25,7 +25,6 @@ Example
 		--wallet-key 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp \
 		--con-id 1868c791-04a7-4160-bdce-646b975c8de1
 		--msg Hello world!
-
 `,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)

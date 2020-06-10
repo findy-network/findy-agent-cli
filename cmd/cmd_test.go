@@ -227,12 +227,11 @@ func TestExecute(t *testing.T) {
 			},
 		},
 		{
-			name: "create steward (config file)",
+			name: "create steward",
 			args: []string{"cmd",
-				"service", "steward", "--dry-run",
-				"--wallet-name", stewardTmpWalletName1,
-				"--wallet-key", stewardTmpWalletKey1,
-				"--config", "../configs/test/createSteward.yaml",
+				"ledger", "steward", "create", "--dry-run",
+				"--pool-name", "test-pool",
+				"--steward-seed", "000000000000000000000000Steward4",
 			},
 		},
 		{

@@ -43,7 +43,6 @@ func init() {
 	})
 
 	createKeyCmd.Flags().StringVar(&keyCreateCmd.Seed, "seed", "", "Seed for wallet key creation")
-	err2.Check(createKeyCmd.MarkFlagRequired("seed"))
 
 	serviceCopy := *keyCmd
 	createCopy := *createKeyCmd
