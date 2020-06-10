@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/findy-network/findy-agent/cmds/agency"
 	"github.com/lainio/err2"
@@ -85,6 +86,8 @@ func init() {
 
 func initConfig() {
 	viper.SetEnvPrefix("FINDY_AGENT_CLI")
+	replacer := strings.NewReplacer("-", "_")
+	viper.SetEnvKeyReplacer(replacer)
 	viper.AutomaticEnv() // read in environment variables that match
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
