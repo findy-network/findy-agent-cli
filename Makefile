@@ -30,6 +30,13 @@ test_cov:
 
 check: check_fmt vet shadow
 
+install:
+	$(eval VERSION = $(shell cat ./VERSION))
+	@echo "Installing version $(VERSION)"
+	go install \
+		-ldflags "-X 'github.com/findy-network/findy-agent-cli/utils.Version=$(VERSION)'" \
+		./...
+
 image:
 	-git clone git@github.com:findy-network/findy-wrapper-go.git .docker/findy-wrapper-go
 	-git clone git@github.com:findy-network/findy-agent.git .docker/findy-agent
