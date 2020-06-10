@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/findy-network/findy-agent-cli/utils"
 	"github.com/findy-network/findy-agent/cmds/agency"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
@@ -14,7 +15,7 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Version: "1.0",
+	Version: utils.Version,
 	Use:     "findy-agent-cli",
 	Short:   "Findy agent cli tool",
 	Long:    `Long description & example todo`,
