@@ -2,6 +2,8 @@ ARG CLI_VERSION=latest
 
 FROM findy-agent-cli:$CLI_VERSION
 
+ADD ./start-server.sh /start-server.sh
+
 RUN echo "{}" > /root/findy.json
 
 EXPOSE 8080
@@ -20,4 +22,4 @@ ENV FINDY_AGENT_CLI_STEWARD_NAME steward
 
 ENV FINDY_AGENT_CERT_PATH /aps.p12
 
-CMD ["/start-server.sh", "/"]
+ENTRYPOINT [ "/start-server.sh", "/"]
