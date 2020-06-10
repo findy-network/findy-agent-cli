@@ -6,6 +6,9 @@ RUN echo "{}" > /root/findy.json
 
 EXPOSE 8080
 
+# debug levels 3 - 5 - 10 from less to more verbose
+ENV FINDY_AGENT_CLI_LOGGING -logtostderr=true -v=3
+
 ENV FINDY_AGENT_CLI_HOST_ADDR localhost
 ENV FINDY_AGENT_CLI_HOST_PORT 8080
 ENV FINDY_AGENT_CLI_SERVER_PORT 8080
