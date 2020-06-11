@@ -29,7 +29,7 @@ var schCreateCmd = &cobra.Command{
 	Long:  `Long description & example todo`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
-		schAttrs = viper.GetStringSlice("schema-attrs")
+		schAttrs = viper.GetStringSlice("schema-attributes")
 		sch := &ssi.Schema{
 			Name:    schName,
 			Version: schVersion,
@@ -91,11 +91,11 @@ func init() {
 	userCopy := *schCmd
 
 	f := schCreateCmd.Flags()
-	f.StringVar(&schVersion, "schema-v", "1.0", "schema version")
+	f.StringVar(&schVersion, "schema-version", "1.0", "schema version")
 	f.StringVar(&schName, "schema-name", "", "schema name")
-	f.StringSliceVar(&schAttrs, "schema-attrs", nil, "schema attributes")
+	f.StringSliceVar(&schAttrs, "schema-attributes", nil, "schema attributes")
 	err2.Check(schCreateCmd.MarkFlagRequired("schema-name"))
-	//schCreateCmd.MarkPersistentFlagRequired("schema-attrs") //todo: handle non-String required flags
+	//schCreateCmd.MarkPersistentFlagRequired("schema-attributes") //todo: handle non-String required flags
 
 	r := schReadCmd.Flags()
 	r.StringVar(&schID, "schema-id", "", "schema id")

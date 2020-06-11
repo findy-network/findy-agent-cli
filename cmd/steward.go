@@ -26,8 +26,6 @@ var stewardCreateCmd = &cobra.Command{
 	Long:  `Long description & example todo`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
-		createStewardCmd.Cmd.WalletName = cFlags.WalletName
-		createStewardCmd.Cmd.WalletKey = cFlags.WalletKey
 		err2.Check(createStewardCmd.Validate())
 		if !rootFlags.dryRun {
 			cmd.SilenceUsage = true
@@ -47,6 +45,11 @@ func init() {
 	f := stewardCreateCmd.Flags()
 	f.StringVar(&createStewardCmd.PoolName, "pool-name", "FINDY_MEM_LEDGER", "pool name")
 	f.StringVar(&createStewardCmd.StewardSeed, "steward-seed", "000000000000000000000000Steward2", "steward seed")
+	f.StringVar(&createStewardCmd.Cmd.WalletName, "steward-wallet-name", "", "name of the steward wallet")
+	f.StringVar(&createStewardCmd.Cmd.WalletKey, "steward-wallet-key", "", "steward wallet key")
+
+	err2.Check(stewardCreateCmd.MarkFlagRequired("steward-wallet-name"))
+	err2.Check(stewardCreateCmd.MarkFlagRequired("steward-wallet-key"))
 
 	stewardCmd.AddCommand(stewardCreateCmd)
 	ledgerCmd.AddCommand(stewardCmd)

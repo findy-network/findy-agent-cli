@@ -19,7 +19,6 @@ var exportCmd = &cobra.Command{
 
 		expCmd.WalletName = cFlags.WalletName
 		expCmd.WalletKey = cFlags.WalletKey
-		expCmd.ExportKey = cFlags.WalletKey
 		err2.Check(expCmd.Validate())
 		if !rootFlags.dryRun {
 			err2.Try(expCmd.Exec(os.Stdout))
@@ -36,8 +35,10 @@ func init() {
 	})
 
 	flags := exportCmd.Flags()
-	flags.StringVar(&expCmd.Filename, "export-file", "", "filename for wallet export with whole path")
-	err2.Check(exportCmd.MarkFlagRequired("export-file"))
+	flags.StringVar(&expCmd.Filename, "export-filepath", "", "filename for wallet export with full path")
+	flags.StringVar(&expCmd.ExportKey, "export-key", "", "wallet export key")
+	err2.Check(exportCmd.MarkFlagRequired("export-filepath"))
+	err2.Check(exportCmd.MarkFlagRequired("export-key"))
 
 	userCmd.AddCommand(exportCmd)
 	serviceCopy := *exportCmd

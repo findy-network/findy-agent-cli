@@ -55,4 +55,4 @@ issuer-api:
 	--wallet-name issuer-wallet \
 	--wallet-key CgM78xxAahCBG1oUrnRE3iy73ZjxbjQGuVYs2WoxpZKE \
 	--email issuer-wallet-email \
-	--export-file ~/exports/issuer-wallet \
+	--export-filepath ~/exports/issuer-wallet \

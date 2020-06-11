@@ -80,7 +80,7 @@ func init() {
 
 	flags := connectCmd.Flags()
 
-	flags.StringVar(&pwEndp, "pairwise-endp", "", "pairwise endpoint")
+	flags.StringVar(&pwEndp, "pairwise-endpoint", "", "pairwise endpoint")
 	flags.StringVar(&pwName, "pairwise-name", "", "name of the pairwise connection")
 	flags.StringVar(&pwKey, "pairwise-key", "", "pairwise endpoint key")
 

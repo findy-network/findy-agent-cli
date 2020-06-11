@@ -30,7 +30,6 @@ var onboardCmd = &cobra.Command{
 		if onbExpCmd.Filename != "" {
 			onbExpCmd.WalletName = cFlags.WalletName
 			onbExpCmd.WalletKey = cFlags.WalletKey
-			onbExpCmd.ExportKey = cFlags.WalletKey
 			err2.Check(onbExpCmd.Validate())
 			if !rootFlags.dryRun {
 				err2.Try(onbExpCmd.Exec(os.Stdout))
@@ -49,7 +48,8 @@ func init() {
 	})
 
 	flags := onboardCmd.Flags()
-	flags.StringVar(&onbExpCmd.Filename, "export-file", "", "filename for wallet export with path")
+	flags.StringVar(&onbExpCmd.Filename, "export-filepath", "", "filename for wallet export with full path")
+	flags.StringVar(&onbExpCmd.ExportKey, "export-key", "", "wallet export key")
 	flags.StringVar(&onbCmd.Email, "email", "", "onboarding email")
 
 	err2.Check(onboardCmd.MarkFlagRequired("email"))

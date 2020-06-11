@@ -85,11 +85,11 @@ func init() {
 	err2.Check(creddefCmd.MarkPersistentFlagRequired("schema-id"))
 
 	c := createCreddefCmd.Flags()
-	c.StringVar(&credDefTag, "tag", "", "cred def tag")
-	err2.Check(createCreddefCmd.MarkFlagRequired("tag"))
+	c.StringVar(&credDefTag, "creddef-tag", "", "credential definition tag")
+	err2.Check(createCreddefCmd.MarkFlagRequired("creddef-tag"))
 
 	r := readCreddefCmd.Flags()
-	r.StringVar(&credDefID, "creddef-id", "", "cred def id")
+	r.StringVar(&credDefID, "creddef-id", "", "credential definition id")
 	err2.Check(readCreddefCmd.MarkFlagRequired("creddef-id"))
 
 	creddefCmd.AddCommand(readCreddefCmd)

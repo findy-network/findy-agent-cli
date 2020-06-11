@@ -42,13 +42,8 @@ func init() {
 		log.Println(err)
 	})
 
-	createKeyCmd.Flags().StringVar(&keyCreateCmd.Seed, "seed", "", "Seed for wallet key creation")
+	createKeyCmd.Flags().StringVar(&keyCreateCmd.Seed, "seed", "", "seed for wallet key creation")
 
-	serviceCopy := *keyCmd
-	createCopy := *createKeyCmd
-	serviceCopy.AddCommand(&createCopy)
-	serviceCmd.AddCommand(&serviceCopy)
+	toolsCmd.AddCommand(keyCmd)
 	keyCmd.AddCommand(createKeyCmd)
-	userCmd.AddCommand(keyCmd)
-
 }

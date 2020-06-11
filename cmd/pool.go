@@ -73,10 +73,10 @@ func init() {
 	err2.Check(poolCmd.MarkPersistentFlagRequired("pool-name"))
 
 	c := createPoolCmd.Flags()
-	c.StringVar(&poolGen, "pool-genesis", "", "pool genesis file")
-	err2.Check(createPoolCmd.MarkFlagRequired("pool-genesis"))
+	c.StringVar(&poolGen, "pool-genesis-filepath", "", "pool genesis full filepath")
+	err2.Check(createPoolCmd.MarkFlagRequired("pool-genesis-filepath"))
 
-	rootCmd.AddCommand(poolCmd)
+	ledgerCmd.AddCommand(poolCmd)
 	poolCmd.AddCommand(createPoolCmd)
 	poolCmd.AddCommand(pingPoolCmd)
 }

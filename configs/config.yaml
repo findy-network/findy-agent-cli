@@ -7,7 +7,7 @@ email: my_wallet_email
 # connect
 pairwise-name: my_pairwise_name
 pairwise-key: my_pairwise_key
-pairwise-endp: pairwise endpoint
+pairwise-endpoint: pairwise endpoint
 
 # send
 msg: hello
@@ -15,11 +15,11 @@ msg: hello
 # create schema
 schema-name: my_schema
 schema-attrs: ["field1", "field2", "field3"]
-schema-v: "1.0"
+schema-version: "1.0"
 
 # create creddef
-tag: my_creddef
+creddef-tag: my_creddef
 schema-id: P4GfWWZCgWZYtAyZzjQPVm:2:my_schema:1.0
 
 # agency
-genesis: genesis_path
+genesis-filepath: genesis_path
