@@ -36,16 +36,9 @@ func Execute() {
 	}
 }
 
-var (
-	cfgFile  string
-	dataPath string
-	apiURL   string
-	verbose  bool
-)
-
 // RootFlags are the common flags
 type RootFlags struct {
-	salt    string
+	cfgFile string
 	dryRun  bool
 	logging string
 }
@@ -68,19 +61,10 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	flags := rootCmd.PersistentFlags()
-	//flags := rootCmd.Flags()
-	flags.StringVar(&cfgFile, "config", "", "config file")
-	flags.StringVar(&dataPath, "data", "~/.indy_client", "path for data files")
-	flags.StringVar(&apiURL, "api-url", "http://localhost:8090", "api base address")
-	flags.BoolVarP(&verbose, "verbose", "v", false, "verbose")
-	flags.StringVar(&rootFlags.salt, "salt", "", "salt")
+	flags.StringVar(&rootFlags.cfgFile, "config", "", "configuration file")
 	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", "logging startup arguments")
 	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, "perform a trial run with no changes made")
 
-	err2.Check(viper.BindPFlag("data", flags.Lookup("data")))
-	err2.Check(viper.BindPFlag("api-url", flags.Lookup("api-url")))
-	err2.Check(viper.BindPFlag("verbose", flags.Lookup("verbose")))
-	err2.Check(viper.BindPFlag("salt", flags.Lookup("salt")))
 	err2.Check(viper.BindPFlag("logging", flags.Lookup("logging")))
 	err2.Check(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
 }
@@ -90,8 +74,8 @@ func initConfig() {
 	replacer := strings.NewReplacer("-", "_")
 	viper.SetEnvKeyReplacer(replacer)
 	viper.AutomaticEnv() // read in environment variables that match
-	if cfgFile != "" {
-		viper.SetConfigFile(cfgFile)
+	if rootFlags.cfgFile != "" {
+		viper.SetConfigFile(rootFlags.cfgFile)
 		// If a config file is found, read it in.
 		if err := viper.ReadInConfig(); err == nil {
 			fmt.Println("Using config file:", viper.ConfigFileUsed())
@@ -102,12 +86,8 @@ func initConfig() {
 }
 
 func readBoundRootFlags() {
-	apiURL = viper.GetString("api-url")
-	dataPath = viper.GetString("data")
-	rootFlags.salt = viper.GetString("salt")
 	rootFlags.logging = viper.GetString("logging")
 	rootFlags.dryRun = viper.GetBool("dry-run")
-	verbose = viper.GetBool("verbose")
 }
 
 func handleViperFlags(commands []*cobra.Command) {

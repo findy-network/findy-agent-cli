@@ -30,7 +30,7 @@ Example: `findy-agent-cli agency start --config path/to/my/config.yaml`
 
 You can pass flag values using enviroment variables by adding `FINDY_AGENT_CLI` in front of your flag name.
 
-Example: `export FINDY_AGENT_CLI_PSMDB="findy-cli.bolt"`
+Example: `export FINDY_AGENT_CLI_CONFIG="findy-cli-config.yaml"`
 
 Note: when using enviroment variables, you must replace `-` character with `_`.
 

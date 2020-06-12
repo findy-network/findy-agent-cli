@@ -51,8 +51,9 @@ agency: image
 
 issuer-api:
 	docker run --network="host" --rm findy-agent-cli service onboard \
-	--url http://localhost:8080 \
+	--agency-url http://localhost:8080 \
 	--wallet-name issuer-wallet \
 	--wallet-key CgM78xxAahCBG1oUrnRE3iy73ZjxbjQGuVYs2WoxpZKE \
 	--email issuer-wallet-email \
 	--export-file ~/exports/issuer-wallet \
+	--export-key CgM78xxAahCBG1oUrnRE3iy73ZjxbjQGuVYs2WoxpZKE \

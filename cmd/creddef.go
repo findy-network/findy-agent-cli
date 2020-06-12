@@ -80,17 +80,15 @@ func init() {
 	serviceCmd.AddCommand(creddefCmd)
 	userCopy := *creddefCmd
 
-	f := creddefCmd.PersistentFlags()
-	f.StringVar(&schID, "schema-id", "", "schema ID")
-	err2.Check(creddefCmd.MarkPersistentFlagRequired("schema-id"))
-
 	c := createCreddefCmd.Flags()
-	c.StringVar(&credDefTag, "tag", "", "cred def tag")
+	c.StringVar(&credDefTag, "tag", "", "credential definition tag")
+	c.StringVar(&schID, "schema-id", "", "schema ID")
 	err2.Check(createCreddefCmd.MarkFlagRequired("tag"))
+	err2.Check(createCreddefCmd.MarkFlagRequired("schema-id"))
 
 	r := readCreddefCmd.Flags()
-	r.StringVar(&credDefID, "creddef-id", "", "cred def id")
-	err2.Check(readCreddefCmd.MarkFlagRequired("creddef-id"))
+	r.StringVar(&credDefID, "id", "", "credential definition ID")
+	err2.Check(readCreddefCmd.MarkFlagRequired("id"))
 
 	creddefCmd.AddCommand(readCreddefCmd)
 	readCopy := *readCreddefCmd

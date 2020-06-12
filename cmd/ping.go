@@ -17,11 +17,11 @@ var pingCmd = &cobra.Command{
 	Long: ` 
 Tests the connection to the CA with the given wallet. If secure connection works
 ok it prints the invitation. If the EA is a SA the command pings it as well when
-the --sa flag is on.
+the --service-endpoint flag is on.
 
 Example
 	findy-agent-cli user ping \
-		--sa \
+		--service-endpoint \
 		--wallet-name TheNewWallet4 \
 		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp
 
@@ -54,7 +54,7 @@ func init() {
 		log.Println(err)
 	})
 
-	pingCmd.Flags().BoolVarP(&pCmd.PingSA, "sa", "s", false, "ping CA and connected SA (me) as well")
+	pingCmd.Flags().BoolVarP(&pCmd.PingSA, "service-endpoint", "s", false, "ping CA and connected SA (me) as well")
 
 	// service copy
 	serviceCopy := *pingCmd
