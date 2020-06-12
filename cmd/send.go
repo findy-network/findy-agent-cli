@@ -16,8 +16,8 @@ var sendCmd = &cobra.Command{
 	Long: `
 Sends basic message to another agent.
 
-msg (message) & connection-id (id of the connection) flags are required flags on the command.
-from (name of the sender) flag is optional. connection-id is uuid that is created during agent connection.
+--msg (message) & --connection-id (id of the connection) flags are required flags on the command.
+--from (name of the sender) flag is optional. --connection-id is uuid that is created during agent connection.
 
 Example
 	findy-agent-cli user send \

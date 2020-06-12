@@ -63,22 +63,21 @@ func init() {
 	})
 
 	flags := startAgencyCmd.Flags()
-	flags.StringVar(&aCmd.APNSP12CertFile, "apns-p12-filepath", "", "full path to your apns p12 file")
+	flags.StringVar(&aCmd.APNSP12CertFile, "apns-p12-file", "", "APNS certificate p12 file")
 	flags.StringVar(&aCmd.HostAddr, "host-address", "localhost", "host address")
 	flags.UintVar(&aCmd.HostPort, "host-port", 8080, "host port")
 	flags.UintVar(&aCmd.ServerPort, "server-port", 8080, "server port")
 	flags.StringVar(&aCmd.ServiceName, "service-name", "ca-api", "service name")
-	flags.StringVar(&aCmd.PoolTxnName, "genesis-filepath", "configs/genesis_transactions", "full path to your pool genesis file")
 	flags.StringVar(&aCmd.PoolName, "pool-name", "findy-pool", "pool name")
 	flags.Uint64Var(&aCmd.PoolProtocol, "pool-protocol", 2, "pool protocol")
 	flags.StringVar(&aCmd.StewardSeed, "steward-seed", "000000000000000000000000Steward1", "steward seed")
-	flags.StringVar(&aCmd.PsmDb, "psm-database-filepath", "findy.bolt", "state machine database full filepath")
-	flags.BoolVar(&aCmd.ResetData, "reset-handshake-register", false, "reset handshake register")
-	flags.StringVar(&aCmd.HandshakeRegister, "handshake-register-filepath", "findy.json", "handshake registry's full filepath")
+	flags.StringVar(&aCmd.PsmDb, "psm-database-file", "findy.bolt", "state machine database's filename")
+	flags.BoolVar(&aCmd.ResetData, "reset-register", false, "reset handshake register")
+	flags.StringVar(&aCmd.HandshakeRegister, "register-file", "findy.json", "handshake registry's filename")
 	flags.StringVar(&aCmd.WalletName, "steward-wallet-name", "", "steward wallet name")
 	flags.StringVar(&aCmd.WalletPwd, "steward-wallet-key", "", "steward wallet key")
 	flags.StringVar(&aCmd.StewardDid, "steward-did", "", "steward DID")
-	flags.StringVar(&aCmd.ServiceName2, "a2a", "a2a", "URL path for A2A protocols") // agency.ProtocolPath is available
+	flags.StringVar(&aCmd.ServiceName2, "protocol-path", "a2a", "URL path for A2A protocols") // agency.ProtocolPath is available
 	flags.StringVar(&aCmd.Salt, "salt", "", "salt")
 
 	err2.Check(startAgencyCmd.MarkFlagRequired("steward-wallet-name"))

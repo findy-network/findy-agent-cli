@@ -61,7 +61,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	flags := rootCmd.PersistentFlags()
-	flags.StringVar(&rootFlags.cfgFile, "config", "", "config file")
+	flags.StringVar(&rootFlags.cfgFile, "config", "", "configuration file")
 	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", "logging startup arguments")
 	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, "perform a trial run with no changes made")
 

@@ -2,13 +2,12 @@ host-address: localhost
 host-port: 8080
 server-port: 8080
 service-name: ca-api
-genesis-filepath: genesis_transactions
 pool-name: my_pool
 steward-seed: 000000000000000000000000Steward3
-psm-database-filepath: findy.bolt
-reset-handshake-register: false
-handshake-register-filepath: findy.json
+psm-database-file: findy.bolt
+reset-register: false
+register-file: findy.json
 steward-wallet-name: my_steward
 steward-wallet-key: 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp
 steward-did: my_steward_did
-a2a: a2a
+protocol-path: a2a

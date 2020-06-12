@@ -5,7 +5,7 @@ go run ../.. agency start \
 --steward-wallet-key "steward_wallet_key" \
 --pool-name "FINDY_MEM_LEDGER" \
 --steward-did "Th7MpTaRZVRYnPiabds81Y" \
---handshake-register-filepath "findy.json" \
+--register-file "findy.json" \
 --host-address "localhost"
 
 

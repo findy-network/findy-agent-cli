@@ -48,7 +48,7 @@ func init() {
 	})
 
 	flags := onboardCmd.Flags()
-	flags.StringVar(&onbExpCmd.Filename, "export-filepath", "", "filename for wallet export with full path")
+	flags.StringVar(&onbExpCmd.Filename, "export-file", "", "full export file path")
 	flags.StringVar(&onbExpCmd.ExportKey, "export-key", "", "wallet export key")
 	flags.StringVar(&onbCmd.Email, "email", "", "onboarding email")
 
