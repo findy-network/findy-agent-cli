@@ -35,7 +35,6 @@ func init() {
 	})
 
 	invitationCmd.Flags().StringVar(&invitateCmd.Name, "label", "", "invitation label")
-	err2.Check(invitationCmd.MarkFlagRequired("label"))
 
 	userCmd.AddCommand(invitationCmd)
 	serviceCopy := *invitationCmd

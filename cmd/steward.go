@@ -48,9 +48,6 @@ func init() {
 	f.StringVar(&createStewardCmd.Cmd.WalletName, "wallet-name", "", "name of the steward wallet")
 	f.StringVar(&createStewardCmd.Cmd.WalletKey, "wallet-key", "", "steward wallet key")
 
-	err2.Check(stewardCreateCmd.MarkFlagRequired("wallet-name"))
-	err2.Check(stewardCreateCmd.MarkFlagRequired("wallet-key"))
-
 	stewardCmd.AddCommand(stewardCreateCmd)
 	ledgerCmd.AddCommand(stewardCmd)
 }

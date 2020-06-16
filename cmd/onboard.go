@@ -52,8 +52,6 @@ func init() {
 	flags.StringVar(&onbExpCmd.ExportKey, "export-key", "", "wallet export key")
 	flags.StringVar(&onbCmd.Email, "email", "", "onboarding email")
 
-	err2.Check(onboardCmd.MarkFlagRequired("email"))
-
 	serviceCopy := *onboardCmd
 	userCmd.AddCommand(onboardCmd)
 	serviceCmd.AddCommand(&serviceCopy)

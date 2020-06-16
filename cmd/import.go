@@ -37,8 +37,6 @@ func init() {
 	flags := importCmd.Flags()
 	flags.StringVar(&impCmd.Filename, "file", "", "full import file path")
 	flags.StringVar(&impCmd.Key, "key", "", "wallet import key")
-	err2.Check(importCmd.MarkFlagRequired("file"))
-	err2.Check(importCmd.MarkFlagRequired("key"))
 
 	userCmd.AddCommand(importCmd)
 	serviceCopy := *importCmd

@@ -70,11 +70,9 @@ func init() {
 
 	f := poolCmd.PersistentFlags()
 	f.StringVar(&poolName, "name", "", "name of the pool")
-	err2.Check(poolCmd.MarkPersistentFlagRequired("name"))
 
 	c := createPoolCmd.Flags()
 	c.StringVar(&poolGen, "genesis-txn-file", "", "pool genesis transactions file")
-	err2.Check(createPoolCmd.MarkFlagRequired("genesis-txn-file"))
 
 	ledgerCmd.AddCommand(poolCmd)
 	poolCmd.AddCommand(createPoolCmd)

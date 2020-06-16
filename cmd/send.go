@@ -49,8 +49,6 @@ func init() {
 	flags.StringVar(&msgCmd.Sender, "from", "", "name of the msg sender")
 	flags.StringVar(&msgCmd.Message, "msg", "", "message to be send")
 	flags.StringVar(&msgCmd.Name, "connection-id", "", "connection id")
-	err2.Check(sendCmd.MarkFlagRequired("msg"))
-	err2.Check(sendCmd.MarkFlagRequired("connection-id"))
 
 	serviceCopy := *sendCmd
 	userCmd.AddCommand(sendCmd)
