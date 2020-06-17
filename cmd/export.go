@@ -37,8 +37,6 @@ func init() {
 	flags := exportCmd.Flags()
 	flags.StringVar(&expCmd.Filename, "file", "", "full export file path")
 	flags.StringVar(&expCmd.ExportKey, "key", "", "wallet export key")
-	err2.Check(exportCmd.MarkFlagRequired("file"))
-	err2.Check(exportCmd.MarkFlagRequired("key"))
 
 	userCmd.AddCommand(exportCmd)
 	serviceCopy := *exportCmd

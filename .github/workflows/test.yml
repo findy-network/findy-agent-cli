@@ -11,11 +11,13 @@ jobs:
           repository: findy-network/findy-wrapper-go
           token: ${{ secrets.repository_token }}
           path: findy-wrapper-go
+          ref: dev
       - uses: actions/checkout@v2
         with:
           repository: findy-network/findy-agent
           token: ${{ secrets.repository_token }}
           path: findy-agent
+          ref: dev
       - uses: actions/checkout@v2
         with:
           path: findy-agent-cli

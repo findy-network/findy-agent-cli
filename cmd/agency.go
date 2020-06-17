@@ -80,11 +80,8 @@ func init() {
 	flags.StringVar(&aCmd.ServiceName2, "protocol-path", "a2a", "URL path for A2A protocols") // agency.ProtocolPath is available
 	flags.StringVar(&aCmd.Salt, "salt", "", "salt")
 
-	err2.Check(startAgencyCmd.MarkFlagRequired("steward-wallet-name"))
-	err2.Check(startAgencyCmd.MarkFlagRequired("steward-wallet-key"))
-
 	p := pingAgencyCmd.Flags()
-	p.StringVar(&paCmd.BaseAddr, "base-address", "localhost", "base address of agency")
+	p.StringVar(&paCmd.BaseAddr, "base-address", "http://localhost:8080", "base address of agency")
 
 	rootCmd.AddCommand(agencyCmd)
 	agencyCmd.AddCommand(startAgencyCmd)
