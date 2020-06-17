@@ -36,6 +36,14 @@ func Execute() {
 	}
 }
 
+func RootCmd() *cobra.Command {
+	return rootCmd
+}
+
+func DryRun() bool {
+	return rootFlags.dryRun
+}
+
 // RootFlags are the common flags
 type RootFlags struct {
 	cfgFile string
