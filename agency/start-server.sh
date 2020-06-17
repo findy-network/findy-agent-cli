@@ -22,8 +22,8 @@ fi
 cd $1
 # other settings defined in Docker image as env variables
 ./findy-agent-cli agency start \
-  --steward-name $WALLET_NAME \
-  --steward-key $WALLET_KEY \
+  --steward-wallet-name $WALLET_NAME \
+  --steward-wallet-key $WALLET_KEY \
   --steward-did $STEWARD_DID \
   --host-port $HOST_PORT \
   --host-address $HOST_ADDR \
