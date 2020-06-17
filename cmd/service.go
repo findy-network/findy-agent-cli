@@ -38,8 +38,5 @@ func init() {
 	flags.StringVar(&cFlags.WalletKey, "wallet-key", "", "wallet key")
 	flags.StringVar(&cFlags.URL, "agency-url", "http://localhost:8080", "endpoint base address")
 
-	err2.Check(serviceCmd.MarkPersistentFlagRequired("wallet-name"))
-	err2.Check(serviceCmd.MarkPersistentFlagRequired("wallet-key"))
-
 	rootCmd.AddCommand(serviceCmd)
 }

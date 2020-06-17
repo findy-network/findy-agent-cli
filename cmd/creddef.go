@@ -83,12 +83,9 @@ func init() {
 	c := createCreddefCmd.Flags()
 	c.StringVar(&credDefTag, "tag", "", "credential definition tag")
 	c.StringVar(&schID, "schema-id", "", "schema ID")
-	err2.Check(createCreddefCmd.MarkFlagRequired("tag"))
-	err2.Check(createCreddefCmd.MarkFlagRequired("schema-id"))
 
 	r := readCreddefCmd.Flags()
 	r.StringVar(&credDefID, "id", "", "credential definition ID")
-	err2.Check(readCreddefCmd.MarkFlagRequired("id"))
 
 	creddefCmd.AddCommand(readCreddefCmd)
 	readCopy := *readCreddefCmd

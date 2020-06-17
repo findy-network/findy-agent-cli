@@ -94,12 +94,9 @@ func init() {
 	f.StringVar(&schVersion, "version", "1.0", "schema version")
 	f.StringVar(&schName, "name", "", "schema name")
 	f.StringSliceVar(&schAttrs, "attributes", nil, "schema attributes")
-	err2.Check(schCreateCmd.MarkFlagRequired("name"))
-	//schCreateCmd.MarkPersistentFlagRequired("attributes") //todo: handle non-String required flags
 
 	r := schReadCmd.Flags()
 	r.StringVar(&schID, "id", "", "schema ID")
-	err2.Check(schReadCmd.MarkFlagRequired("id"))
 
 	schCmd.AddCommand(schCreateCmd)
 	schCmd.AddCommand(schReadCmd)

@@ -24,9 +24,9 @@ cd $1
 ./findy-agent-cli agency start \
   --steward-name $WALLET_NAME \
   --steward-key $WALLET_KEY \
-  --did $STEWARD_DID \
+  --steward-did $STEWARD_DID \
   --host-port $HOST_PORT \
-  --host-addr $HOST_ADDR \
-  --register $REGISTRY_PATH \
-  --psmdb $PSMDB_PATH \
+  --host-address $HOST_ADDR \
+  --register-file $REGISTRY_PATH \
+  --psm-database-file $PSMDB_PATH \
   --salt $FINDY_AGENT_SALT
