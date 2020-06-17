@@ -37,6 +37,9 @@ install:
 		-ldflags "-X 'github.com/findy-network/findy-agent-cli/utils.Version=$(VERSION)'" \
 		./...
 
+clean:
+	-rm -rf .docker
+
 image:
 	$(eval VERSION = $(shell cat ./VERSION))
 	-git clone git@github.com:findy-network/findy-wrapper-go.git .docker/findy-wrapper-go

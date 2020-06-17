@@ -20,13 +20,14 @@ echo "Releasing findy-agency version $VERSION"
 
 docker rmi findy-agency || true
 cd $CURRENT_DIR/../..
+make clean
 make agency
 
-#ECR_LOGIN=$(aws ecr get-login --no-include-email)
-#eval $ECR_LOGIN
+ECR_LOGIN=$(aws ecr get-login --no-include-email)
+eval $ECR_LOGIN
 
-#docker tag findy-agency:latest $FINDY_AGENCY_ECR_REPOSITORY:$VERSION
-#docker tag findy-agency:latest $FINDY_AGENCY_ECR_REPOSITORY:latest
-#docker push $FINDY_AGENCY_ECR_REPOSITORY
+docker tag findy-agency:latest $FINDY_AGENCY_ECR_REPOSITORY:$VERSION
+docker tag findy-agency:latest $FINDY_AGENCY_ECR_REPOSITORY:latest
+docker push $FINDY_AGENCY_ECR_REPOSITORY
 
-#docker logout $FINDY_AGENCY_ECR_URL
+docker logout $FINDY_AGENCY_ECR_URL
