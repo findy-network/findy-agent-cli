@@ -34,4 +34,4 @@ ENV FCLI_AGENCY_SALT "this is only example"
 
 ENV FCLI_AGENCY_APNS_P12_FILE ""
 
-ENTRYPOINT [ "/start-server.sh", "/"]
+CMD [ "/start-server.sh", "/"]
