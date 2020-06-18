@@ -30,17 +30,30 @@ test_cov:
 
 check: check_fmt vet shadow
 
+install:
+	$(eval VERSION = $(shell cat ./VERSION))
+	@echo "Installing version $(VERSION)"
+	go install \
+		-ldflags "-X 'github.com/findy-network/findy-agent-cli/utils.Version=$(VERSION)'" \
+		./...
+
 image:
-	-git clone git@github.com:optechlab/findy-go.git .docker/findy-go
-	-git clone git@github.com:optechlab/findy-agent.git .docker/findy-agent
-	docker build -t findy-cli .
+	$(eval VERSION = $(shell cat ./VERSION))
+	-git clone git@github.com:findy-network/findy-wrapper-go.git .docker/findy-wrapper-go
+	-git clone git@github.com:findy-network/findy-agent.git .docker/findy-agent
+	docker build -t findy-agent-cli .
+	docker tag findy-agent-cli:latest findy-agent-cli:$(VERSION)
+
+agency: image
+	$(eval VERSION = $(shell cat ./VERSION))
+	docker build -t findy-agency --build-arg CLI_VERSION=$(VERSION) ./agency
+	docker tag findy-agency:latest findy-agency:$(VERSION)
 
 issuer-api:
-	docker run --network="host" --rm findy-cli service onboard \
-	--url http://localhost:8080 \
-	--walletname issuer-wallet \
-	--walletkey CgM78xxAahCBG1oUrnRE3iy73ZjxbjQGuVYs2WoxpZKE \
-	--cloudpw issuer-wallet \
-	--email issuer-wallet \
-	--exportPath ~/exports/ \
-	--export=true
+	docker run --network="host" --rm findy-agent-cli service onboard \
+	--agency-url http://localhost:8080 \
+	--wallet-name issuer-wallet \
+	--wallet-key CgM78xxAahCBG1oUrnRE3iy73ZjxbjQGuVYs2WoxpZKE \
+	--email issuer-wallet-email \
+	--export-file ~/exports/issuer-wallet \
+	--export-key CgM78xxAahCBG1oUrnRE3iy73ZjxbjQGuVYs2WoxpZKE \

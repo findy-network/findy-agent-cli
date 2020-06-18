@@ -33,8 +33,7 @@ func init() {
 		log.Println(err)
 	})
 	f := trustpingCmd.Flags()
-	f.StringVar(&tPingCmd.Name, "con-id", "", "connection id")
-	err2.Check(trustpingCmd.MarkFlagRequired("con-id"))
+	f.StringVar(&tPingCmd.Name, "connection-id", "", "connection id")
 
 	userCmd.AddCommand(trustpingCmd)
 	serviceCopy := *trustpingCmd

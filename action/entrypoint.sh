@@ -2,13 +2,13 @@
 
 set -e
 
-mkdir -p /go/src/github.com/optechlab
+mkdir -p /go/src/github.com/findy-network
 
-mv findy-go /go/src/github.com/optechlab
-mv findy-agent /go/src/github.com/optechlab
-mv findy-cli /go/src/github.com/optechlab
+mv findy-wrapper-go /go/src/github.com/findy-network
+mv findy-agent /go/src/github.com/findy-network
+mv findy-agent-cli /go/src/github.com/findy-network
 
-cd /go/src/github.com/optechlab/findy-cli
+cd /go/src/github.com/findy-network/findy-agent-cli
 
 echo "Install deps"
 go get -t ./...

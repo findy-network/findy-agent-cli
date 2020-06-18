@@ -11,7 +11,18 @@ import (
 var userCmd = &cobra.Command{
 	Use:   "user",
 	Short: "Parent command for user client",
-	Long:  `Long description & example todo`,
+	Long: `
+Parent command for user agent actions.
+
+This command requires a subcommand so command itself does nothing.
+Every user subcommand requires --wallet-name & --wallet-key flags to be specified.
+--agency-url flag is agency endpoint base address & it has default value of "http://localhost:8080".
+
+Example
+	findy-agent-cli user ping \
+		--wallet-name TestWallet \
+		--wallet-key 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
 	},
@@ -23,12 +34,9 @@ func init() {
 	})
 
 	flags := userCmd.PersistentFlags()
-	flags.StringVar(&cFlags.WalletName, "walletname", "", "wallet name")
-	flags.StringVar(&cFlags.WalletKey, "walletkey", "", "wallet key")
-	flags.StringVar(&cFlags.URL, "url", "http://localhost:8080", "endpoint base address")
-
-	err2.Check(userCmd.MarkPersistentFlagRequired("walletname"))
-	err2.Check(userCmd.MarkPersistentFlagRequired("walletkey"))
+	flags.StringVar(&cFlags.WalletName, "wallet-name", "", "wallet name")
+	flags.StringVar(&cFlags.WalletKey, "wallet-key", "", "wallet key")
+	flags.StringVar(&cFlags.URL, "agency-url", "http://localhost:8080", "endpoint base address")
 
 	rootCmd.AddCommand(userCmd)
 }

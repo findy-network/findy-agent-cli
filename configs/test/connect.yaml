@@ -1,3 +1,3 @@
-pwname: my_pairwise_name
-pwkey: my_pairwise_key
-pwendp: pairwise_endpoint
+name: my_pairwise_name
+key: my_pairwise_key
+endpoint: pairwise_endpoint

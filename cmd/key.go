@@ -9,9 +9,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// keyCmd represents the key subcommand
+var keyCmd = &cobra.Command{
+	Use:   "key",
+	Short: "Parent command for operating with keys",
+	Long:  `Long description & example todo`,
+	Run: func(cmd *cobra.Command, args []string) {
+		SubCmdNeeded(cmd)
+	},
+}
+
 // createKeyCmd represents the createkey subcommand
 var createKeyCmd = &cobra.Command{
-	Use:   "createkey",
+	Use:   "create",
 	Short: "Command for creating valid wallet keys",
 	Long:  `Long description & example todo`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
@@ -32,10 +42,8 @@ func init() {
 		log.Println(err)
 	})
 
-	createKeyCmd.Flags().StringVar(&keyCreateCmd.Seed, "seed", "", "Seed for wallet key creation")
-	err2.Check(createKeyCmd.MarkFlagRequired("seed"))
+	createKeyCmd.Flags().StringVar(&keyCreateCmd.Seed, "seed", "", "seed for wallet key creation")
 
-	userCmd.AddCommand(createKeyCmd)
-	serviceCopy := *createKeyCmd
-	serviceCmd.AddCommand(&serviceCopy)
+	toolsCmd.AddCommand(keyCmd)
+	keyCmd.AddCommand(createKeyCmd)
 }

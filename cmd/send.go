@@ -13,7 +13,19 @@ import (
 var sendCmd = &cobra.Command{
 	Use:   "send",
 	Short: "Command for sending basic message to another agent",
-	Long:  `Long description & example todo`,
+	Long: `
+Sends basic message to another agent.
+
+--msg (message) & --connection-id (id of the connection) flags are required flags on the command.
+--from (name of the sender) flag is optional. --connection-id is uuid that is created during agent connection.
+
+Example
+	findy-agent-cli user send \
+		--wallet-name TestWallet \
+		--wallet-key 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp \
+		--connection-id 1868c791-04a7-4160-bdce-646b975c8de1
+		--msg Hello world!
+`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		msgCmd.WalletName = cFlags.WalletName
@@ -36,9 +48,7 @@ func init() {
 	flags := sendCmd.Flags()
 	flags.StringVar(&msgCmd.Sender, "from", "", "name of the msg sender")
 	flags.StringVar(&msgCmd.Message, "msg", "", "message to be send")
-	flags.StringVar(&msgCmd.Name, "con-id", "", "connection id")
-	err2.Check(sendCmd.MarkFlagRequired("msg"))
-	err2.Check(sendCmd.MarkFlagRequired("con-id"))
+	flags.StringVar(&msgCmd.Name, "connection-id", "", "connection id")
 
 	serviceCopy := *sendCmd
 	userCmd.AddCommand(sendCmd)

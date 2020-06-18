@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
+	"github.com/findy-network/findy-agent-cli/utils"
 	"github.com/findy-network/findy-agent/cmds/agency"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
@@ -14,9 +16,9 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Version: "1.0",
+	Version: utils.Version,
 	Use:     "findy-agent-cli",
-	Short:   "Findy cli tool",
+	Short:   "Findy agent cli tool",
 	Long:    `Long description & example todo`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		agency.ParseLoggingArgs(rootFlags.logging)
@@ -34,16 +36,24 @@ func Execute() {
 	}
 }
 
-var (
-	cfgFile  string
-	dataPath string
-	apiURL   string
-	verbose  bool
-)
+// RootCmd returns a current root command which can be used for adding own
+// commands in an own repo.
+//  	implCmd.AddCommand(listCmd)
+// That's a helper function to extend this CLI with own commands and offering
+// same base commands as this CLI.
+func RootCmd() *cobra.Command {
+	return rootCmd
+}
+
+// DryRun returns a value of a dry run flag. That's a helper function to extend
+// this CLI with own commands and offering same base commands as this CLI.
+func DryRun() bool {
+	return rootFlags.dryRun
+}
 
 // RootFlags are the common flags
 type RootFlags struct {
-	salt    string
+	cfgFile string
 	dryRun  bool
 	logging string
 }
@@ -66,28 +76,21 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	flags := rootCmd.PersistentFlags()
-	//flags := rootCmd.Flags()
-	flags.StringVar(&cfgFile, "config", "", "config file")
-	flags.StringVar(&dataPath, "data", "~/.indy_client", "path for data files")
-	flags.StringVar(&apiURL, "apiurl", "http://localhost:8090", "api base address")
-	flags.BoolVarP(&verbose, "verbose", "v", false, "verbose")
-	flags.StringVar(&rootFlags.salt, "salt", "", "salt")
+	flags.StringVar(&rootFlags.cfgFile, "config", "", "configuration file")
 	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", "logging startup arguments")
 	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, "perform a trial run with no changes made")
 
-	err2.Check(viper.BindPFlag("data", flags.Lookup("data")))
-	err2.Check(viper.BindPFlag("apiurl", flags.Lookup("apiurl")))
-	err2.Check(viper.BindPFlag("verbose", flags.Lookup("verbose")))
-	err2.Check(viper.BindPFlag("salt", flags.Lookup("salt")))
 	err2.Check(viper.BindPFlag("logging", flags.Lookup("logging")))
 	err2.Check(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
 }
 
 func initConfig() {
-	viper.SetEnvPrefix("FINDY_CLI")
+	viper.SetEnvPrefix("FINDY_AGENT_CLI")
+	replacer := strings.NewReplacer("-", "_")
+	viper.SetEnvKeyReplacer(replacer)
 	viper.AutomaticEnv() // read in environment variables that match
-	if cfgFile != "" {
-		viper.SetConfigFile(cfgFile)
+	if rootFlags.cfgFile != "" {
+		viper.SetConfigFile(rootFlags.cfgFile)
 		// If a config file is found, read it in.
 		if err := viper.ReadInConfig(); err == nil {
 			fmt.Println("Using config file:", viper.ConfigFileUsed())
@@ -98,12 +101,8 @@ func initConfig() {
 }
 
 func readBoundRootFlags() {
-	apiURL = viper.GetString("apiurl")
-	dataPath = viper.GetString("data")
-	rootFlags.salt = viper.GetString("salt")
 	rootFlags.logging = viper.GetString("logging")
 	rootFlags.dryRun = viper.GetBool("dry-run")
-	verbose = viper.GetBool("verbose")
 }
 
 func handleViperFlags(commands []*cobra.Command) {
