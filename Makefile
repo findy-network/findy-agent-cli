@@ -64,3 +64,12 @@ issuer-api:
 	--email issuer-wallet-email \
 	--export-file ~/exports/issuer-wallet \
 	--export-key CgM78xxAahCBG1oUrnRE3iy73ZjxbjQGuVYs2WoxpZKE \
+
+# **** scripts for local agency development:
+# WARNING: this will erase all your local indy wallets
+scratch:
+	./scripts/dev/dev.sh scratch
+
+run:
+	./scripts/dev.sh install_run
+# ****
