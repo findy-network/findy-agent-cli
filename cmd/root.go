@@ -98,6 +98,7 @@ func initConfig() {
 	}
 	handleViperFlags(rootCmd.Commands())
 	readBoundRootFlags()
+	aCmd.PreRun()
 }
 
 func readBoundRootFlags() {
