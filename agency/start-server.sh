@@ -29,4 +29,4 @@ cd $1
   --host-address $HOST_ADDR \
   --register-file $REGISTRY_PATH \
   --psm-database-file $PSMDB_PATH \
-  --salt $FINDY_AGENT_SALT
+  --salt "$FINDY_AGENT_SALT"
