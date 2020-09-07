@@ -31,7 +31,6 @@ var startAgencyCmd = &cobra.Command{
 		err2.Check(aCmd.Validate())
 		if !rootFlags.dryRun {
 			cmd.SilenceUsage = true
-			aCmd.PreRun()
 			err2.Try(aCmd.Exec(os.Stdout))
 		}
 		return nil
