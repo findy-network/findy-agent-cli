@@ -51,6 +51,7 @@ func init() {
 	flags.StringVar(&onbExpCmd.Filename, "export-file", "", "full export file path")
 	flags.StringVar(&onbExpCmd.ExportKey, "export-key", "", "wallet export key")
 	flags.StringVar(&onbCmd.Email, "email", "", "onboarding email")
+	flags.StringVar(&onbCmd.Salt, "salt", "", "onboarding salt")
 
 	serviceCopy := *onboardCmd
 	userCmd.AddCommand(onboardCmd)
