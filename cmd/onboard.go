@@ -14,7 +14,19 @@ import (
 var onboardCmd = &cobra.Command{
 	Use:   "onboard",
 	Short: "Command for onboarding agent",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for onboarding agent.
+
+If --export-file & --export-key flags are set, 
+wallet is exported to that location.
+	
+Example
+	findy-agent-cli user onboard \
+		--wallet-name TheNewWallet4 \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp	\
+		--email myExampleEmail \
+		--salt mySalt
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 

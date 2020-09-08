@@ -13,7 +13,15 @@ import (
 var invitationCmd = &cobra.Command{
 	Use:   "invitation",
 	Short: "Command for creating invitation message for agent",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for creating invitation message for agent	
+
+Example
+	findy-agent-cli user invitation \
+		--wallet-name MyWallet \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
+		--label invitation_label
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		invitateCmd.WalletName = cFlags.WalletName

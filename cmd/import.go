@@ -13,7 +13,16 @@ import (
 var importCmd = &cobra.Command{
 	Use:   "import",
 	Short: "Command for importing wallet",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for importing wallet
+
+Example
+	findy-agent-cli tools import \
+		--wallet-name MyWallet \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
+		--key walletImportKey \
+		--file /path/to/my-import-wallet
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(impCmd.Validate())

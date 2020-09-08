@@ -8,7 +8,9 @@ import (
 var ledgerCmd = &cobra.Command{
 	Use:   "ledger",
 	Short: "Parent command for ledger specific actions",
-	Long:  `Long description & example todo`,
+	Long: `
+Parent command for ledger specific actions
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
 	},

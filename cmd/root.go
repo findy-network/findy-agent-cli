@@ -19,7 +19,9 @@ var rootCmd = &cobra.Command{
 	Version: utils.Version,
 	Use:     "findy-agent-cli",
 	Short:   "Findy agent cli tool",
-	Long:    `Long description & example todo`,
+	Long: `
+Findy agent cli tool
+	`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		agency.ParseLoggingArgs(rootFlags.logging)
 	},

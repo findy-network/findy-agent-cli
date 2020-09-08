@@ -13,7 +13,16 @@ import (
 var exportCmd = &cobra.Command{
 	Use:   "export",
 	Short: "Command for exporting wallet",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for exporting wallet
+
+Example
+	findy-agent-cli tools export \
+		--wallet-name MyWallet \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
+		--key walletExportKey \
+		--file path/to/my-export-wallet
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(expCmd.Validate())

@@ -16,7 +16,9 @@ import (
 var schCmd = &cobra.Command{
 	Use:   "schema",
 	Short: "Parent command for operating with schemas",
-	Long:  `Long description & example todo`,
+	Long: `
+Parent command for operating with schemas
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
 	},
@@ -26,7 +28,17 @@ var schCmd = &cobra.Command{
 var schCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Command for creating new schema",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for creating new schema
+
+Example
+	findy-agent-cli sercive schema create \
+		--wallet-name TheNewWallet4 \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
+		--name my_schema_name \
+		--attributes ["field1", "field2", "field3"] \
+		--version 1.0
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		schAttrs = viper.GetStringSlice("attributes")
@@ -55,7 +67,15 @@ var schCreateCmd = &cobra.Command{
 var schReadCmd = &cobra.Command{
 	Use:   "read",
 	Short: "Command for getting schema by id",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for getting schema by id
+
+Example
+	findy-agent-cli sercive schema read \
+		--wallet-name TheNewWallet4 \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
+		--id my_schema_id
+`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		schemaCmd := schema.GetCmd{
