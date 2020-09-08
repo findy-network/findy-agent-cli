@@ -16,9 +16,6 @@ var importCmd = &cobra.Command{
 	Long:  `Long description & example todo`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
-
-		impCmd.WalletName = cFlags.WalletName
-		impCmd.WalletKey = cFlags.WalletKey
 		err2.Check(impCmd.Validate())
 		if !rootFlags.dryRun {
 			err2.Try(impCmd.Exec(os.Stdout))
@@ -35,11 +32,10 @@ func init() {
 	})
 
 	flags := importCmd.Flags()
+	flags.StringVar(&impCmd.WalletName, "wallet-name", "", "wallet name")
+	flags.StringVar(&impCmd.WalletKey, "wallet-key", "", "wallet key")
 	flags.StringVar(&impCmd.Filename, "file", "", "full import file path")
 	flags.StringVar(&impCmd.Key, "key", "", "wallet import key")
 
-	userCmd.AddCommand(importCmd)
-	serviceCopy := *importCmd
-	serviceCmd.AddCommand(&serviceCopy)
-
+	toolsCmd.AddCommand(importCmd)
 }
