@@ -13,9 +13,9 @@ import (
 // creddefCmd represents the creddef command
 var creddefCmd = &cobra.Command{
 	Use:   "creddef",
-	Short: "Parent command for operating with Credential definations",
+	Short: "Parent command for operating with Credential definitions",
 	Long: `
-Parent command for operating with Credential definations
+Parent command for operating with Credential definitions
 	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
