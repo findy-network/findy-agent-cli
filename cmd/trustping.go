@@ -13,7 +13,15 @@ import (
 var trustpingCmd = &cobra.Command{
 	Use:   "trustping",
 	Short: "Command for making trustping to another agent",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for making trustping to another agent
+
+Example
+	findy-agent-cli user trustping \
+		--wallet-name TheNewWallet4 \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
+		--connection-id my_connection_id
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		tPingCmd.WalletName = cFlags.WalletName

@@ -12,8 +12,10 @@ import (
 // keyCmd represents the key subcommand
 var keyCmd = &cobra.Command{
 	Use:   "key",
-	Short: "Parent command for operating with keys",
-	Long:  `Long description & example todo`,
+	Short: "Parent command for handling keys",
+	Long: `
+Parent command for handling keys
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
 	},
@@ -23,7 +25,13 @@ var keyCmd = &cobra.Command{
 var createKeyCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Command for creating valid wallet keys",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for creating valid wallet keys	
+
+Example	
+	findy-agent-cli tools key create \
+		--seed 00000000000000000000thisisa_test
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(keyCreateCmd.Validate())

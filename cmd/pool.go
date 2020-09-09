@@ -13,7 +13,9 @@ import (
 var poolCmd = &cobra.Command{
 	Use:   "pool",
 	Short: "Parent command for pool commands",
-	Long:  `Long description & example todo`,
+	Long: `
+Parent command for pool commands
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
 	},
@@ -23,7 +25,14 @@ var poolCmd = &cobra.Command{
 var createPoolCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Command for creating creating pool",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for creating creating pool
+
+Example
+	findy-agent-cli ledger pool create \
+		--name findy-pool \
+		--genesis-txn-file my-genesis-txn-file
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		Cmd := pool.CreateCmd{
@@ -43,7 +52,13 @@ var createPoolCmd = &cobra.Command{
 var pingPoolCmd = &cobra.Command{
 	Use:   "ping",
 	Short: "Command for pinging pool",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for pinging pool
+
+Example
+	findy-agent-cli ledger pool ping \
+		--name findy-pool
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		Cmd := pool.PingCmd{

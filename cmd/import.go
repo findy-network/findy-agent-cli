@@ -13,12 +13,18 @@ import (
 var importCmd = &cobra.Command{
 	Use:   "import",
 	Short: "Command for importing wallet",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for importing wallet
+
+Example
+	findy-agent-cli tools import \
+		--wallet-name MyWallet \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
+		--key walletImportKey \
+		--file /path/to/my-import-wallet
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
-
-		impCmd.WalletName = cFlags.WalletName
-		impCmd.WalletKey = cFlags.WalletKey
 		err2.Check(impCmd.Validate())
 		if !rootFlags.dryRun {
 			err2.Try(impCmd.Exec(os.Stdout))
@@ -35,11 +41,10 @@ func init() {
 	})
 
 	flags := importCmd.Flags()
+	flags.StringVar(&impCmd.WalletName, "wallet-name", "", "wallet name")
+	flags.StringVar(&impCmd.WalletKey, "wallet-key", "", "wallet key")
 	flags.StringVar(&impCmd.Filename, "file", "", "full import file path")
 	flags.StringVar(&impCmd.Key, "key", "", "wallet import key")
 
-	userCmd.AddCommand(importCmd)
-	serviceCopy := *importCmd
-	serviceCmd.AddCommand(&serviceCopy)
-
+	toolsCmd.AddCommand(importCmd)
 }

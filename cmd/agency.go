@@ -13,7 +13,9 @@ import (
 var agencyCmd = &cobra.Command{
 	Use:   "agency",
 	Short: "Parent command for starting and pinging agency",
-	Long:  `Long description & example todo`,
+	Long: `
+Parent command for starting and pinging agency
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
 	},
@@ -23,7 +25,17 @@ var agencyCmd = &cobra.Command{
 var startAgencyCmd = &cobra.Command{
 	Use:   "start",
 	Short: "Command for starting agency",
-	Long:  `Long description & example todo`,
+	Long: `
+Start command for findy agency server.
+
+Example
+	findy-agent-cli agency start \
+		--pool-name findy \
+		--steward-wallet-name sovrin_steward_wallet \
+		--steward-wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
+		--steward-did Th7MpTaRZVRYnPiabds81Y \
+		--salt mySalt
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
@@ -41,7 +53,14 @@ var startAgencyCmd = &cobra.Command{
 var pingAgencyCmd = &cobra.Command{
 	Use:   "ping",
 	Short: "Command for pinging agency",
-	Long:  `Long description & example todo`,
+	Long: `
+Pings agency.
+If agency works fine, ping ok with server's host address is printed.
+
+Example
+	findy-agent-cli agency ping \
+		--base-address http://localhost:8080
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(paCmd.Validate())

@@ -19,7 +19,23 @@ import (
 var connectCmd = &cobra.Command{
 	Use:   "connect",
 	Short: "Command for creating a2a connection between 2 agents",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for creating a2a connection between 2 agents. 
+
+To use invitation file, pass file as command argument.
+E.g. findy-agent-cli user connect path/to/invitationFile
+
+You can also read invitation json from standard input.
+E.g. findy-agent-cli user connect - {invitationJson}
+
+Example
+	findy-agent-cli user connect \
+		--wallet-name MyWallet \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
+		--name my_pairwise_name \
+		--key my_pairwise_key \
+		--endpoint pairwise_endpoint
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 

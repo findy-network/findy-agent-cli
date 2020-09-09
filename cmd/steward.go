@@ -13,7 +13,9 @@ import (
 var stewardCmd = &cobra.Command{
 	Use:   "steward",
 	Short: "Parent command for steward wallet actions",
-	Long:  `Long description & example todo`,
+	Long: `
+Parent command for steward wallet actions
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
 	},
@@ -23,7 +25,16 @@ var stewardCmd = &cobra.Command{
 var stewardCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Command for creating steward wallet",
-	Long:  `Long description & example todo`,
+	Long: `	
+Command for creating steward wallet
+	
+Example
+	findy-agent-cli ledger steward create \
+		--pool-name findy \
+		--seed 000000000000000000000000Steward1 \
+		--wallet-name sovrin_steward_wallet \
+		--wallet-key 9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(createStewardCmd.Validate())

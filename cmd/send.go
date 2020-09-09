@@ -23,7 +23,7 @@ Example
 	findy-agent-cli user send \
 		--wallet-name TestWallet \
 		--wallet-key 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp \
-		--connection-id 1868c791-04a7-4160-bdce-646b975c8de1
+		--connection-id 1868c791-04a7-4160-bdce-646b975c8de1 \
 		--msg Hello world!
 `,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {

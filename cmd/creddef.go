@@ -13,8 +13,10 @@ import (
 // creddefCmd represents the creddef command
 var creddefCmd = &cobra.Command{
 	Use:   "creddef",
-	Short: "Parent command for operating with Credential definations",
-	Long:  `Long description & example todo`,
+	Short: "Parent command for operating with Credential definitions",
+	Long: `
+Parent command for operating with Credential definitions
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
 	},
@@ -24,7 +26,16 @@ var creddefCmd = &cobra.Command{
 var createCreddefCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Command for creating new credential definition",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for creating new credential definition.
+
+Example
+	findy-agent-cli service creddef create \
+		--wallet-name TheNewWallet4 \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
+		--schema-id my_schema_id \
+		--tag my_creddef_tag
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		credDefCmd := creddef.CreateCmd{
@@ -48,7 +59,15 @@ var createCreddefCmd = &cobra.Command{
 var readCreddefCmd = &cobra.Command{
 	Use:   "read",
 	Short: "Command for getting credential definition by id",
-	Long:  `Long description & example todo`,
+	Long: `
+Command for getting credential definition by id
+
+Example
+	findy-agent-cli service creddef read \
+		--wallet-name TheNewWallet4 \
+		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp	\
+		--id my_creddef_id
+	`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		credDefCmd := creddef.GetCmd{
