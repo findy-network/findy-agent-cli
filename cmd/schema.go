@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"os"
 
+	"github.com/findy-network/findy-agent/agent/ssi"
 	"github.com/findy-network/findy-agent/cmds"
 	"github.com/findy-network/findy-agent/cmds/agent/schema"
 	"github.com/lainio/err2"
@@ -48,7 +48,7 @@ Example
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
-		/*schAttrs = viper.GetStringSlice("attributes")
+		schAttrs = viper.GetStringSlice("attributes")
 		sch := &ssi.Schema{
 			Name:    schName,
 			Version: schVersion,
@@ -65,12 +65,7 @@ Example
 		if !rootFlags.dryRun {
 			cmd.SilenceUsage = true
 			err2.Try(schemaCmd.Exec(os.Stdout))
-		}*/
-		fmt.Println(schName)
-		fmt.Println(schVersion)
-		fmt.Println(schAttrs)
-		fmt.Println(cFlags.WalletName)
-		fmt.Println(cFlags.WalletKey)
+		}
 		return nil
 	},
 }
