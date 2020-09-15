@@ -125,7 +125,6 @@ func handleViperFlags(cmd *cobra.Command) {
 	}
 }
 
-//TODO: change to handle all flag types
 func setRequiredStringFlags(cmd *cobra.Command) {
 	viper.BindPFlags(cmd.LocalFlags())
 	if cmd.PreRunE != nil {
