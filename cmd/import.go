@@ -7,6 +7,7 @@ import (
 	"github.com/findy-network/findy-agent/cmds/agent"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // importCmd represents the import command
@@ -23,6 +24,14 @@ Example
 		--key walletImportKey \
 		--file /path/to/my-import-wallet
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+		err2.Check(viper.BindEnv("wallet-name", envPrefix+"_IMPORT_WALLET_NAME"))
+		err2.Check(viper.BindEnv("wallet-key", envPrefix+"_IMPORT_WALLET_KEY"))
+		err2.Check(viper.BindEnv("file", envPrefix+"_IMPORT_WALLET_FILE"))
+		err2.Check(viper.BindEnv("key", envPrefix+"_IMPORT_WALLET_FILE_KEY"))
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(impCmd.Validate())
@@ -41,10 +50,10 @@ func init() {
 	})
 
 	flags := importCmd.Flags()
-	flags.StringVar(&impCmd.WalletName, "wallet-name", "", "wallet name")
-	flags.StringVar(&impCmd.WalletKey, "wallet-key", "", "wallet key")
-	flags.StringVar(&impCmd.Filename, "file", "", "full import file path")
-	flags.StringVar(&impCmd.Key, "key", "", "wallet import key")
+	flags.StringVar(&impCmd.WalletName, "wallet-name", "", "wallet name, ENV variable: "+envPrefix+"_IMPORT_WALLET_NAME")
+	flags.StringVar(&impCmd.WalletKey, "wallet-key", "", "wallet key, ENV variable: "+envPrefix+"_IMPORT_WALLET_KEY")
+	flags.StringVar(&impCmd.Filename, "file", "", "full import file path, ENV variable: "+envPrefix+"_IMPORT_WALLET_FILE")
+	flags.StringVar(&impCmd.Key, "key", "", "wallet import key, ENV variable: "+envPrefix+"_IMPORT_WALLET_FILE_KEY")
 
 	toolsCmd.AddCommand(importCmd)
 }

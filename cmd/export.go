@@ -7,6 +7,7 @@ import (
 	"github.com/findy-network/findy-agent/cmds/agent"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // exportCmd represents the export subcommand
@@ -23,6 +24,14 @@ Example
 		--key walletExportKey \
 		--file path/to/my-export-wallet
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+		err2.Check(viper.BindEnv("wallet-name", envPrefix+"_EXPORT_WALLET_NAME"))
+		err2.Check(viper.BindEnv("wallet-key", envPrefix+"_EXPORT_WALLET_KEY"))
+		err2.Check(viper.BindEnv("file", envPrefix+"_EXPORT_WALLET_FILE"))
+		err2.Check(viper.BindEnv("key", envPrefix+"_EXPORT_WALLET_FILE_KEY"))
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(expCmd.Validate())
@@ -41,10 +50,10 @@ func init() {
 	})
 
 	flags := exportCmd.Flags()
-	flags.StringVar(&expCmd.WalletName, "wallet-name", "", "wallet name")
-	flags.StringVar(&expCmd.WalletKey, "wallet-key", "", "wallet key")
-	flags.StringVar(&expCmd.Filename, "file", "", "full export file path")
-	flags.StringVar(&expCmd.ExportKey, "key", "", "wallet export key")
+	flags.StringVar(&expCmd.WalletName, "wallet-name", "", "wallet name, ENV variable: "+envPrefix+"_EXPORT_WALLET_NAME")
+	flags.StringVar(&expCmd.WalletKey, "wallet-key", "", "wallet key, ENV variable: "+envPrefix+"_EXPORT_WALLET_KEY")
+	flags.StringVar(&expCmd.Filename, "file", "", "full export file path, ENV variable: "+envPrefix+"_EXPORT_WALLET_FILE")
+	flags.StringVar(&expCmd.ExportKey, "key", "", "wallet export key, ENV variable: "+envPrefix+"_EXPORT_WALLET_FILE_KEY")
 
 	toolsCmd.AddCommand(exportCmd)
 }

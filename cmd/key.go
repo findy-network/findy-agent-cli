@@ -7,6 +7,7 @@ import (
 	"github.com/findy-network/findy-agent/cmds/key"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // keyCmd represents the key subcommand
@@ -32,6 +33,11 @@ Example
 	findy-agent-cli tools key create \
 		--seed 00000000000000000000thisisa_test
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+		err2.Check(viper.BindEnv("seed", envPrefix+"_KEY_SEED"))
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(keyCreateCmd.Validate())
@@ -50,7 +56,7 @@ func init() {
 		log.Println(err)
 	})
 
-	createKeyCmd.Flags().StringVar(&keyCreateCmd.Seed, "seed", "", "seed for wallet key creation")
+	createKeyCmd.Flags().StringVar(&keyCreateCmd.Seed, "seed", "", "seed for wallet key creation, ENV variable: "+envPrefix+"_KEY_SEED")
 
 	toolsCmd.AddCommand(keyCmd)
 	keyCmd.AddCommand(createKeyCmd)

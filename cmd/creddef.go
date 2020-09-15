@@ -8,6 +8,7 @@ import (
 	"github.com/findy-network/findy-agent/cmds/agent/creddef"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // creddefCmd represents the creddef command
@@ -36,6 +37,12 @@ Example
 		--schema-id my_schema_id \
 		--tag my_creddef_tag
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+		err2.Check(viper.BindEnv("tag", envPrefix+"_CREDDEF_TAG"))
+		err2.Check(viper.BindEnv("schema-id", envPrefix+"_CREDDEF_SCHEMA_ID"))
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		credDefCmd := creddef.CreateCmd{
@@ -68,6 +75,11 @@ Example
 		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp	\
 		--id my_creddef_id
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+		err2.Check(viper.BindEnv("id", envPrefix+"_CREDDEF_ID"))
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		credDefCmd := creddef.GetCmd{
@@ -100,11 +112,11 @@ func init() {
 	userCopy := *creddefCmd
 
 	c := createCreddefCmd.Flags()
-	c.StringVar(&credDefTag, "tag", "", "credential definition tag")
-	c.StringVar(&schID, "schema-id", "", "schema ID")
+	c.StringVar(&credDefTag, "tag", "", "credential definition tag, ENV variable: "+envPrefix+"_CREDDEF_TAG")
+	c.StringVar(&schID, "schema-id", "", "schema ID, ENV variable: "+envPrefix+"_CREDDEF_SCHEMA_ID")
 
 	r := readCreddefCmd.Flags()
-	r.StringVar(&credDefID, "id", "", "credential definition ID")
+	r.StringVar(&credDefID, "id", "", "credential definition ID, ENV variable: "+envPrefix+"_CREDDEF_ID")
 
 	creddefCmd.AddCommand(readCreddefCmd)
 	readCopy := *readCreddefCmd

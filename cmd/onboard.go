@@ -8,6 +8,7 @@ import (
 	"github.com/findy-network/findy-agent/cmds/onboard"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // onboardCmd represents the onboard subcommand
@@ -27,6 +28,14 @@ Example
 		--email myExampleEmail \
 		--salt mySalt
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+		err2.Check(viper.BindEnv("export-file", envPrefix+"_ONBOARD_EXPORT_FILE"))
+		err2.Check(viper.BindEnv("export-key", envPrefix+"_ONBOARD_EXPORT_KEY"))
+		err2.Check(viper.BindEnv("email", envPrefix+"_ONBOARD_EMAIL"))
+		err2.Check(viper.BindEnv("salt", envPrefix+"_ONBOARD_SALT"))
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
@@ -60,10 +69,10 @@ func init() {
 	})
 
 	flags := onboardCmd.Flags()
-	flags.StringVar(&onbExpCmd.Filename, "export-file", "", "full export file path")
-	flags.StringVar(&onbExpCmd.ExportKey, "export-key", "", "wallet export key")
-	flags.StringVar(&onbCmd.Email, "email", "", "onboarding email")
-	flags.StringVar(&aCmd.Salt, "salt", "", "onboarding salt")
+	flags.StringVar(&onbExpCmd.Filename, "export-file", "", "full export file path, ENV variable: "+envPrefix+"_ONBOARD_EXPORT_FILE")
+	flags.StringVar(&onbExpCmd.ExportKey, "export-key", "", "wallet export key, ENV variable: "+envPrefix+"_ONBOARD_EXPORT_KEY")
+	flags.StringVar(&onbCmd.Email, "email", "", "onboarding email, ENV variable: "+envPrefix+"_ONBOARD_EMAIL")
+	flags.StringVar(&aCmd.Salt, "salt", "", "onboarding salt, ENV variable: "+envPrefix+"_ONBOARD_SALT")
 
 	serviceCopy := *onboardCmd
 	userCmd.AddCommand(onboardCmd)

@@ -7,6 +7,7 @@ import (
 	"github.com/findy-network/findy-agent/cmds/connection"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // trustpingCmd represents the trustping subcommand
@@ -22,6 +23,11 @@ Example
 		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
 		--connection-id my_connection_id
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+		err2.Check(viper.BindEnv("connection-id", envPrefix+"TRUSTPING_CONNECTION_ID"))
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		tPingCmd.WalletName = cFlags.WalletName
@@ -41,7 +47,7 @@ func init() {
 		log.Println(err)
 	})
 	f := trustpingCmd.Flags()
-	f.StringVar(&tPingCmd.Name, "connection-id", "", "connection id")
+	f.StringVar(&tPingCmd.Name, "connection-id", "", "connection id, ENV variable: "+envPrefix+"TRUSTPING_CONNECTION_ID")
 
 	userCmd.AddCommand(trustpingCmd)
 	serviceCopy := *trustpingCmd

@@ -8,6 +8,7 @@ import (
 	"github.com/findy-network/findy-agent/cmds/agent"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // pingCmd represents the user/service ping subcommand
@@ -27,6 +28,11 @@ Example
 
 	this pings the CA and the connected SA as well. 
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+		err2.Check(viper.BindEnv("service-endpoint", envPrefix+"_PING_SERVICE_ENDPOINT"))
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
@@ -54,7 +60,7 @@ func init() {
 		log.Println(err)
 	})
 
-	pingCmd.Flags().BoolVarP(&pCmd.PingSA, "service-endpoint", "s", false, "ping CA and connected SA (me) as well")
+	pingCmd.Flags().BoolVarP(&pCmd.PingSA, "service-endpoint", "s", false, "ping CA and connected SA (me) as well, ENV variable: "+envPrefix+"_PING_SERVICE_ENDPOINT")
 
 	// service copy
 	serviceCopy := *pingCmd

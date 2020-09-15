@@ -14,6 +14,8 @@ import (
 	"github.com/spf13/viper"
 )
 
+const envPrefix = "FCLI"
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Version: utils.Version,
@@ -24,6 +26,7 @@ Findy agent cli tool
 	`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		agency.ParseLoggingArgs(rootFlags.logging)
+		handleViperFlags(cmd)
 	},
 }
 
@@ -78,27 +81,24 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	flags := rootCmd.PersistentFlags()
-	flags.StringVar(&rootFlags.cfgFile, "config", "", "configuration file")
-	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", "logging startup arguments")
-	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, "perform a trial run with no changes made")
+	flags.StringVar(&rootFlags.cfgFile, "config", "", "configuration file, ENV variable: "+envPrefix+"_CONFIG")
+	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", "logging startup arguments, ENV variable: "+envPrefix+"_LOGGING")
+	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, "perform a trial run with no changes made, ENV variable: "+envPrefix+"_DRY_RUN")
 
 	err2.Check(viper.BindPFlag("logging", flags.Lookup("logging")))
 	err2.Check(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
+
+	err2.Check(viper.BindEnv("config", envPrefix+"_CONFIG"))
+	err2.Check(viper.BindEnv("logging", envPrefix+"_LOGGING"))
+	err2.Check(viper.BindEnv("dry-run", envPrefix+"_DRY_RUN"))
+
 }
 
 func initConfig() {
-	viper.SetEnvPrefix("FINDY_AGENT_CLI")
+	viper.SetEnvPrefix(envPrefix)
 	replacer := strings.NewReplacer("-", "_")
 	viper.SetEnvKeyReplacer(replacer)
-	viper.AutomaticEnv() // read in environment variables that match
-	if rootFlags.cfgFile != "" {
-		viper.SetConfigFile(rootFlags.cfgFile)
-		// If a config file is found, read it in.
-		if err := viper.ReadInConfig(); err == nil {
-			fmt.Println("Using config file:", viper.ConfigFileUsed())
-		}
-	}
-	handleViperFlags(rootCmd.Commands())
+	readConfigFile()
 	readBoundRootFlags()
 	aCmd.PreRun()
 }
@@ -108,21 +108,32 @@ func readBoundRootFlags() {
 	rootFlags.dryRun = viper.GetBool("dry-run")
 }
 
-func handleViperFlags(commands []*cobra.Command) {
-	for _, cmd := range commands {
-		setRequiredStringFlags(cmd)
-		if cmd.HasSubCommands() {
-			handleViperFlags(cmd.Commands())
+func readConfigFile() {
+	if rootFlags.cfgFile != "" {
+		viper.SetConfigFile(rootFlags.cfgFile)
+		// If a config file is found, read it in.
+		if err := viper.ReadInConfig(); err == nil {
+			fmt.Println("Using config file:", viper.ConfigFileUsed())
 		}
+	}
+}
+
+func handleViperFlags(cmd *cobra.Command) {
+	setRequiredStringFlags(cmd)
+	if cmd.HasParent() {
+		handleViperFlags(cmd.Parent())
 	}
 }
 
 //TODO: change to handle all flag types
 func setRequiredStringFlags(cmd *cobra.Command) {
-	viper.BindPFlags(cmd.Flags())
-	cmd.Flags().VisitAll(func(f *pflag.Flag) {
-		if viper.IsSet(f.Name) && viper.GetString(f.Name) != "" {
-			cmd.Flags().Set(f.Name, viper.GetString(f.Name))
+	viper.BindPFlags(cmd.LocalFlags())
+	if cmd.PreRunE != nil {
+		cmd.PreRunE(cmd, nil)
+	}
+	cmd.LocalFlags().VisitAll(func(f *pflag.Flag) {
+		if viper.GetString(f.Name) != "" {
+			cmd.LocalFlags().Set(f.Name, viper.GetString(f.Name))
 		}
 	})
 }

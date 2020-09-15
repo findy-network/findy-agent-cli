@@ -1,10 +1,10 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"os"
 
-	"github.com/findy-network/findy-agent/agent/ssi"
 	"github.com/findy-network/findy-agent/cmds"
 	"github.com/findy-network/findy-agent/cmds/agent/schema"
 	"github.com/lainio/err2"
@@ -39,9 +39,16 @@ Example
 		--attributes ["field1", "field2", "field3"] \
 		--version 1.0
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+		err2.Check(viper.BindEnv("version", envPrefix+"_SCHEMA_VERSION"))
+		err2.Check(viper.BindEnv("name", envPrefix+"_SCHEMA_NAME"))
+		err2.Check(viper.BindEnv("attributes", envPrefix+"_SCHEMA_ATTRIBUTES"))
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
-		schAttrs = viper.GetStringSlice("attributes")
+		/*schAttrs = viper.GetStringSlice("attributes")
 		sch := &ssi.Schema{
 			Name:    schName,
 			Version: schVersion,
@@ -58,7 +65,12 @@ Example
 		if !rootFlags.dryRun {
 			cmd.SilenceUsage = true
 			err2.Try(schemaCmd.Exec(os.Stdout))
-		}
+		}*/
+		fmt.Println(schName)
+		fmt.Println(schVersion)
+		fmt.Println(schAttrs)
+		fmt.Println(cFlags.WalletName)
+		fmt.Println(cFlags.WalletKey)
 		return nil
 	},
 }
@@ -76,8 +88,14 @@ Example
 		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
 		--id my_schema_id
 `,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+		err2.Check(viper.BindEnv("id", envPrefix+"_SCHEMA_ID"))
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
+
 		schemaCmd := schema.GetCmd{
 			Cmd: cmds.Cmd{
 				WalletName: cFlags.WalletName,
@@ -111,12 +129,12 @@ func init() {
 	userCopy := *schCmd
 
 	f := schCreateCmd.Flags()
-	f.StringVar(&schVersion, "version", "1.0", "schema version")
-	f.StringVar(&schName, "name", "", "schema name")
-	f.StringSliceVar(&schAttrs, "attributes", nil, "schema attributes")
+	f.StringVar(&schVersion, "version", "1.0", "schema version, ENV variable: "+envPrefix+"_SCHEMA_VERSION")
+	f.StringVar(&schName, "name", "", "schema name, ENV variable: "+envPrefix+"_SCHEMA_NAME")
+	f.StringSliceVar(&schAttrs, "attributes", nil, "schema attributes, ENV variable: "+envPrefix+"_SCHEMA_ATTRIBUTES")
 
 	r := schReadCmd.Flags()
-	r.StringVar(&schID, "id", "", "schema ID")
+	r.StringVar(&schID, "id", "", "schema ID, ENV variable: "+envPrefix+"_SCHEMA_ID")
 
 	schCmd.AddCommand(schCreateCmd)
 	schCmd.AddCommand(schReadCmd)

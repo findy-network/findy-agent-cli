@@ -7,6 +7,7 @@ import (
 	"github.com/findy-network/findy-agent/cmds/steward"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // stewardCmd represents the steward command
@@ -35,6 +36,14 @@ Example
 		--wallet-name sovrin_steward_wallet \
 		--wallet-key 9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+		err2.Check(viper.BindEnv("pool-name", envPrefix+"_STEWARD_POOL_NAME"))
+		err2.Check(viper.BindEnv("seed", envPrefix+"_STEWARD_SEED"))
+		err2.Check(viper.BindEnv("wallet-name", envPrefix+"_STEWARD_WALLET_NAME"))
+		err2.Check(viper.BindEnv("wallet-key", envPrefix+"_STEWARD_WALLET_KEY"))
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(createStewardCmd.Validate())
@@ -54,10 +63,10 @@ func init() {
 	})
 
 	f := stewardCreateCmd.Flags()
-	f.StringVar(&createStewardCmd.PoolName, "pool-name", "FINDY_MEM_LEDGER", "pool name")
-	f.StringVar(&createStewardCmd.StewardSeed, "seed", "000000000000000000000000Steward2", "steward seed")
-	f.StringVar(&createStewardCmd.Cmd.WalletName, "wallet-name", "", "name of the steward wallet")
-	f.StringVar(&createStewardCmd.Cmd.WalletKey, "wallet-key", "", "steward wallet key")
+	f.StringVar(&createStewardCmd.PoolName, "pool-name", "FINDY_MEM_LEDGER", "pool name, ENV variable: "+envPrefix+"_STEWARD_POOL_NAME")
+	f.StringVar(&createStewardCmd.StewardSeed, "seed", "000000000000000000000000Steward2", "steward seed, ENV variable: "+envPrefix+"_STEWARD_SEED")
+	f.StringVar(&createStewardCmd.Cmd.WalletName, "wallet-name", "", "name of the steward wallet, ENV variable: "+envPrefix+"_STEWARD_WALLET_NAME")
+	f.StringVar(&createStewardCmd.Cmd.WalletKey, "wallet-key", "", "steward wallet key, ENV variable: "+envPrefix+"_STEWARD_WALLET_KEY")
 
 	stewardCmd.AddCommand(stewardCreateCmd)
 	ledgerCmd.AddCommand(stewardCmd)
