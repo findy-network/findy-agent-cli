@@ -10,6 +10,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var pingEnvs = map[string]string{
+	"service-endpoint": "SERVICE_ENDPOINT",
+}
+
 // pingCmd represents the user/service ping subcommand
 var pingCmd = &cobra.Command{
 	Use:   "ping",
@@ -27,6 +31,9 @@ Example
 
 	this pings the CA and the connected SA as well. 
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(pingEnvs, cmd.Name())
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
@@ -54,7 +61,7 @@ func init() {
 		log.Println(err)
 	})
 
-	pingCmd.Flags().BoolVarP(&pCmd.PingSA, "service-endpoint", "s", false, "ping CA and connected SA (me) as well")
+	pingCmd.Flags().BoolVarP(&pCmd.PingSA, "service-endpoint", "s", false, flagInfo("ping CA and connected SA (me) as well", pingCmd.Name(), pingEnvs["service-endpoint"]))
 
 	// service copy
 	serviceCopy := *pingCmd

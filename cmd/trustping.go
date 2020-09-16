@@ -9,6 +9,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var trustpingEnvs = map[string]string{
+	"connection-id": "CONNECTION_ID",
+}
+
 // trustpingCmd represents the trustping subcommand
 var trustpingCmd = &cobra.Command{
 	Use:   "trustping",
@@ -22,6 +26,9 @@ Example
 		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
 		--connection-id my_connection_id
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(trustpingEnvs, cmd.Name())
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		tPingCmd.WalletName = cFlags.WalletName
@@ -41,7 +48,7 @@ func init() {
 		log.Println(err)
 	})
 	f := trustpingCmd.Flags()
-	f.StringVar(&tPingCmd.Name, "connection-id", "", "connection id")
+	f.StringVar(&tPingCmd.Name, "connection-id", "", flagInfo("connection id", trustpingCmd.Name(), trustpingEnvs["connection-id"]))
 
 	userCmd.AddCommand(trustpingCmd)
 	serviceCopy := *trustpingCmd

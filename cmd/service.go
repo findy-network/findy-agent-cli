@@ -7,6 +7,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var serviceEnvs = map[string]string{
+	"wallet-name": "WALLET_NAME",
+	"wallet-key":  "WALLET_KEY",
+	"agency-url":  "AGENCY_URL",
+}
+
 // serviceCmd represents the service command
 var serviceCmd = &cobra.Command{
 	Use:   "service",
@@ -23,6 +29,9 @@ Example
 		--wallet-name TestWallet \
 		--wallet-key 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp
 `,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(serviceEnvs, cmd.Name())
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
 	},
@@ -34,9 +43,9 @@ func init() {
 	})
 
 	flags := serviceCmd.PersistentFlags()
-	flags.StringVar(&cFlags.WalletName, "wallet-name", "", "wallet name")
-	flags.StringVar(&cFlags.WalletKey, "wallet-key", "", "wallet key")
-	flags.StringVar(&cFlags.URL, "agency-url", "http://localhost:8080", "endpoint base address")
+	flags.StringVar(&cFlags.WalletName, "wallet-name", "", flagInfo("wallet name", serviceCmd.Name(), serviceEnvs["wallet-name"]))
+	flags.StringVar(&cFlags.WalletKey, "wallet-key", "", flagInfo("wallet key", serviceCmd.Name(), serviceEnvs["wallet-key"]))
+	flags.StringVar(&cFlags.URL, "agency-url", "http://localhost:8080", flagInfo("endpoint base address", serviceCmd.Name(), serviceEnvs["agency-url"]))
 
 	rootCmd.AddCommand(serviceCmd)
 }

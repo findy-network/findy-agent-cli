@@ -21,6 +21,10 @@ Parent command for handling keys
 	},
 }
 
+var keyEnvs = map[string]string{
+	"seed": "SEED",
+}
+
 // createKeyCmd represents the createkey subcommand
 var createKeyCmd = &cobra.Command{
 	Use:   "create",
@@ -32,6 +36,9 @@ Example
 	findy-agent-cli tools key create \
 		--seed 00000000000000000000thisisa_test
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(keyEnvs, "KEY")
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(keyCreateCmd.Validate())
@@ -50,7 +57,7 @@ func init() {
 		log.Println(err)
 	})
 
-	createKeyCmd.Flags().StringVar(&keyCreateCmd.Seed, "seed", "", "seed for wallet key creation")
+	createKeyCmd.Flags().StringVar(&keyCreateCmd.Seed, "seed", "", flagInfo("seed for wallet key creation", keyCmd.Name(), keyEnvs["seed"]))
 
 	toolsCmd.AddCommand(keyCmd)
 	keyCmd.AddCommand(createKeyCmd)

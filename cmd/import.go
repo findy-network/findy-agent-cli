@@ -9,6 +9,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var importEnvs = map[string]string{
+	"wallet-name": "WALLET_NAME",
+	"wallet-key":  "WALLET_KEY",
+	"file":        "WALLET_FILE",
+	"key":         "WALLET_FILE_KEY",
+}
+
 // importCmd represents the import command
 var importCmd = &cobra.Command{
 	Use:   "import",
@@ -23,6 +30,9 @@ Example
 		--key walletImportKey \
 		--file /path/to/my-import-wallet
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(importEnvs, cmd.Name())
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(impCmd.Validate())
@@ -41,10 +51,10 @@ func init() {
 	})
 
 	flags := importCmd.Flags()
-	flags.StringVar(&impCmd.WalletName, "wallet-name", "", "wallet name")
-	flags.StringVar(&impCmd.WalletKey, "wallet-key", "", "wallet key")
-	flags.StringVar(&impCmd.Filename, "file", "", "full import file path")
-	flags.StringVar(&impCmd.Key, "key", "", "wallet import key")
+	flags.StringVar(&impCmd.WalletName, "wallet-name", "", flagInfo("wallet name", importCmd.Name(), importEnvs["wallet-name"]))
+	flags.StringVar(&impCmd.WalletKey, "wallet-key", "", flagInfo("wallet key", importCmd.Name(), importEnvs["wallet-key"]))
+	flags.StringVar(&impCmd.Filename, "file", "", flagInfo("full import file path", importCmd.Name(), importEnvs["file"]))
+	flags.StringVar(&impCmd.Key, "key", "", flagInfo("wallet import key", importCmd.Name(), importEnvs["key"]))
 
 	toolsCmd.AddCommand(importCmd)
 }

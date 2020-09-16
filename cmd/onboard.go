@@ -10,6 +10,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var onboardEnvs = map[string]string{
+	"export-file": "EXPORT_FILE",
+	"export-key":  "EXPORT_KEY",
+	"email":       "EMAIL",
+	"salt":        "SALT",
+}
+
 // onboardCmd represents the onboard subcommand
 var onboardCmd = &cobra.Command{
 	Use:   "onboard",
@@ -27,6 +34,9 @@ Example
 		--email myExampleEmail \
 		--salt mySalt
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(onboardEnvs, cmd.Name())
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
@@ -60,10 +70,10 @@ func init() {
 	})
 
 	flags := onboardCmd.Flags()
-	flags.StringVar(&onbExpCmd.Filename, "export-file", "", "full export file path")
-	flags.StringVar(&onbExpCmd.ExportKey, "export-key", "", "wallet export key")
-	flags.StringVar(&onbCmd.Email, "email", "", "onboarding email")
-	flags.StringVar(&aCmd.Salt, "salt", "", "onboarding salt")
+	flags.StringVar(&onbExpCmd.Filename, "export-file", "", flagInfo("full export file path", onboardCmd.Name(), onboardEnvs["export-file"]))
+	flags.StringVar(&onbExpCmd.ExportKey, "export-key", "", flagInfo("wallet export key", onboardCmd.Name(), onboardEnvs["export-key"]))
+	flags.StringVar(&onbCmd.Email, "email", "", flagInfo("onboarding email", onboardCmd.Name(), onboardEnvs["email"]))
+	flags.StringVar(&aCmd.Salt, "salt", "", flagInfo("onboarding salt", onboardCmd.Name(), onboardEnvs["salt"]))
 
 	serviceCopy := *onboardCmd
 	userCmd.AddCommand(onboardCmd)

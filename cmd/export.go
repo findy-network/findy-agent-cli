@@ -9,6 +9,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var exportEnvs = map[string]string{
+	"wallet-name": "WALLET_NAME",
+	"wallet-key":  "WALLET_KEY",
+	"file":        "WALLET_FILE",
+	"key":         "WALLET_FILE_KEY",
+}
+
 // exportCmd represents the export subcommand
 var exportCmd = &cobra.Command{
 	Use:   "export",
@@ -23,6 +30,9 @@ Example
 		--key walletExportKey \
 		--file path/to/my-export-wallet
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(exportEnvs, cmd.Name())
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(expCmd.Validate())
@@ -41,10 +51,10 @@ func init() {
 	})
 
 	flags := exportCmd.Flags()
-	flags.StringVar(&expCmd.WalletName, "wallet-name", "", "wallet name")
-	flags.StringVar(&expCmd.WalletKey, "wallet-key", "", "wallet key")
-	flags.StringVar(&expCmd.Filename, "file", "", "full export file path")
-	flags.StringVar(&expCmd.ExportKey, "key", "", "wallet export key")
+	flags.StringVar(&expCmd.WalletName, "wallet-name", "", flagInfo("wallet name", exportCmd.Name(), exportEnvs["wallet-name"]))
+	flags.StringVar(&expCmd.WalletKey, "wallet-key", "", flagInfo("wallet key", exportCmd.Name(), exportEnvs["wallet-key"]))
+	flags.StringVar(&expCmd.Filename, "file", "", flagInfo("full export file path", exportCmd.Name(), exportEnvs["file"]))
+	flags.StringVar(&expCmd.ExportKey, "key", "", flagInfo("wallet export key", exportCmd.Name(), exportEnvs["key"]))
 
 	toolsCmd.AddCommand(exportCmd)
 }

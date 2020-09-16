@@ -21,6 +21,11 @@ Parent command for pool commands
 	},
 }
 
+var poolCreateEnvs = map[string]string{
+	"name":             "NAME",
+	"genesis-txn-file": "GENESIS_TXN_FILE",
+}
+
 // createPoolCmd represents the pool create subcommand
 var createPoolCmd = &cobra.Command{
 	Use:   "create",
@@ -33,6 +38,10 @@ Example
 		--name findy-pool \
 		--genesis-txn-file my-genesis-txn-file
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(poolCreateEnvs, "POOL")
+
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		Cmd := pool.CreateCmd{
@@ -48,6 +57,10 @@ Example
 	},
 }
 
+var poolPingEnvs = map[string]string{
+	"name": "NAME",
+}
+
 // pingPoolCmd represents the pool ping subcommand
 var pingPoolCmd = &cobra.Command{
 	Use:   "ping",
@@ -59,6 +72,9 @@ Example
 	findy-agent-cli ledger pool ping \
 		--name findy-pool
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(poolPingEnvs, "POOL")
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		Cmd := pool.PingCmd{
@@ -84,10 +100,10 @@ func init() {
 	})
 
 	f := poolCmd.PersistentFlags()
-	f.StringVar(&poolName, "name", "", "name of the pool")
+	f.StringVar(&poolName, "name", "", flagInfo("name of the pool", poolCmd.Name(), poolCreateEnvs["name"]))
 
 	c := createPoolCmd.Flags()
-	c.StringVar(&poolGen, "genesis-txn-file", "", "pool genesis transactions file")
+	c.StringVar(&poolGen, "genesis-txn-file", "", flagInfo("pool genesis transactions file", poolCmd.Name(), poolCreateEnvs["genesis-txn-file"]))
 
 	ledgerCmd.AddCommand(poolCmd)
 	poolCmd.AddCommand(createPoolCmd)

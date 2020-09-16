@@ -15,6 +15,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var connectEnvs = map[string]string{
+	"endpoint": "ENDPOINT",
+	"name":     "PAIRWISE_NAME",
+	"key":      "PAIRWISE_KEY",
+}
+
 // connectCmd represents the connect subcommand
 var connectCmd = &cobra.Command{
 	Use:   "connect",
@@ -36,6 +42,10 @@ Example
 		--key my_pairwise_key \
 		--endpoint pairwise_endpoint
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(connectEnvs, cmd.Name())
+
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
@@ -96,9 +106,9 @@ func init() {
 
 	flags := connectCmd.Flags()
 
-	flags.StringVar(&pwEndp, "endpoint", "", "pairwise endpoint")
-	flags.StringVar(&pwName, "name", "", "name of the pairwise connection")
-	flags.StringVar(&pwKey, "key", "", "pairwise endpoint key")
+	flags.StringVar(&pwEndp, "endpoint", "", flagInfo("pairwise endpoint", connectCmd.Name(), connectEnvs["endpoint"]))
+	flags.StringVar(&pwName, "name", "", flagInfo("name of the pairwise connection", connectCmd.Name(), connectEnvs["name"]))
+	flags.StringVar(&pwKey, "key", "", flagInfo("pairwise endpoint key", connectCmd.Name(), connectEnvs["key"]))
 
 	userCmd.AddCommand(connectCmd)
 	serviceCopy := *connectCmd

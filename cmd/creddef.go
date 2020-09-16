@@ -22,6 +22,11 @@ Parent command for operating with Credential definitions
 	},
 }
 
+var credCreateEnvs = map[string]string{
+	"tag":       "TAG",
+	"schema-id": "SCHEMA_ID",
+}
+
 // createCreddefCmd represents the creddef create subcommand
 var createCreddefCmd = &cobra.Command{
 	Use:   "create",
@@ -36,6 +41,9 @@ Example
 		--schema-id my_schema_id \
 		--tag my_creddef_tag
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(credCreateEnvs, "CREDDEF")
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		credDefCmd := creddef.CreateCmd{
@@ -55,6 +63,10 @@ Example
 	},
 }
 
+var credReadEnvs = map[string]string{
+	"id": "ID",
+}
+
 // readCreddefCmd represents the creddef read subcommand
 var readCreddefCmd = &cobra.Command{
 	Use:   "read",
@@ -68,6 +80,9 @@ Example
 		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp	\
 		--id my_creddef_id
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(credReadEnvs, "CREDDEF")
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		credDefCmd := creddef.GetCmd{
@@ -100,11 +115,11 @@ func init() {
 	userCopy := *creddefCmd
 
 	c := createCreddefCmd.Flags()
-	c.StringVar(&credDefTag, "tag", "", "credential definition tag")
-	c.StringVar(&schID, "schema-id", "", "schema ID")
+	c.StringVar(&credDefTag, "tag", "", flagInfo("credential definition tag", creddefCmd.Name(), credCreateEnvs["tag"]))
+	c.StringVar(&schID, "schema-id", "", flagInfo("schema ID", creddefCmd.Name(), credCreateEnvs["schema-id"]))
 
 	r := readCreddefCmd.Flags()
-	r.StringVar(&credDefID, "id", "", "credential definition ID")
+	r.StringVar(&credDefID, "id", "", flagInfo("credential definition ID", creddefCmd.Name(), credReadEnvs["id"]))
 
 	creddefCmd.AddCommand(readCreddefCmd)
 	readCopy := *readCreddefCmd

@@ -9,6 +9,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var sendEnvs = map[string]string{
+	"from":          "FROM",
+	"msg":           "MESSAGE",
+	"connection-id": "CONNECTION_ID",
+}
+
 // sendCmd represents the send subcommand
 var sendCmd = &cobra.Command{
 	Use:   "send",
@@ -26,6 +32,10 @@ Example
 		--connection-id 1868c791-04a7-4160-bdce-646b975c8de1 \
 		--msg Hello world!
 `,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(sendEnvs, cmd.Name())
+
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		msgCmd.WalletName = cFlags.WalletName
@@ -46,9 +56,9 @@ func init() {
 		log.Println(err)
 	})
 	flags := sendCmd.Flags()
-	flags.StringVar(&msgCmd.Sender, "from", "", "name of the msg sender")
-	flags.StringVar(&msgCmd.Message, "msg", "", "message to be send")
-	flags.StringVar(&msgCmd.Name, "connection-id", "", "connection id")
+	flags.StringVar(&msgCmd.Sender, "from", "", flagInfo("name of the msg sender", sendCmd.Name(), sendEnvs["from"]))
+	flags.StringVar(&msgCmd.Message, "msg", "", flagInfo("message to be send", sendCmd.Name(), sendEnvs["msg"]))
+	flags.StringVar(&msgCmd.Name, "connection-id", "", flagInfo("connection id", sendCmd.Name(), sendEnvs["connection-id"]))
 
 	serviceCopy := *sendCmd
 	userCmd.AddCommand(sendCmd)

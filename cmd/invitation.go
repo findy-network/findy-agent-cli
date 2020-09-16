@@ -9,6 +9,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var invitationEnvs = map[string]string{
+	"label": "LABEL",
+}
+
 // invitationCmd represents the invitation subcommand
 var invitationCmd = &cobra.Command{
 	Use:   "invitation",
@@ -22,6 +26,9 @@ Example
 		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
 		--label invitation_label
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(invitationEnvs, cmd.Name())
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		invitateCmd.WalletName = cFlags.WalletName
@@ -42,7 +49,7 @@ func init() {
 		log.Println(err)
 	})
 
-	invitationCmd.Flags().StringVar(&invitateCmd.Name, "label", "", "invitation label")
+	invitationCmd.Flags().StringVar(&invitateCmd.Name, "label", "", flagInfo("invitation label", invitationCmd.Name(), invitationEnvs["label"]))
 
 	userCmd.AddCommand(invitationCmd)
 	serviceCopy := *invitationCmd

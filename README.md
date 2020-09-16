@@ -28,13 +28,15 @@ In order to use configuration file place your configuration file path to --confi
 
 Example: `findy-agent-cli agency start --config path/to/my/config.yaml`
 
-You can pass flag values using enviroment variables by adding `FINDY_AGENT_CLI` in front of your flag name.
+### ENV variable usage
 
-Example: `export FINDY_AGENT_CLI_CONFIG="findy-cli-config.yaml"`
+You can pass flag values using enviroment variables.
 
-Note: when using enviroment variables, you must replace `-` character with `_`.
+Example: `export FCLI_AGENCY_STEWARD_SEED="findy-cli-config.yaml"`
 
-Example: `export FINDY_AGENT_CLI_WALLET_NAME="testWallet"` 
+ENV variable names can be found from flag usage info. To see flag info for specific command, use `--help` flag after the command.
+
+Example: `findy-agent-cli agency start --help`
 
 ## Shell autocompletion
 

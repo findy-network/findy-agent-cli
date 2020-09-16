@@ -24,6 +24,12 @@ Parent command for operating with schemas
 	},
 }
 
+var schCreateEnvs = map[string]string{
+	"version":    "VERSION",
+	"name":       "NAME",
+	"attributes": "ATTRIBUTES",
+}
+
 // schCreateCmd represents the schema create subcommand
 var schCreateCmd = &cobra.Command{
 	Use:   "create",
@@ -39,6 +45,9 @@ Example
 		--attributes ["field1", "field2", "field3"] \
 		--version 1.0
 	`,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(schCreateEnvs, "SCHEMA")
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		schAttrs = viper.GetStringSlice("attributes")
@@ -63,6 +72,10 @@ Example
 	},
 }
 
+var schReadEnvs = map[string]string{
+	"id": "ID",
+}
+
 // schReadCmd represents the schema read subcommand
 var schReadCmd = &cobra.Command{
 	Use:   "read",
@@ -76,8 +89,13 @@ Example
 		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp \
 		--id my_schema_id
 `,
+	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		return bindEnvs(schReadEnvs, "SCHEMA")
+
+	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
+
 		schemaCmd := schema.GetCmd{
 			Cmd: cmds.Cmd{
 				WalletName: cFlags.WalletName,
@@ -111,12 +129,12 @@ func init() {
 	userCopy := *schCmd
 
 	f := schCreateCmd.Flags()
-	f.StringVar(&schVersion, "version", "1.0", "schema version")
-	f.StringVar(&schName, "name", "", "schema name")
-	f.StringSliceVar(&schAttrs, "attributes", nil, "schema attributes")
+	f.StringVar(&schVersion, "version", "1.0", flagInfo("schema version", schCmd.Name(), schCreateEnvs["version"]))
+	f.StringVar(&schName, "name", "", flagInfo("schema name", schCmd.Name(), schCreateEnvs["name"]))
+	f.StringSliceVar(&schAttrs, "attributes", nil, flagInfo("schema attributes", schCmd.Name(), schCreateEnvs["attributes"]))
 
 	r := schReadCmd.Flags()
-	r.StringVar(&schID, "id", "", "schema ID")
+	r.StringVar(&schID, "id", "", flagInfo("schema ID", schCmd.Name(), schReadEnvs["id"]))
 
 	schCmd.AddCommand(schCreateCmd)
 	schCmd.AddCommand(schReadCmd)
