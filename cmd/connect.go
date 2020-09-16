@@ -13,8 +13,13 @@ import (
 	"github.com/findy-network/findy-agent/cmds/connection"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
+
+var connectEnvs = map[string]string{
+	"endpoint": "ENDPOINT",
+	"name":     "PAIRWISE_NAME",
+	"key":      "PAIRWISE_KEY",
+}
 
 // connectCmd represents the connect subcommand
 var connectCmd = &cobra.Command{
@@ -38,11 +43,8 @@ Example
 		--endpoint pairwise_endpoint
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
-		err2.Check(viper.BindEnv("endpoint", envPrefix+"_CONNECT_ENDPOINT"))
-		err2.Check(viper.BindEnv("name", envPrefix+"_CONNECT_PAIRWISE_NAME"))
-		err2.Check(viper.BindEnv("key", envPrefix+"_CONNECT_PAIRWISE_KEY"))
-		return nil
+		return bindEnvs(connectEnvs, cmd.Name())
+
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -104,9 +106,9 @@ func init() {
 
 	flags := connectCmd.Flags()
 
-	flags.StringVar(&pwEndp, "endpoint", "", "pairwise endpoint, ENV variable: "+envPrefix+"_CONNECT_ENDPOINT")
-	flags.StringVar(&pwName, "name", "", "name of the pairwise connection, ENV variable: "+envPrefix+"_CONNECT_PAIRWISE_NAME")
-	flags.StringVar(&pwKey, "key", "", "pairwise endpoint key, ENV variable: "+envPrefix+"_CONNECT_PAIRWISE_KEY")
+	flags.StringVar(&pwEndp, "endpoint", "", flagInfo("pairwise endpoint", connectCmd.Name(), connectEnvs["endpoint"]))
+	flags.StringVar(&pwName, "name", "", flagInfo("name of the pairwise connection", connectCmd.Name(), connectEnvs["name"]))
+	flags.StringVar(&pwKey, "key", "", flagInfo("pairwise endpoint key", connectCmd.Name(), connectEnvs["key"]))
 
 	userCmd.AddCommand(connectCmd)
 	serviceCopy := *connectCmd

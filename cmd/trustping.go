@@ -7,8 +7,11 @@ import (
 	"github.com/findy-network/findy-agent/cmds/connection"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
+
+var trustpingEnvs = map[string]string{
+	"connection-id": "CONNECTION_ID",
+}
 
 // trustpingCmd represents the trustping subcommand
 var trustpingCmd = &cobra.Command{
@@ -24,9 +27,7 @@ Example
 		--connection-id my_connection_id
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
-		err2.Check(viper.BindEnv("connection-id", envPrefix+"TRUSTPING_CONNECTION_ID"))
-		return nil
+		return bindEnvs(trustpingEnvs, cmd.Name())
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -47,7 +48,7 @@ func init() {
 		log.Println(err)
 	})
 	f := trustpingCmd.Flags()
-	f.StringVar(&tPingCmd.Name, "connection-id", "", "connection id, ENV variable: "+envPrefix+"TRUSTPING_CONNECTION_ID")
+	f.StringVar(&tPingCmd.Name, "connection-id", "", flagInfo("connection id", trustpingCmd.Name(), trustpingEnvs["connection-id"]))
 
 	userCmd.AddCommand(trustpingCmd)
 	serviceCopy := *trustpingCmd

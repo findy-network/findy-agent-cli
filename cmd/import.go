@@ -7,8 +7,14 @@ import (
 	"github.com/findy-network/findy-agent/cmds/agent"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
+
+var importEnvs = map[string]string{
+	"wallet-name": "WALLET_NAME",
+	"wallet-key":  "WALLET_KEY",
+	"file":        "WALLET_FILE",
+	"key":         "WALLET_FILE_KEY",
+}
 
 // importCmd represents the import command
 var importCmd = &cobra.Command{
@@ -25,12 +31,7 @@ Example
 		--file /path/to/my-import-wallet
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
-		err2.Check(viper.BindEnv("wallet-name", envPrefix+"_IMPORT_WALLET_NAME"))
-		err2.Check(viper.BindEnv("wallet-key", envPrefix+"_IMPORT_WALLET_KEY"))
-		err2.Check(viper.BindEnv("file", envPrefix+"_IMPORT_WALLET_FILE"))
-		err2.Check(viper.BindEnv("key", envPrefix+"_IMPORT_WALLET_FILE_KEY"))
-		return nil
+		return bindEnvs(importEnvs, cmd.Name())
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -50,10 +51,10 @@ func init() {
 	})
 
 	flags := importCmd.Flags()
-	flags.StringVar(&impCmd.WalletName, "wallet-name", "", "wallet name, ENV variable: "+envPrefix+"_IMPORT_WALLET_NAME")
-	flags.StringVar(&impCmd.WalletKey, "wallet-key", "", "wallet key, ENV variable: "+envPrefix+"_IMPORT_WALLET_KEY")
-	flags.StringVar(&impCmd.Filename, "file", "", "full import file path, ENV variable: "+envPrefix+"_IMPORT_WALLET_FILE")
-	flags.StringVar(&impCmd.Key, "key", "", "wallet import key, ENV variable: "+envPrefix+"_IMPORT_WALLET_FILE_KEY")
+	flags.StringVar(&impCmd.WalletName, "wallet-name", "", flagInfo("wallet name", importCmd.Name(), importEnvs["wallet-name"]))
+	flags.StringVar(&impCmd.WalletKey, "wallet-key", "", flagInfo("wallet key", importCmd.Name(), importEnvs["wallet-key"]))
+	flags.StringVar(&impCmd.Filename, "file", "", flagInfo("full import file path", importCmd.Name(), importEnvs["file"]))
+	flags.StringVar(&impCmd.Key, "key", "", flagInfo("wallet import key", importCmd.Name(), importEnvs["key"]))
 
 	toolsCmd.AddCommand(importCmd)
 }

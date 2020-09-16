@@ -8,8 +8,14 @@ import (
 	"github.com/findy-network/findy-agent/cmds/onboard"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
+
+var onboardEnvs = map[string]string{
+	"export-file": "EXPORT_FILE",
+	"export-key":  "EXPORT_KEY",
+	"email":       "EMAIL",
+	"salt":        "SALT",
+}
 
 // onboardCmd represents the onboard subcommand
 var onboardCmd = &cobra.Command{
@@ -29,12 +35,7 @@ Example
 		--salt mySalt
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
-		err2.Check(viper.BindEnv("export-file", envPrefix+"_ONBOARD_EXPORT_FILE"))
-		err2.Check(viper.BindEnv("export-key", envPrefix+"_ONBOARD_EXPORT_KEY"))
-		err2.Check(viper.BindEnv("email", envPrefix+"_ONBOARD_EMAIL"))
-		err2.Check(viper.BindEnv("salt", envPrefix+"_ONBOARD_SALT"))
-		return nil
+		return bindEnvs(onboardEnvs, cmd.Name())
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -69,10 +70,10 @@ func init() {
 	})
 
 	flags := onboardCmd.Flags()
-	flags.StringVar(&onbExpCmd.Filename, "export-file", "", "full export file path, ENV variable: "+envPrefix+"_ONBOARD_EXPORT_FILE")
-	flags.StringVar(&onbExpCmd.ExportKey, "export-key", "", "wallet export key, ENV variable: "+envPrefix+"_ONBOARD_EXPORT_KEY")
-	flags.StringVar(&onbCmd.Email, "email", "", "onboarding email, ENV variable: "+envPrefix+"_ONBOARD_EMAIL")
-	flags.StringVar(&aCmd.Salt, "salt", "", "onboarding salt, ENV variable: "+envPrefix+"_ONBOARD_SALT")
+	flags.StringVar(&onbExpCmd.Filename, "export-file", "", flagInfo("full export file path", onboardCmd.Name(), onboardEnvs["export-file"]))
+	flags.StringVar(&onbExpCmd.ExportKey, "export-key", "", flagInfo("wallet export key", onboardCmd.Name(), onboardEnvs["export-key"]))
+	flags.StringVar(&onbCmd.Email, "email", "", flagInfo("onboarding email", onboardCmd.Name(), onboardEnvs["email"]))
+	flags.StringVar(&aCmd.Salt, "salt", "", flagInfo("onboarding salt", onboardCmd.Name(), onboardEnvs["salt"]))
 
 	serviceCopy := *onboardCmd
 	userCmd.AddCommand(onboardCmd)

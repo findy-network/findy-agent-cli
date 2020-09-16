@@ -7,8 +7,11 @@ import (
 	"github.com/findy-network/findy-agent/cmds/agent"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
+
+var invitationEnvs = map[string]string{
+	"label": "LABEL",
+}
 
 // invitationCmd represents the invitation subcommand
 var invitationCmd = &cobra.Command{
@@ -24,9 +27,7 @@ Example
 		--label invitation_label
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
-		err2.Check(viper.BindEnv("label", envPrefix+"_INVITATION_LABEL"))
-		return nil
+		return bindEnvs(invitationEnvs, cmd.Name())
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -48,7 +49,7 @@ func init() {
 		log.Println(err)
 	})
 
-	invitationCmd.Flags().StringVar(&invitateCmd.Name, "label", "", "invitation label, ENV variable: "+envPrefix+"_INVITATION_LABEL")
+	invitationCmd.Flags().StringVar(&invitateCmd.Name, "label", "", flagInfo("invitation label", invitationCmd.Name(), invitationEnvs["label"]))
 
 	userCmd.AddCommand(invitationCmd)
 	serviceCopy := *invitationCmd

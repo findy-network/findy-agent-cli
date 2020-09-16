@@ -7,7 +7,6 @@ import (
 	"github.com/findy-network/findy-agent/cmds/pool"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // poolCmd represents the pool command
@@ -20,6 +19,11 @@ Parent command for pool commands
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
 	},
+}
+
+var poolCreateEnvs = map[string]string{
+	"name":             "NAME",
+	"genesis-txn-file": "GENESIS_TXN_FILE",
 }
 
 // createPoolCmd represents the pool create subcommand
@@ -35,10 +39,8 @@ Example
 		--genesis-txn-file my-genesis-txn-file
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
-		err2.Check(viper.BindEnv("name", envPrefix+"_POOL_NAME"))
-		err2.Check(viper.BindEnv("genesis-txn-file", envPrefix+"_POOL_GENESIS_TXN_FILE"))
-		return nil
+		return bindEnvs(poolCreateEnvs, "POOL")
+
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -55,6 +57,10 @@ Example
 	},
 }
 
+var poolPingEnvs = map[string]string{
+	"name": "NAME",
+}
+
 // pingPoolCmd represents the pool ping subcommand
 var pingPoolCmd = &cobra.Command{
 	Use:   "ping",
@@ -67,9 +73,7 @@ Example
 		--name findy-pool
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
-		err2.Check(viper.BindEnv("name", envPrefix+"_POOL_NAME"))
-		return nil
+		return bindEnvs(poolPingEnvs, "POOL")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -96,10 +100,10 @@ func init() {
 	})
 
 	f := poolCmd.PersistentFlags()
-	f.StringVar(&poolName, "name", "", "name of the pool, ENV variable: "+envPrefix+"_POOL_NAME")
+	f.StringVar(&poolName, "name", "", flagInfo("name of the pool", poolCmd.Name(), poolCreateEnvs["name"]))
 
 	c := createPoolCmd.Flags()
-	c.StringVar(&poolGen, "genesis-txn-file", "", "pool genesis transactions file, ENV variable: "+envPrefix+"_POOL_GENESIS_TXN_FILE")
+	c.StringVar(&poolGen, "genesis-txn-file", "", flagInfo("pool genesis transactions file", poolCmd.Name(), poolCreateEnvs["genesis-txn-file"]))
 
 	ledgerCmd.AddCommand(poolCmd)
 	poolCmd.AddCommand(createPoolCmd)

@@ -73,6 +73,12 @@ type ClientFlags struct {
 var rootFlags = RootFlags{}
 var cFlags = ClientFlags{}
 
+var rootEnvs = map[string]string{
+	"config":  "CONFIG",
+	"logging": "LOGGING",
+	"dry-run": "DRY_RUN",
+}
+
 func init() {
 	defer err2.Catch(func(err error) {
 		log.Println(err)
@@ -81,16 +87,14 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	flags := rootCmd.PersistentFlags()
-	flags.StringVar(&rootFlags.cfgFile, "config", "", "configuration file, ENV variable: "+envPrefix+"_CONFIG")
-	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", "logging startup arguments, ENV variable: "+envPrefix+"_LOGGING")
-	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, "perform a trial run with no changes made, ENV variable: "+envPrefix+"_DRY_RUN")
+	flags.StringVar(&rootFlags.cfgFile, "config", "", flagInfo("configuration file", "", rootEnvs["config"]))
+	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", flagInfo("logging startup arguments", "", rootEnvs["logging"]))
+	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, flagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
 
 	err2.Check(viper.BindPFlag("logging", flags.Lookup("logging")))
 	err2.Check(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
 
-	err2.Check(viper.BindEnv("config", envPrefix+"_CONFIG"))
-	err2.Check(viper.BindEnv("logging", envPrefix+"_LOGGING"))
-	err2.Check(viper.BindEnv("dry-run", envPrefix+"_DRY_RUN"))
+	bindEnvs(rootEnvs, "")
 
 }
 
@@ -116,6 +120,26 @@ func readConfigFile() {
 			fmt.Println("Using config file:", viper.ConfigFileUsed())
 		}
 	}
+}
+
+func bindEnvs(envMap map[string]string, cmdName string) (err error) {
+	defer err2.Return(&err)
+	for flagKey, envName := range envMap {
+		finalEnvName := getEnvName(cmdName, envName)
+		err2.Check(viper.BindEnv(flagKey, finalEnvName))
+	}
+	return nil
+}
+
+func flagInfo(info, cmdPrefix, envName string) string {
+	return info + ", " + getEnvName(cmdPrefix, envName)
+}
+
+func getEnvName(cmdName, envName string) string {
+	if cmdName == "" {
+		return envPrefix + "_" + envName
+	}
+	return envPrefix + "_" + strings.ToUpper(cmdName) + "_" + envName
 }
 
 func handleViperFlags(cmd *cobra.Command) {

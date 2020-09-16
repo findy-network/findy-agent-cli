@@ -7,8 +7,13 @@ import (
 	"github.com/findy-network/findy-agent/cmds/connection"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
+
+var sendEnvs = map[string]string{
+	"from":          "FROM",
+	"msg":           "MESSAGE",
+	"connection-id": "CONNECTION_ID",
+}
 
 // sendCmd represents the send subcommand
 var sendCmd = &cobra.Command{
@@ -28,11 +33,8 @@ Example
 		--msg Hello world!
 `,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
-		err2.Check(viper.BindEnv("from", envPrefix+"_SEND_FROM"))
-		err2.Check(viper.BindEnv("msg", envPrefix+"_SEND_MESSAGE"))
-		err2.Check(viper.BindEnv("connection-id", envPrefix+"_SEND_CONNECTION_ID"))
-		return nil
+		return bindEnvs(sendEnvs, cmd.Name())
+
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -54,9 +56,9 @@ func init() {
 		log.Println(err)
 	})
 	flags := sendCmd.Flags()
-	flags.StringVar(&msgCmd.Sender, "from", "", "name of the msg sender, ENV variable: "+envPrefix+"_SEND_FROM")
-	flags.StringVar(&msgCmd.Message, "msg", "", "message to be send, ENV variable: "+envPrefix+"_SEND_MESSAGE")
-	flags.StringVar(&msgCmd.Name, "connection-id", "", "connection id, ENV variable: "+envPrefix+"_SEND_CONNECTION_ID")
+	flags.StringVar(&msgCmd.Sender, "from", "", flagInfo("name of the msg sender", sendCmd.Name(), sendEnvs["from"]))
+	flags.StringVar(&msgCmd.Message, "msg", "", flagInfo("message to be send", sendCmd.Name(), sendEnvs["msg"]))
+	flags.StringVar(&msgCmd.Name, "connection-id", "", flagInfo("connection id", sendCmd.Name(), sendEnvs["connection-id"]))
 
 	serviceCopy := *sendCmd
 	userCmd.AddCommand(sendCmd)

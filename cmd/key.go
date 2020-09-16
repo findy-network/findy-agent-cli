@@ -7,7 +7,6 @@ import (
 	"github.com/findy-network/findy-agent/cmds/key"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // keyCmd represents the key subcommand
@@ -22,6 +21,10 @@ Parent command for handling keys
 	},
 }
 
+var keyEnvs = map[string]string{
+	"seed": "SEED",
+}
+
 // createKeyCmd represents the createkey subcommand
 var createKeyCmd = &cobra.Command{
 	Use:   "create",
@@ -34,9 +37,7 @@ Example
 		--seed 00000000000000000000thisisa_test
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
-		err2.Check(viper.BindEnv("seed", envPrefix+"_KEY_SEED"))
-		return nil
+		return bindEnvs(keyEnvs, "KEY")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -56,7 +57,7 @@ func init() {
 		log.Println(err)
 	})
 
-	createKeyCmd.Flags().StringVar(&keyCreateCmd.Seed, "seed", "", "seed for wallet key creation, ENV variable: "+envPrefix+"_KEY_SEED")
+	createKeyCmd.Flags().StringVar(&keyCreateCmd.Seed, "seed", "", flagInfo("seed for wallet key creation", keyCmd.Name(), keyEnvs["seed"]))
 
 	toolsCmd.AddCommand(keyCmd)
 	keyCmd.AddCommand(createKeyCmd)

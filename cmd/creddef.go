@@ -8,7 +8,6 @@ import (
 	"github.com/findy-network/findy-agent/cmds/agent/creddef"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // creddefCmd represents the creddef command
@@ -21,6 +20,11 @@ Parent command for operating with Credential definitions
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)
 	},
+}
+
+var credCreateEnvs = map[string]string{
+	"tag":       "TAG",
+	"schema-id": "SCHEMA_ID",
 }
 
 // createCreddefCmd represents the creddef create subcommand
@@ -38,10 +42,7 @@ Example
 		--tag my_creddef_tag
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
-		err2.Check(viper.BindEnv("tag", envPrefix+"_CREDDEF_TAG"))
-		err2.Check(viper.BindEnv("schema-id", envPrefix+"_CREDDEF_SCHEMA_ID"))
-		return nil
+		return bindEnvs(credCreateEnvs, "CREDDEF")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -62,6 +63,10 @@ Example
 	},
 }
 
+var credReadEnvs = map[string]string{
+	"id": "ID",
+}
+
 // readCreddefCmd represents the creddef read subcommand
 var readCreddefCmd = &cobra.Command{
 	Use:   "read",
@@ -76,9 +81,7 @@ Example
 		--id my_creddef_id
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
-		err2.Check(viper.BindEnv("id", envPrefix+"_CREDDEF_ID"))
-		return nil
+		return bindEnvs(credReadEnvs, "CREDDEF")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -112,11 +115,11 @@ func init() {
 	userCopy := *creddefCmd
 
 	c := createCreddefCmd.Flags()
-	c.StringVar(&credDefTag, "tag", "", "credential definition tag, ENV variable: "+envPrefix+"_CREDDEF_TAG")
-	c.StringVar(&schID, "schema-id", "", "schema ID, ENV variable: "+envPrefix+"_CREDDEF_SCHEMA_ID")
+	c.StringVar(&credDefTag, "tag", "", flagInfo("credential definition tag", creddefCmd.Name(), credCreateEnvs["tag"]))
+	c.StringVar(&schID, "schema-id", "", flagInfo("schema ID", creddefCmd.Name(), credCreateEnvs["schema-id"]))
 
 	r := readCreddefCmd.Flags()
-	r.StringVar(&credDefID, "id", "", "credential definition ID, ENV variable: "+envPrefix+"_CREDDEF_ID")
+	r.StringVar(&credDefID, "id", "", flagInfo("credential definition ID", creddefCmd.Name(), credReadEnvs["id"]))
 
 	creddefCmd.AddCommand(readCreddefCmd)
 	readCopy := *readCreddefCmd
