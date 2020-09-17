@@ -49,6 +49,13 @@ agency: image
 	docker build -t findy-agency --build-arg CLI_VERSION=$(VERSION) ./agency
 	docker tag findy-agency:latest findy-agency:$(VERSION)
 
+
+#run-agency: agency
+#	echo "{}" > findy.json && \
+#	docker run -it --rm -v $(PWD)/steward.exported:/steward.exported \
+#		-v $(PWD)/genesis_transactions:/genesis_transactions \
+#		-v $(PWD)/findy.json:/root/findy.json findy-agency
+
 issuer-api:
 	docker run --network="host" --rm findy-agent-cli service onboard \
 	--agency-url http://localhost:8080 \
