@@ -2,7 +2,7 @@
 
 go run ../.. agency start \
 --steward-wallet-name "sovrin_steward_wallet" \
---steward-wallet-key "steward_wallet_key" \
+--steward-wallet-key "4Vwsj6Qcczmhk2Ak7H5GGvFE1cQCdRtWfW4jchahNUoE" \
 --pool-name "FINDY_MEM_LEDGER" \
 --steward-did "Th7MpTaRZVRYnPiabds81Y" \
 --register-file "findy.json" \

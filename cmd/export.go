@@ -10,10 +10,11 @@ import (
 )
 
 var exportEnvs = map[string]string{
-	"wallet-name": "WALLET_NAME",
-	"wallet-key":  "WALLET_KEY",
-	"file":        "WALLET_FILE",
-	"key":         "WALLET_FILE_KEY",
+	"wallet-name":       "WALLET_NAME",
+	"wallet-key":        "WALLET_KEY",
+	"file":              "WALLET_FILE",
+	"key":               "WALLET_FILE_KEY",
+	"legacy-wallet-key": "WALLET_LEGACY_KEY",
 }
 
 // exportCmd represents the export subcommand
@@ -55,6 +56,7 @@ func init() {
 	flags.StringVar(&expCmd.WalletKey, "wallet-key", "", flagInfo("wallet key", exportCmd.Name(), exportEnvs["wallet-key"]))
 	flags.StringVar(&expCmd.Filename, "file", "", flagInfo("full export file path", exportCmd.Name(), exportEnvs["file"]))
 	flags.StringVar(&expCmd.ExportKey, "key", "", flagInfo("wallet export key", exportCmd.Name(), exportEnvs["key"]))
+	flags.BoolVar(&expCmd.WalletKeyLegacy, "legacy-wallet-key", false, flagInfo("use old wallet key", exportCmd.Name(), exportEnvs["legacy-wallet-key"]))
 
 	toolsCmd.AddCommand(exportCmd)
 }
