@@ -49,6 +49,9 @@ agency: image
 	docker build -t findy-agency --build-arg CLI_VERSION=$(VERSION) ./agency
 	docker tag findy-agency:latest findy-agency:$(VERSION)
 
+clean:
+	rm -rf .docker
+
 
 #run-agency: agency
 #	echo "{}" > findy.json && \
@@ -67,9 +70,9 @@ issuer-api:
 
 # **** scripts for local agency development:
 # WARNING: this will erase all your local indy wallets
-scratch:
+scratch: clean
 	./scripts/dev/dev.sh scratch
 
 run:
-	./scripts/dev.sh install_run
+	./scripts/dev/dev.sh install_run
 # ****

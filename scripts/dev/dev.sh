@@ -25,6 +25,7 @@ clean() {
 run() {
   # run agency
   echo -e "${GREEN}*** dev - run agency ***${NC}"
+  docker start findy-pool
   $CLI agency start \
     --pool-name findy \
     --steward-wallet-name sovrin_steward_wallet \
@@ -46,8 +47,8 @@ scratch() {
   docker run -itd -p 9701-9708:9701-9708 \
     -p 9000:9000 \
     -v sandbox:/var/lib/indy/sandbox/ \
-    --restart=always \
-    --name findy-pool optechlab/indy-pool-browser:latest
+    --name findy-pool \
+    optechlab/indy-pool-browser:latest
   echo -e "${GREEN}*** dev - create pool ***${NC}"
   $CLI ledger pool create \
     --name findy \
