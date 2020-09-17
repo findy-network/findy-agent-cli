@@ -70,7 +70,7 @@ issuer-api:
 
 # **** scripts for local agency development:
 # WARNING: this will erase all your local indy wallets
-scratch: clean
+scratch:
 	./scripts/dev/dev.sh scratch
 
 run:
