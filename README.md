@@ -2,27 +2,71 @@
 
 ![Build and test](https://github.com/findy-network/findy-agent-cli/workflows/Build%20and%20test/badge.svg)
 
-findy-agent-cli is a CLI tool for [findy-agent](https://github.com/findy-network/findy-agent) project. This tool provides some basic agency, pool & agent actions. findy-agent-cli can be used e.g. to start agency, create pool & making connections between agents.  
+findy-agent-cli is a CLI tool for [findy-agent](https://github.com/findy-network/findy-agent) project. This tool provides some basic agency, pool & agent actions. findy-agent-cli can be used e.g. to start agency, create pool & making connections between agents.
 
-## Get Started
+## Environment setup
 
-1. [Install](https://github.com/hyperledger/indy-sdk/#installing-the-sdk) libindy-dev.
-2. Clone the repo: `git clone https://github.com/findy-network/findy-agent-cli.git`
-3. Install needed Go packages: `make deps`
+1. Install [libindy-dev](https://github.com/hyperledger/indy-sdk/#installing-the-sdk). For mac environments you may need to [install the package from sources](https://github.com/findy-network/findy-issuer-api#1-indy-sdk).
+2. Install Go. Make sure environment variable `GOPATH`is defined.
+3. Create parent folder for findy-agent-project in your [\$GOPATH](https://github.com/golang/go/wiki/SettingGOPATH):
 
-If build system cannot find indy libs and headers, set following environment 
-variables:
+   ```
+   $GOPATH/src/github.com/findy-network
+   ```
 
+4. Clone [findy-agent-cli](https://github.com/findy-network/findy-agent-cli) (or move) repository to the newly created parent folder.
+
+5. Install binary: `make install`
+
+   If build system cannot find indy libs and headers, set following environment
+   variables:
+
+   ```
+   export CGO_CFLAGS="-I/<path_to_>/indy-sdk/libindy/include"
+   export CGO_LDFLAGS="-L/<path_to_>/indy-sdk/libindy/target/debug"
+   ```
+
+6. Binary should appear in `$GOPATH/bin/findy-agent-cli`
+
+   Use --help flag after desired command to see detailed usage explanation of the command.
+
+### Running agency
+
+Repo contains helper scripts for setting up ledger and findy-agency. NOTE: use with caution! **Helper scripts erase all local indy-data from ~/.indy_client**
+
+Starts test-ledger (docker), sets up steward and launches agency:
+
+```bash
+make scratch
 ```
-export CGO_CFLAGS="-I/<path_to_>/indy-sdk/libindy/include"
-export CGO_LDFLAGS="-L/<path_to_>/indy-sdk/libindy/target/debug"
+
+After first run, agency can be restarted with
+
+```bash
+make run
 ```
 
-Use --help flag after desired command to see detailed usage explanation of the command.
+See examples how to onboard clients to agency from [findy-agent](https://github.com/findy-network/findy-agent), [findy-issuer-api](https://github.com/findy-network/findy-issuer-api) or [findy-wallet-ios](https://github.com/findy-network/findy-wallet-ios) repositories.
 
-### About flag usage
+Agency API documentation can be found [here](https://github.com/findy-network/findy-agent-api).
+
+TODO: add example how to onboard client with CLI and create schema etc.
+
+### Docker
+
+To build CLI docker image run: `make image`
+
+Example usage:
+
+`docker run --network="host" --rm findy-agent-cli service ping`
+
+note: use --network="host" flag to use host computer network settings.
+
+## Usage
 
 In addition to passing command flags into your shell command, it is possible to use enviroment variables or configuration files to specify your flag values.
+
+### Configuration file
 
 In order to use configuration file place your configuration file path to --config flag.
 
@@ -38,7 +82,7 @@ ENV variable names can be found from flag usage info. To see flag info for speci
 
 Example: `findy-agent-cli agency start --help`
 
-## Shell autocompletion
+### Shell autocompletion
 
 Use `findy-agent-cli completion <shell type>` command to generate findy-agent-cli autocompletion script to your shell enviroment.
 
@@ -51,12 +95,4 @@ Note! Bash autocompletion requires [bash-completion](https://github.com/scop/bas
 
 #### Enable to all shell sessions (optional)
 
-According which shell you are using, add one of the previous commands to your shell configuration scripts (e.g. .bash_profile/.zshrc) 
-
-## Docker usage
-
-To build docker image run: `make image`
-
-Example usage: `docker run --network="host" --rm findy-agent-cli service ping`
-
-note: use --network="host" flag to use host computer network settings.
+According which shell you are using, add one of the previous commands to your shell configuration scripts (e.g. .bash_profile/.zshrc)
