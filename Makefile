@@ -50,11 +50,11 @@ agency: image
 	docker tag findy-agency:latest findy-agency:$(VERSION)
 
 
-run-agency: agency
-	echo "{}" > findy.json && \
-	docker run -it --rm -v $(PWD)/scripts/steward.exported:/steward.exported \
-		-v $(PWD)/scripts/genesis_transactions:/genesis_transactions \
-		-v $(PWD)/findy.json:/root/findy.json findy-agency
+#run-agency: agency
+#	echo "{}" > findy.json && \
+#	docker run -it --rm -v $(PWD)/steward.exported:/steward.exported \
+#		-v $(PWD)/genesis_transactions:/genesis_transactions \
+#		-v $(PWD)/findy.json:/root/findy.json findy-agency
 
 issuer-api:
 	docker run --network="host" --rm findy-agent-cli service onboard \
