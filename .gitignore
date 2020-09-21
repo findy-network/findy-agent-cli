@@ -21,3 +21,7 @@ tmp/
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+.secrets
+Dockerrun.aws.json
+s3.config
