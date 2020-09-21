@@ -1,3 +1,5 @@
+AGENT_PATH=github.com/findy-network/findy-agent
+
 deps:
 	go get -t ./...
 
@@ -34,7 +36,7 @@ install:
 	$(eval VERSION = $(shell cat ./VERSION))
 	@echo "Installing version $(VERSION)"
 	go install \
-		-ldflags "-X 'github.com/findy-network/findy-agent-cli/utils.Version=$(VERSION)'" \
+		-ldflags "-X '$(AGENT_PATH)-cli/utils.Version=$(VERSION)' -X '$(AGENT_PATH)/agent/utils.Version=$(VERSION)'" \
 		./...
 
 clean:
@@ -52,11 +54,12 @@ agency: image
 	docker build -t findy-agency --build-arg CLI_VERSION=$(VERSION) ./agency
 	docker tag findy-agency:latest findy-agency:$(VERSION)
 
-# Test for agency-image:
-#run-agency:
+# Test for agency-image start script:
+#run-agency: agency
 #	echo "{}" > findy.json && \
 #	docker run -it --rm -v $(PWD)/agency/infra/.secrets/steward.exported:/steward.exported \
-#		-e FCLI_AGENCY_APNS_P12_FILE=/aps.p12 \
+#		-e FCLI_AGENCY_SALT="this is only example" \
+#		-p 8080:8080 \
 #		-v $(PWD)/agency/infra/.secrets/aps.p12:/aps.p12 \
 #		-v $(PWD)/scripts/dev/genesis_transactions:/genesis_transactions \
 #		-v $(PWD)/findy.json:/root/findy.json findy-agency
