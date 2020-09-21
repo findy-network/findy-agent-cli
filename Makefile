@@ -30,6 +30,27 @@ test:
 test_cov:
 	go test -v -p 1 -failfast -coverprofile=c.out ./... && go tool cover -html=c.out
 
+e2e_agency_env:
+	./scripts/dev/e2e-test.sh agency_env
+
+e2e_cmds_env:
+	./scripts/dev/e2e-test.sh cmds_env
+
+e2e_agency_conf:
+	./scripts/dev/e2e-test.sh agency_conf
+
+e2e_cmds_conf:
+	./scripts/dev/e2e-test.sh cmds_conf
+
+e2e_agency_flag:
+	./scripts/dev/e2e-test.sh agency_flag
+
+e2e_cmds_flag:
+	./scripts/dev/e2e-test.sh cmds_flag
+	
+e2e_cmds:
+	./scripts/dev/e2e-test.sh cmds
+
 check: check_fmt vet shadow
 
 install:
