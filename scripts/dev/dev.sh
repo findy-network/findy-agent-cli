@@ -75,7 +75,7 @@ onboard() {
   echo -e "${GREEN}*** dev - onboard ***${NC}"
 
   # example
-  # ./tools/dev.sh onboard myName 9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY .
+  # ./scripts/dev/dev.sh onboard myName 9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY .
   EXPORT_NAME=$1
   EXPORT_KEY=$2
   EXPORT_DIR=$3
@@ -85,12 +85,14 @@ onboard() {
   rm -rf ~/.indy_client/wallet/${EXPORT_NAME}_client
   rm -rf ~/.indy_client/wallet/${EXPORT_NAME}_server
   set -e
-  $AGENT client handshakeAndExport \
-    -wallet ${EXPORT_NAME}_client \
-    -email ${EXPORT_NAME}_server \
-    -pwd ${EXPORT_KEY} \
-    -url http://localhost:8080 \
-    -exportpath ${EXPORT_DIR}/${EXPORT_NAME}.export
+  $CLI service onboard \
+    --wallet-name ${EXPORT_NAME}_client \
+    --wallet-key ${EXPORT_KEY} \
+    --email ${EXPORT_NAME}_server \
+    --export-key ${EXPORT_KEY} \
+    --agency-url http://localhost:8080 \
+    --salt "this is only example" \
+    --export-file ${EXPORT_DIR}/${EXPORT_NAME}.export
 }
 
 "$@"
