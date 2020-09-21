@@ -52,24 +52,14 @@ agency: image
 	docker build -t findy-agency --build-arg CLI_VERSION=$(VERSION) ./agency
 	docker tag findy-agency:latest findy-agency:$(VERSION)
 
-clean:
-	rm -rf .docker
-
-
-#run-agency: agency
+# Test for agency-image:
+#run-agency:
 #	echo "{}" > findy.json && \
-#	docker run -it --rm -v $(PWD)/steward.exported:/steward.exported \
-#		-v $(PWD)/genesis_transactions:/genesis_transactions \
+#	docker run -it --rm -v $(PWD)/agency/infra/.secrets/steward.exported:/steward.exported \
+#		-e FCLI_AGENCY_APNS_P12_FILE=/aps.p12 \
+#		-v $(PWD)/agency/infra/.secrets/aps.p12:/aps.p12 \
+#		-v $(PWD)/scripts/dev/genesis_transactions:/genesis_transactions \
 #		-v $(PWD)/findy.json:/root/findy.json findy-agency
-
-issuer-api:
-	docker run --network="host" --rm findy-agent-cli service onboard \
-	--agency-url http://localhost:8080 \
-	--wallet-name issuer-wallet \
-	--wallet-key CgM78xxAahCBG1oUrnRE3iy73ZjxbjQGuVYs2WoxpZKE \
-	--email issuer-wallet-email \
-	--export-file ~/exports/issuer-wallet \
-	--export-key CgM78xxAahCBG1oUrnRE3iy73ZjxbjQGuVYs2WoxpZKE \
 
 # **** scripts for local agency development:
 # WARNING: this will erase all your local indy wallets

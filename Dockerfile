@@ -13,4 +13,4 @@ FROM optechlab/indy-base:1.15.0
 
 COPY --from=0 /go/bin/findy-agent-cli /findy-agent-cli
 
-CMD ["/findy-agent-cli"]
+ENTRYPOINT ["/findy-agent-cli"]

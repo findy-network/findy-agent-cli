@@ -31,7 +31,6 @@ if [ -z "FINDY_AGENCY_HOST_ADDRESS" ]; then
 fi
 
 params=(
-  "\"findy-agency-steward-wallet-name\":\"$FINDY_AGENCY_STEWARD_WALLET_NAME\""
   "\"findy-agency-steward-wallet-key\":\"$FINDY_AGENCY_STEWARD_WALLET_KEY\""
   "\"findy-agency-steward-wallet-imported-key\":\"$FINDY_AGENCY_STEWARD_WALLET_IMPORTED_KEY\""
   "\"findy-agency-steward-did\":\"$FINDY_AGENCY_STEWARD_DID\""
