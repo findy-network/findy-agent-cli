@@ -60,7 +60,7 @@ the agency calls a service agent (SA), a particular type of an EA which performs
 as an issuer or verifier or both.
 
 The agency offers an API to make a handshake, aka onboarding, where a new CA is
-allocated and bound to an EA. findy-agent can call that same API by itself as a
+allocated and bound to an EA. findy-agent-cli can call that same API by itself as a
 client, a temporary EA. That is an easy way to onboard SAs to the agency. The
 following command is an example of calling an API to make a handshake and export
 the client wallet and move it where the final SA will run.
