@@ -13,21 +13,11 @@ NC='\033[0m'
 
 set -e
 
-e2e() {
+e2e() { 
   agency_conf
-  test_cmds
-  stop_agency
-
   agency_flag
-  test_cmds
-  stop_agency
-
   agency_env
-  test_cmds
-  stop_agency
-
   other_cases
-  stop_agency
   rm_wallets
   echo -e "${BICYAN}*** E2E TEST FINISHED ***${NC}"
 }
@@ -53,14 +43,22 @@ clean() {
 }
 
 stop_agency() {
-  kill -9 $(lsof -t -i:8090)
+  kill -9 $(ps aux | pgrep 'findy-agent')
 }
 
-init_agency() {
+init_agency(){
+  echo -e "${BLUE}*** dev - init agency ***${NC}"
+  echo -e "${RED}WARNING: erasing all local data stored by indy!${NC}"
+  set +e
+  rm -rf ~/.indy_client/
+  echo "{}" >findy.json
+  rm findy.bolt
+  set -e
+}
+
+init_ledger() {
   # remove and reset all stored data
   clean
-  # install latest version of findy-agency
-  make install
   # start dev ledger
   dev_ledger
 }
@@ -365,8 +363,8 @@ cmds_flag() {
 }
 
 agency_env() {
-  set_envs
   init_agency
+  set_envs
 
   # launch and create pool
   echo -e "${BLUE}*** env - create pool ***${NC}"
@@ -378,14 +376,15 @@ agency_env() {
 
   # run agency
   echo -e "${BLUE}*** env - run agency ***${NC}"
-  docker start findy-pool
   $CLI agency start &
   sleep 2
+  test_cmds
+  stop_agency
 }
 
 agency_conf() {
-  unset_envs
   init_agency
+  unset_envs
 
   # launch and create pool
   echo -e "${BLUE}*** conf - create pool ***${NC}"
@@ -403,14 +402,15 @@ agency_conf() {
 
   # run agency
   echo -e "${BLUE}*** conf - run agency ***${NC}"
-  docker start findy-pool
   $CLI agency start --config=${CURRENT_DIR}/configs/startAgency.yaml &
   sleep 2
+  test_cmds
+  stop_agency
 }
 
 agency_flag() {
-  unset_envs
   init_agency
+  unset_envs
 
   # launch and create pool
   echo -e "${BLUE}*** flag - create pool ***${NC}"
@@ -430,7 +430,6 @@ agency_flag() {
 
   # run agency
   echo -e "${BLUE}*** flag - run agency ***${NC}"
-  docker start findy-pool
   $CLI agency start \
     --pool-name=findy \
     --steward-wallet-name=sovrin_steward_wallet \
@@ -441,11 +440,13 @@ agency_flag() {
     --server-port=8090 \
     --salt=my_test_salt &
     sleep 2
+  test_cmds
+  stop_agency
 }
 
 other_cases() {
-  unset_envs
   init_agency
+  unset_envs
 
   # launch and create pool
   echo -e "${BLUE}*** other - create pool ***${NC}"
@@ -465,7 +466,6 @@ other_cases() {
 
   # run agency
   echo -e "${BLUE}*** other - run agency ***${NC}"
-  docker start findy-pool
   $CLI agency start \
     --pool-name=findy \
     --steward-wallet-name=steward \
@@ -515,5 +515,6 @@ other_cases() {
     echo "$f does not exist."
     exit 1
   fi
+  stop_agency
 }
 "$@"
