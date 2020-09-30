@@ -30,6 +30,9 @@ test:
 test_cov:
 	go test -v -p 1 -failfast -coverprofile=c.out ./... && go tool cover -html=c.out
 
+e2e:
+	./scripts/dev/e2e-test.sh e2e
+
 check: check_fmt vet shadow
 
 install:

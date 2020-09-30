@@ -46,11 +46,100 @@ After first run, agency can be restarted with
 make run
 ```
 
-See examples how to onboard clients to agency from [findy-agent](https://github.com/findy-network/findy-agent), [findy-issuer-api](https://github.com/findy-network/findy-issuer-api) or [findy-wallet-ios](https://github.com/findy-network/findy-wallet-ios) repositories.
-
 Agency API documentation can be found [here](https://github.com/findy-network/findy-agent-api).
 
-TODO: add example how to onboard client with CLI and create schema etc.
+## CLI usage examples
+
+### Edge Agent On-boarding
+
+Findy-agent serves all types of edge agents (EA) by implementing a corresponding
+cloud agent (CA) for them. An EA communicates with its CA with Aries's
+predecessor of DIDComm, which means that the communication between EA and CA
+needs indy SKD's wallet and crypto functions. The same mechanism is used when
+the agency calls a service agent (SA), a particular type of an EA which performs
+as an issuer or verifier or both.
+
+The agency offers an API to make a handshake, aka onboarding, where a new CA is
+allocated and bound to an EA. findy-agent-cli can call that same API by itself as a
+client, a temporary EA. That is an easy way to onboard SAs to the agency. The
+following command is an example of calling an API to make a handshake and export
+the client wallet and move it where the final SA will run.
+
+Example:
+```
+  findy-agent-cli service onboard \
+    --agency-url=http://localhost:8080 \
+    --wallet-name=my_wallet \
+	--wallet-key=9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY	\
+	--email=my_email \
+	--salt=my_salt \
+    --export-file=pathto/my_wallet.export \
+    --export-key=9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY
+```
+
+### Agent to agent connection
+
+Agents can use invitation messages to make connection to each other. Invitation message for agent can be created via invitation command.
+
+```
+  findy-agent-cli user invitation \
+	--wallet-name=my_wallet \
+	--wallet-key=9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY \
+	--label=invitation_label
+```
+
+To use invitation file to connect, pass the file as command argument.
+
+```
+  findy-agent-cli service connect path/to/invitationFile
+```
+
+You can also read invitation json from standard input.
+
+```
+  findy-agent-cli service connect - {invitationJson}
+```
+
+To make connection without using invitation message.
+
+Example:
+```
+  findy-agent-cli service connect \
+    --wallet-name=my_wallet \
+	--wallet-key=9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY \
+	--name=my_pairwise_name \
+	--key=my_pairwise_key \
+	--endpoint=pairwise_endpoint
+```
+
+### Creating schema
+
+Only service agents are able to create schemas. You need to specify name, version and attributes of the schema.
+
+Example:
+```
+  findy-agent-cli service schema create \
+    --wallet-name=my_wallet \
+    --agency-url=http://localhost:8080 \
+    --wallet-key=9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY \
+    --name=my_schema \
+    --version=2.0 \
+    --attributes=["field1", "field2", "field3"]
+```
+
+### Creating credential definition
+
+Only service agents are able to create credential definitions. You need to specify tag and schema-id of the credential definition.
+
+Example:
+```
+  findy-agent-cli service creddef create \
+    --wallet-name=my_wallet \
+    --agency-url=http://localhost:8080 \
+    --wallet-key=9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY \
+    --schema-id=my_schema_id \
+    --tag=my_creddef_tag \
+```
 
 ### Docker
 
