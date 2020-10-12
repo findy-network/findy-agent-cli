@@ -30,7 +30,7 @@ Example
 		--wallet-key 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp
 `,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(serviceEnvs, cmd.Name())
+		return BindEnvs(serviceEnvs, cmd.Name())
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCmdNeeded(cmd)

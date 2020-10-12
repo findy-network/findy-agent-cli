@@ -35,7 +35,7 @@ Example
 		--salt mySalt
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(onboardEnvs, cmd.Name())
+		return BindEnvs(onboardEnvs, cmd.Name())
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)

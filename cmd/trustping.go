@@ -27,7 +27,7 @@ Example
 		--connection-id my_connection_id
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(trustpingEnvs, cmd.Name())
+		return BindEnvs(trustpingEnvs, cmd.Name())
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)

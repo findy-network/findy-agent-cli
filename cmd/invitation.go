@@ -27,7 +27,7 @@ Example
 		--label invitation_label
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(invitationEnvs, cmd.Name())
+		return BindEnvs(invitationEnvs, cmd.Name())
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)

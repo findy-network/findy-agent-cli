@@ -57,7 +57,7 @@ Example
 		--salt mySalt
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(agencyStartEnvs, "AGENCY")
+		return BindEnvs(agencyStartEnvs, "AGENCY")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -89,7 +89,7 @@ Example
 		--base-address http://localhost:8080
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(agencyPingEnvs, "AGENCY")
+		return BindEnvs(agencyPingEnvs, "AGENCY")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)

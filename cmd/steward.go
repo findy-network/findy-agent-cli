@@ -43,7 +43,7 @@ Example
 		--wallet-key 9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(stewardCreateEnvs, "STEWARD")
+		return BindEnvs(stewardCreateEnvs, "STEWARD")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)

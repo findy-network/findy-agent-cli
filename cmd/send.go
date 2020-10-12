@@ -33,7 +33,7 @@ Example
 		--msg Hello world!
 `,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(sendEnvs, cmd.Name())
+		return BindEnvs(sendEnvs, cmd.Name())
 
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {

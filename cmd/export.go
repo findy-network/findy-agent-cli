@@ -32,7 +32,7 @@ Example
 		--file path/to/my-export-wallet
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(exportEnvs, cmd.Name())
+		return BindEnvs(exportEnvs, cmd.Name())
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
