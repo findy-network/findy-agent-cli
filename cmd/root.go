@@ -95,7 +95,7 @@ func init() {
 	err2.Check(viper.BindPFlag("logging", flags.Lookup("logging")))
 	err2.Check(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
 
-	bindEnvs(rootEnvs, "")
+	BindEnvs(rootEnvs, "")
 
 }
 
@@ -122,7 +122,9 @@ func readConfigFile() {
 	}
 }
 
-func bindEnvs(envMap map[string]string, cmdName string) (err error) {
+// BindEnvs calls viper.BindEnv with envMap and cmdName which can be empty if
+// flag is general.
+func BindEnvs(envMap map[string]string, cmdName string) (err error) {
 	defer err2.Return(&err)
 	for flagKey, envName := range envMap {
 		finalEnvName := getEnvName(cmdName, envName)

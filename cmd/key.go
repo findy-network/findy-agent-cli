@@ -37,7 +37,7 @@ Example
 		--seed 00000000000000000000thisisa_test
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(keyEnvs, "KEY")
+		return BindEnvs(keyEnvs, "KEY")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)

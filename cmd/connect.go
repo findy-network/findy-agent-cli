@@ -43,7 +43,7 @@ Example
 		--endpoint pairwise_endpoint
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(connectEnvs, cmd.Name())
+		return BindEnvs(connectEnvs, cmd.Name())
 
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {

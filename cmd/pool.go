@@ -39,7 +39,7 @@ Example
 		--genesis-txn-file my-genesis-txn-file
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(poolCreateEnvs, "POOL")
+		return BindEnvs(poolCreateEnvs, "POOL")
 
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
@@ -73,7 +73,7 @@ Example
 		--name findy-pool
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(poolPingEnvs, "POOL")
+		return BindEnvs(poolPingEnvs, "POOL")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)

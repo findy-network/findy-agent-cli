@@ -32,7 +32,7 @@ Example
 	this pings the CA and the connected SA as well. 
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(pingEnvs, cmd.Name())
+		return BindEnvs(pingEnvs, cmd.Name())
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)

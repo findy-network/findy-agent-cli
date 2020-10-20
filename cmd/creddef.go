@@ -42,7 +42,7 @@ Example
 		--tag my_creddef_tag
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(credCreateEnvs, "CREDDEF")
+		return BindEnvs(credCreateEnvs, "CREDDEF")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -81,7 +81,7 @@ Example
 		--id my_creddef_id
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(credReadEnvs, "CREDDEF")
+		return BindEnvs(credReadEnvs, "CREDDEF")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)

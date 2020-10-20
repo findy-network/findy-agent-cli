@@ -38,6 +38,7 @@ var agencyStartEnvs = map[string]string{
 	"steward-did":         "STEWARD_DID",
 	"protocol-path":       "PROTOCOL_PATH",
 	"salt":                "SALT",
+	"grpc":                "GRPC",
 }
 
 // startAgencyCmd represents the agency start subcommand
@@ -56,7 +57,7 @@ Example
 		--salt mySalt
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(agencyStartEnvs, "AGENCY")
+		return BindEnvs(agencyStartEnvs, "AGENCY")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -88,7 +89,7 @@ Example
 		--base-address http://localhost:8080
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(agencyPingEnvs, "AGENCY")
+		return BindEnvs(agencyPingEnvs, "AGENCY")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -126,6 +127,7 @@ func init() {
 	flags.StringVar(&aCmd.StewardDid, "steward-did", "", flagInfo("steward DID", agencyCmd.Name(), agencyStartEnvs["steward-did"]))
 	flags.StringVar(&aCmd.ServiceName2, "protocol-path", "a2a", flagInfo("URL path for A2A protocols", agencyCmd.Name(), agencyStartEnvs["protocol-path"])) // agency.ProtocolPath is available
 	flags.StringVar(&aCmd.Salt, "salt", "", flagInfo("salt", agencyCmd.Name(), agencyStartEnvs["salt"]))
+	flags.BoolVar(&aCmd.AllowRPC, "grpc", false, flagInfo("grpc", "", agencyStartEnvs["grpc"]))
 
 	p := pingAgencyCmd.Flags()
 	p.StringVar(&paCmd.BaseAddr, "base-address", "http://localhost:8080", flagInfo("base address of agency", agencyCmd.Name(), agencyPingEnvs["base-address"]))

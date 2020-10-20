@@ -46,7 +46,7 @@ Example
 		--version 1.0
 	`,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(schCreateEnvs, "SCHEMA")
+		return BindEnvs(schCreateEnvs, "SCHEMA")
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -90,7 +90,7 @@ Example
 		--id my_schema_id
 `,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		return bindEnvs(schReadEnvs, "SCHEMA")
+		return BindEnvs(schReadEnvs, "SCHEMA")
 
 	},
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
