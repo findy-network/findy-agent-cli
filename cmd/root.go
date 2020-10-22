@@ -113,7 +113,7 @@ func readBoundRootFlags() {
 }
 
 func readConfigFile() {
-	cfgEnv := os.Getenv( getEnvName("", "config"))
+	cfgEnv := os.Getenv(getEnvName("", "config"))
 	if rootFlags.cfgFile != "" || cfgEnv != "" {
 		printInfo := true
 		if rootFlags.cfgFile == "" {
