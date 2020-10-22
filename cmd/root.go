@@ -113,10 +113,16 @@ func readBoundRootFlags() {
 }
 
 func readConfigFile() {
-	if rootFlags.cfgFile != "" {
+	cfgEnv := os.Getenv( getEnvName("", "config"))
+	if rootFlags.cfgFile != "" || cfgEnv != "" {
+		printInfo := true
+		if rootFlags.cfgFile == "" {
+			rootFlags.cfgFile = cfgEnv
+			printInfo = false
+		}
 		viper.SetConfigFile(rootFlags.cfgFile)
 		// If a config file is found, read it in.
-		if err := viper.ReadInConfig(); err == nil {
+		if err := viper.ReadInConfig(); err == nil && printInfo {
 			fmt.Println("Using config file:", viper.ConfigFileUsed())
 		}
 	}
@@ -139,7 +145,7 @@ func flagInfo(info, cmdPrefix, envName string) string {
 
 func getEnvName(cmdName, envName string) string {
 	if cmdName == "" {
-		return envPrefix + "_" + envName
+		return envPrefix + "_" + strings.ToUpper(envName)
 	}
 	return envPrefix + "_" + strings.ToUpper(cmdName) + "_" + envName
 }
