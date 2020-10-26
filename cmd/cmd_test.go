@@ -16,7 +16,6 @@ const (
 	walletName1  = "test_wallet1"
 	walletName2  = "test_wallet2"
 	walletKey    = "6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp"
-	email1       = "test_email1"
 	email2       = "test_email2"
 	testGenesis  = "../configs/test/genesis_tranactions"
 	importWallet = "../configs/test/importWallet"
