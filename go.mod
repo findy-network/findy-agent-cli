@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/findy-network/findy-agent v0.0.0-20201026132240-fb68cd03b83d
+	github.com/findy-network/findy-agent-api v0.0.0-20201026130106-0fe325f489ed
 	github.com/findy-network/findy-wrapper-go v0.0.0-20201026120712-dc9ac6619595
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/lainio/err2 v0.0.0-20200923084137-dee5b411be59
