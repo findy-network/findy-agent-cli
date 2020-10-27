@@ -1,6 +1,8 @@
 # findy-agent-cli
 
-![Build and test](https://github.com/findy-network/findy-agent-cli/workflows/Build%20and%20test/badge.svg) ![e2e test](https://github.com/findy-network/findy-agent-cli/workflows/e2e%20test/badge.svg)
+![lint](https://github.com/findy-network/findy-agent-cli/workflows/golangci-lint/badge.svg?branch=dev)
+![test](https://github.com/findy-network/findy-agent-cli/workflows/test/badge.svg?branch=dev)
+![e2e test](https://github.com/findy-network/findy-agent-cli/workflows/e2e%20test/badge.svg)
 
 
 findy-agent-cli is a CLI tool for [findy-agent](https://github.com/findy-network/findy-agent) project. This tool provides some basic agency, pool & agent actions. findy-agent-cli can be used e.g. to start agency, create pool & making connections between agents.

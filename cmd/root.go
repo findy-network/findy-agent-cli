@@ -36,7 +36,7 @@ func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		// To fix errors printed twice removing the cobra generators next
 		// see: https://github.com/spf13/cobra/issues/304
-		//fmt.Println(err)
+		// fmt.Println(err)
 
 		os.Exit(1)
 	}

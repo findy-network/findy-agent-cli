@@ -1,6 +1,0 @@
-# action.yml
-name: "Indy-Go tester"
-description: "Static code checks and test"
-runs:
-  using: "docker"
-  image: "Dockerfile"
