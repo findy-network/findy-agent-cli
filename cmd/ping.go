@@ -62,6 +62,7 @@ func init() {
 	})
 
 	pingCmd.Flags().BoolVarP(&pCmd.PingSA, "service-endpoint", "s", false, flagInfo("ping CA and connected SA (me) as well", pingCmd.Name(), pingEnvs["service-endpoint"]))
+	pingCmd.Flags().BoolVarP(&pCmd.DIDOnly, "only", "o", false, "print CA DID only to make scripting easier")
 
 	// service copy
 	serviceCopy := *pingCmd
