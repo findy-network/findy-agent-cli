@@ -116,7 +116,6 @@ var (
 	schVersion string
 	schName    string
 	schAttrs   []string
-	schTag     string
 	schID      string
 )
 
