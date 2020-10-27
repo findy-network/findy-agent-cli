@@ -6,6 +6,9 @@ deps:
 build:
 	go build ./...
 
+cli:
+	go build -o $(GOPATH)/bin/cli
+
 vet:
 	go vet ./...
 
