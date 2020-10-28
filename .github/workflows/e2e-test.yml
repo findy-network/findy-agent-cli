@@ -1,32 +1,23 @@
-name: e2e test
+name: e2e
 on:
   push:
     branches:
       - dev
-
+      - e2e-fix
 jobs:
-  check:
+  e2e:
     name: Check
     runs-on: ubuntu-latest
+    container: optechlab/indy-golang:1.15.0
     steps:
-
-      - uses: actions/checkout@v2
+      - name: setup
+        uses: actions/setup-go@v2
         with:
-          repository: findy-network/findy-wrapper-go
-          token: ${{ secrets.repository_token }}
-          path: findy-wrapper-go
-          ref: dev
-
-      - uses: actions/checkout@v2
-        with:
-          repository: findy-network/findy-agent
-          token: ${{ secrets.repository_token }}
-          path: findy-agent
-          ref: dev
-
-      - uses: actions/checkout@v2
-        with:
-          path: findy-agent-cli
+          go-version: 1.15.x
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: use token
+        run: git config --global url."https://"${{ secrets.https_prefix }}"github.com/".insteadOf "https://github.com/"
 
       - name: Ledger
         run: ./findy-agent-cli/scripts/dev/e2e-test.sh dev_ledger
