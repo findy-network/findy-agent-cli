@@ -2,11 +2,14 @@ package jwt
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
+
+var timeout = 30000 * time.Second
 
 // userCmd represents the user command
 var jwtCmd = &cobra.Command{
@@ -29,7 +32,7 @@ var cmdData = struct {
 	CaDID      string
 }{}
 
-//String("addr", "localhost:50051", "the address to connect to")
+// String("addr", "localhost:50051", "the address to connect to")
 
 func init() {
 	defer err2.Catch(func(err error) {

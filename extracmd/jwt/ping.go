@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"time"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-agent/grpc/client"
@@ -37,7 +36,7 @@ var pingCmd = &cobra.Command{
 
 		defer conn.Close()
 
-		ctx, cancel := context.WithTimeout(context.Background(), 30000*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
 		ch, err := client.Pairwise{ID: cmdData.ConnID}.Ping(ctx)
