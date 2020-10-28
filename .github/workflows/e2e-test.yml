@@ -3,21 +3,14 @@ on:
   push:
     branches:
       - dev
-      - e2e-fix
 jobs:
   e2e:
-    name: Check
     runs-on: ubuntu-latest
-    container: optechlab/indy-golang:1.15.0
     steps:
-      - name: setup
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.15.x
       - name: checkout
         uses: actions/checkout@v2
-      - name: use token
-        run: git config --global url."https://"${{ secrets.https_prefix }}"github.com/".insteadOf "https://github.com/"
+        with:
+          path: findy-agent-cli
 
       - name: Ledger
         run: ./findy-agent-cli/scripts/dev/e2e-test.sh dev_ledger
@@ -26,4 +19,4 @@ jobs:
         run: docker build -t e2e:latest -f ./findy-agent-cli/action/e2e/Dockerfile .
 
       - name: e2e test
-        run: docker run --network="host" e2e:latest
+        run: docker run --network="host" e2e:latest ${{ secrets.https_prefix }}
