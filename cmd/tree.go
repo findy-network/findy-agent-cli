@@ -22,27 +22,35 @@ var treeCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer Return(&err)
 		if len(args) == 0 {
-			printStructure(rootCmd, 0)
+			printStructure(rootCmd, 0, false)
 		} else {
 			c, _, e := rootCmd.Find(args)
 			Check(e)
-			printStructure(c, 0)
+			printStructure(c, 0, false)
 		}
 		return nil
 	},
 }
 
-func printStructure(cmd *cobra.Command, spaces int) {
+func printStructure(cmd *cobra.Command, spaces int, last bool) {
 	for i := spaces; i > 0; i-- {
 		fmt.Print("    ")
 		if i != 1 {
 			fmt.Print("│")
 		}
 	}
-	fmt.Print("├──")
+	if last {
+		fmt.Print("└──")
+	} else {
+		fmt.Print("├──")
+	}
 	fmt.Println(cmd.Name())
-	for _, subCmd := range cmd.Commands() {
-		printStructure(subCmd, spaces+1)
+	for i, subCmd := range cmd.Commands() {
+		if i == len(cmd.Commands())-1 {
+			printStructure(subCmd, spaces+1, true)
+		} else {
+			printStructure(subCmd, spaces+1, false)
+		}
 	}
 }
 func init() {
