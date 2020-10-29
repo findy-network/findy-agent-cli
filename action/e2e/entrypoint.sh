@@ -4,12 +4,11 @@ set -e
 
 mkdir -p /go/src/github.com/findy-network
 
-mv /findy-wrapper-go /go/src/github.com/findy-network
-mv /findy-agent /go/src/github.com/findy-network
 mv /findy-agent-cli /go/src/github.com/findy-network
 
 cd /go/src/github.com/findy-network/findy-agent-cli
 
+git config --global url."https://$1github.com/".insteadOf "https://github.com/"
 echo "Install deps"
 go get -t ./...
 
