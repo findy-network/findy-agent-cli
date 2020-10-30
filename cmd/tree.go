@@ -22,37 +22,39 @@ var treeCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer Return(&err)
 		if len(args) == 0 {
-			printStructure(rootCmd, 0, false)
+			printStructure(rootCmd, "", 0, true)
 		} else {
 			c, _, e := rootCmd.Find(args)
 			Check(e)
-			printStructure(c, 0, false)
+			printStructure(c, "", 0, true)
 		}
 		return nil
 	},
 }
 
-func printStructure(cmd *cobra.Command, spaces int, last bool) {
-	for i := spaces; i > 0; i-- {
-		fmt.Print("    ")
-		if i != 1 {
-			fmt.Print("│")
-		}
+func printStructure(cmd *cobra.Command, insertion string, level int, last bool) {
+	if deepLimit != 0 && level >= deepLimit {
+		return
 	}
+	fmt.Print(insertion)
 	if last {
-		fmt.Print("└──")
+		insertion += " "
+		fmt.Print("└── ")
 	} else {
-		fmt.Print("├──")
+		insertion += "│"
+		fmt.Print("├── ")
 	}
+	insertion += "   "
 	fmt.Println(cmd.Name())
 	for i, subCmd := range cmd.Commands() {
-		if i == len(cmd.Commands())-1 {
-			printStructure(subCmd, spaces+1, true)
-		} else {
-			printStructure(subCmd, spaces+1, false)
-		}
+		last := i == len(cmd.Commands())-1
+		printStructure(subCmd, insertion, level+1, last)
 	}
 }
+
+var deepLimit int
+
 func init() {
+	treeCmd.PersistentFlags().IntVarP(&deepLimit, "level", "L", 0, "level of the tree, zero is ignored")
 	rootCmd.AddCommand(treeCmd)
 }
