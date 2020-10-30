@@ -9,8 +9,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// agencyCmd represents the agency command
-var agencyCmd = &cobra.Command{
+// AgencyCmd represents the agency command
+var AgencyCmd = &cobra.Command{
 	Use:   "agency",
 	Short: "Parent command for starting and pinging agency",
 	Long: `
@@ -95,7 +95,7 @@ Example
 		err2.Check(paCmd.Validate())
 		if !rootFlags.dryRun {
 			cmd.SilenceUsage = true
-			err2.Try(paCmd.Exec(os.Stdout))
+			err2.Try(paCmd.RpcExec(os.Stdout))
 		}
 		return nil
 	},
@@ -111,28 +111,28 @@ func init() {
 	})
 
 	flags := startAgencyCmd.Flags()
-	flags.StringVar(&aCmd.APNSP12CertFile, "apns-p12-file", "", flagInfo("APNS certificate p12 file", agencyCmd.Name(), agencyStartEnvs["apns-p12-file"]))
-	flags.StringVar(&aCmd.HostAddr, "host-address", "localhost", flagInfo("host address", agencyCmd.Name(), agencyStartEnvs["host-address"]))
-	flags.UintVar(&aCmd.HostPort, "host-port", 8080, flagInfo("host port", agencyCmd.Name(), agencyStartEnvs["host-port"]))
-	flags.UintVar(&aCmd.ServerPort, "server-port", 8080, flagInfo("server port", agencyCmd.Name(), agencyStartEnvs["server-port"]))
-	flags.StringVar(&aCmd.ServiceName, "service-name", "ca-api", flagInfo("service name", agencyCmd.Name(), agencyStartEnvs["service-name"]))
-	flags.StringVar(&aCmd.PoolName, "pool-name", "findy-pool", flagInfo("pool name", agencyCmd.Name(), agencyStartEnvs["pool-name"]))
-	flags.Uint64Var(&aCmd.PoolProtocol, "pool-protocol", 2, flagInfo("pool protocol", agencyCmd.Name(), agencyStartEnvs["pool-protocol"]))
-	flags.StringVar(&aCmd.StewardSeed, "steward-seed", "000000000000000000000000Steward1", flagInfo("steward seed", agencyCmd.Name(), agencyStartEnvs["steward-seed"]))
-	flags.StringVar(&aCmd.PsmDb, "psm-database-file", "findy.bolt", flagInfo("state machine database's filename", agencyCmd.Name(), agencyStartEnvs["psm-database-file"]))
-	flags.BoolVar(&aCmd.ResetData, "reset-register", false, flagInfo("reset handshake register", agencyCmd.Name(), agencyStartEnvs["reset-register"]))
-	flags.StringVar(&aCmd.HandshakeRegister, "register-file", "findy.json", flagInfo("handshake registry's filename", agencyCmd.Name(), agencyStartEnvs["register-file"]))
-	flags.StringVar(&aCmd.WalletName, "steward-wallet-name", "", flagInfo("steward wallet name", agencyCmd.Name(), agencyStartEnvs["steward-wallet-name"]))
-	flags.StringVar(&aCmd.WalletPwd, "steward-wallet-key", "", flagInfo("steward wallet key", agencyCmd.Name(), agencyStartEnvs["steward-wallet-key"]))
-	flags.StringVar(&aCmd.StewardDid, "steward-did", "", flagInfo("steward DID", agencyCmd.Name(), agencyStartEnvs["steward-did"]))
-	flags.StringVar(&aCmd.ServiceName2, "protocol-path", "a2a", flagInfo("URL path for A2A protocols", agencyCmd.Name(), agencyStartEnvs["protocol-path"])) // agency.ProtocolPath is available
-	flags.StringVar(&aCmd.Salt, "salt", "", flagInfo("salt", agencyCmd.Name(), agencyStartEnvs["salt"]))
+	flags.StringVar(&aCmd.APNSP12CertFile, "apns-p12-file", "", flagInfo("APNS certificate p12 file", AgencyCmd.Name(), agencyStartEnvs["apns-p12-file"]))
+	flags.StringVar(&aCmd.HostAddr, "host-address", "localhost", flagInfo("host address", AgencyCmd.Name(), agencyStartEnvs["host-address"]))
+	flags.UintVar(&aCmd.HostPort, "host-port", 8080, flagInfo("host port", AgencyCmd.Name(), agencyStartEnvs["host-port"]))
+	flags.UintVar(&aCmd.ServerPort, "server-port", 8080, flagInfo("server port", AgencyCmd.Name(), agencyStartEnvs["server-port"]))
+	flags.StringVar(&aCmd.ServiceName, "service-name", "ca-api", flagInfo("service name", AgencyCmd.Name(), agencyStartEnvs["service-name"]))
+	flags.StringVar(&aCmd.PoolName, "pool-name", "findy-pool", flagInfo("pool name", AgencyCmd.Name(), agencyStartEnvs["pool-name"]))
+	flags.Uint64Var(&aCmd.PoolProtocol, "pool-protocol", 2, flagInfo("pool protocol", AgencyCmd.Name(), agencyStartEnvs["pool-protocol"]))
+	flags.StringVar(&aCmd.StewardSeed, "steward-seed", "000000000000000000000000Steward1", flagInfo("steward seed", AgencyCmd.Name(), agencyStartEnvs["steward-seed"]))
+	flags.StringVar(&aCmd.PsmDb, "psm-database-file", "findy.bolt", flagInfo("state machine database's filename", AgencyCmd.Name(), agencyStartEnvs["psm-database-file"]))
+	flags.BoolVar(&aCmd.ResetData, "reset-register", false, flagInfo("reset handshake register", AgencyCmd.Name(), agencyStartEnvs["reset-register"]))
+	flags.StringVar(&aCmd.HandshakeRegister, "register-file", "findy.json", flagInfo("handshake registry's filename", AgencyCmd.Name(), agencyStartEnvs["register-file"]))
+	flags.StringVar(&aCmd.WalletName, "steward-wallet-name", "", flagInfo("steward wallet name", AgencyCmd.Name(), agencyStartEnvs["steward-wallet-name"]))
+	flags.StringVar(&aCmd.WalletPwd, "steward-wallet-key", "", flagInfo("steward wallet key", AgencyCmd.Name(), agencyStartEnvs["steward-wallet-key"]))
+	flags.StringVar(&aCmd.StewardDid, "steward-did", "", flagInfo("steward DID", AgencyCmd.Name(), agencyStartEnvs["steward-did"]))
+	flags.StringVar(&aCmd.ServiceName2, "protocol-path", "a2a", flagInfo("URL path for A2A protocols", AgencyCmd.Name(), agencyStartEnvs["protocol-path"])) // agency.ProtocolPath is available
+	flags.StringVar(&aCmd.Salt, "salt", "", flagInfo("salt", AgencyCmd.Name(), agencyStartEnvs["salt"]))
 	flags.BoolVar(&aCmd.AllowRPC, "grpc", false, flagInfo("grpc", "", agencyStartEnvs["grpc"]))
 
 	p := pingAgencyCmd.Flags()
-	p.StringVar(&paCmd.BaseAddr, "base-address", "http://localhost:8080", flagInfo("base address of agency", agencyCmd.Name(), agencyPingEnvs["base-address"]))
+	p.StringVar(&paCmd.BaseAddr, "base-address", "http://localhost:8080", flagInfo("base address of agency", AgencyCmd.Name(), agencyPingEnvs["base-address"]))
 
-	rootCmd.AddCommand(agencyCmd)
-	agencyCmd.AddCommand(startAgencyCmd)
-	agencyCmd.AddCommand(pingAgencyCmd)
+	rootCmd.AddCommand(AgencyCmd)
+	AgencyCmd.AddCommand(startAgencyCmd)
+	AgencyCmd.AddCommand(pingAgencyCmd)
 }
