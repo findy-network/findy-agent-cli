@@ -2,6 +2,7 @@ package jwt
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/lainio/err2"
@@ -21,6 +22,8 @@ var jwtCmd = &cobra.Command{
 		cmd.SubCmdNeeded(c)
 	},
 }
+
+const timeout = 30000 * time.Second
 
 var cmdData = struct {
 	APIService string
