@@ -62,7 +62,6 @@ Example
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
-		aCmd.VersionInfo = "findy-agent-cli"
 		err2.Check(aCmd.Validate())
 		if !rootFlags.dryRun {
 			cmd.SilenceUsage = true
@@ -102,7 +101,8 @@ Example
 	},
 }
 
-var aCmd = agency.Cmd{}
+var aCmd = agency.Cmd{VersionInfo: "findy-agent-cli v. 0.1"}
+
 var paCmd = agency.PingCmd{}
 
 func init() {
