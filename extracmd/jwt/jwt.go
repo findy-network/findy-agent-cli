@@ -24,12 +24,10 @@ var jwtCmd = &cobra.Command{
 
 var cmdData = struct {
 	APIService string
-	Port       uint
+	Port       int
 	ConnID     string
 	CaDID      string
 }{}
-
-//String("addr", "localhost:50051", "the address to connect to")
 
 func init() {
 	defer err2.Catch(func(err error) {
@@ -40,7 +38,7 @@ func init() {
 	flags.StringVar(&cmdData.CaDID, "ca-did", "", "CA DID")
 	flags.StringVar(&cmdData.ConnID, "conn-id", "", "connection id aka pairwise id")
 	flags.StringVar(&cmdData.APIService, "server", "localhost", "gRPC server host name")
-	flags.UintVar(&cmdData.Port, "port", 50051, "port for gRPC server")
+	flags.IntVar(&cmdData.Port, "port", 50051, "port for gRPC server")
 
 	cmd.RootCmd().AddCommand(jwtCmd)
 }

@@ -32,14 +32,11 @@ var pingCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		addr := fmt.Sprintf("%s:%d", cmdData.APIService, cmdData.Port)
-		glog.V(4).Infoln("client connection:", addr)
-		conn, err := client.NewClient(cmdData.CaDID, addr)
-		err2.Check(err)
-
+		conn := client.TryOpenConn(cmdData.CaDID, cmdData.APIService, cmdData.Port)
 		defer conn.Close()
 
-		ctx, cancel := context.WithTimeout(context.Background(), 30000*time.Second)
+		glog.V(4).Infoln("client connection ok")
+		ctx, cancel := context.WithTimeout(context.Background(), 300000*time.Second)
 		defer cancel()
 
 		ch, err := client.Pairwise{ID: cmdData.ConnID}.Ping(ctx)
