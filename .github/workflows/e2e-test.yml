@@ -1,30 +1,14 @@
-name: e2e test
+name: e2e
 on:
   push:
     branches:
       - dev
-
 jobs:
-  check:
-    name: Check
+  e2e:
     runs-on: ubuntu-latest
     steps:
-
-      - uses: actions/checkout@v2
-        with:
-          repository: findy-network/findy-wrapper-go
-          token: ${{ secrets.repository_token }}
-          path: findy-wrapper-go
-          ref: dev
-
-      - uses: actions/checkout@v2
-        with:
-          repository: findy-network/findy-agent
-          token: ${{ secrets.repository_token }}
-          path: findy-agent
-          ref: dev
-
-      - uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@v2
         with:
           path: findy-agent-cli
 
@@ -35,4 +19,4 @@ jobs:
         run: docker build -t e2e:latest -f ./findy-agent-cli/action/e2e/Dockerfile .
 
       - name: e2e test
-        run: docker run --network="host" e2e:latest
+        run: docker run --network="host" e2e:latest ${{ secrets.https_prefix }}

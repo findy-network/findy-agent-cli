@@ -3,7 +3,6 @@ package jwt
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-agent/grpc/client"
@@ -35,7 +34,7 @@ var issueCmd = &cobra.Command{
 		conn := client.TryOpenConn(cmdData.CaDID, cmdData.APIService, cmdData.Port)
 		defer conn.Close()
 
-		ctx, cancel := context.WithTimeout(context.Background(), 30000*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
 		ch, err := client.Pairwise{ID: cmdData.ConnID}.Issue(ctx, credDefID, attrJSON)

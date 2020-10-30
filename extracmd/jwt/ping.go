@@ -9,7 +9,6 @@ import (
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-agent/grpc/client"
 	"github.com/findy-network/findy-wrapper-go/dto"
-	"github.com/golang/glog"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -35,13 +34,11 @@ var pingCmd = &cobra.Command{
 		conn := client.TryOpenConn(cmdData.CaDID, cmdData.APIService, cmdData.Port)
 		defer conn.Close()
 
-		glog.V(4).Infoln("client connection ok")
-		ctx, cancel := context.WithTimeout(context.Background(), 300000*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 30000*time.Second)
 		defer cancel()
 
 		ch, err := client.Pairwise{ID: cmdData.ConnID}.Ping(ctx)
 		err2.Check(err)
-		glog.V(4).Infoln("waiting status...")
 		for status := range ch {
 			fmt.Println("ping status:", status.State, "|", status.Info)
 			if !client.OkStatus(status) {
