@@ -13,12 +13,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var statusDoc = `    CONNECT = 0;
+    ISSUE = 1;
+    PROPOSE_ISSUING = 2;
+    REQUEST_PROOF = 3;
+    PROPOSE_PROOFING = 4;
+    TRUST_PING = 5;
+    BASIC_MESSAGE = 6;
+`
+
 // userCmd represents the user command
-var unpauseCmd = &cobra.Command{
-	Use:   "unpause",
-	Short: "unpause command for JWT gRPC",
-	Long: `
-`,
+var statusCmd = &cobra.Command{
+	Use:   "status",
+	Short: "status command for JWT gRPC",
+	Long:  statusDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
@@ -38,36 +46,26 @@ var unpauseCmd = &cobra.Command{
 		defer cancel()
 
 		didComm := agency.NewDIDCommClient(conn)
-		stateAck := agency.ProtocolState_ACK
-		if !ACK {
-			stateAck = agency.ProtocolState_NACK
-		}
-		unpauseResult, err := didComm.Unpause(ctx, &agency.ProtocolState{
-			ProtocolId: &agency.ProtocolID{
-				TypeId: agency.Protocol_CONTINUE_PROOF,
-				Id:     MyProtocolID,
-			},
-			State: stateAck,
+		statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
+			TypeId: agency.Protocol_Type(MyTypeID), //agency.Protocol_REQUEST_PROOF,
+			Id:     MyProtocolID,
 		})
 		err2.Check(err)
 
-		fmt.Println("result:", unpauseResult.String())
+		fmt.Println("result:", statusResult.Message)
 		return nil
 	},
 }
 
-var (
-	MyProtocolID string
-	ACK          bool
-)
+var MyTypeID int32
 
 func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
 
-	unpauseCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
-	unpauseCmd.Flags().BoolVarP(&ACK, "ack", "a", true, "how to proceed with the protocol")
+	statusCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
+	statusCmd.Flags().Int32VarP(&MyTypeID, "type", "t", 3, "3 req proof, 1 issue, see usage")
 
-	jwtCmd.AddCommand(unpauseCmd)
+	jwtCmd.AddCommand(statusCmd)
 }
