@@ -23,11 +23,15 @@ clean() {
 }
 
 run() {
+  LEDGER_NAME=$1
+
   # run agency
   echo -e "${GREEN}*** dev - run agency ***${NC}"
-  docker start findy-pool
+  if [ "$LEDGER_NAME" != "FINDY_FILE_LEDGER" ]; then
+    docker start findy-pool
+  fi
   $CLI agency start \
-    --pool-name findy \
+    --pool-name ${LEDGER_NAME} \
     --steward-wallet-name sovrin_steward_wallet \
     --steward-wallet-key 9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY \
     --steward-did Th7MpTaRZVRYnPiabds81Y
@@ -35,6 +39,7 @@ run() {
 
 scratch() {
   CURRENT_DIR=$(dirname "$BASH_SOURCE")
+  LEDGER_NAME=$1
 
   # remove and reset all stored data
   clean
@@ -43,30 +48,33 @@ scratch() {
   make install
 
   # launch and create pool
-  echo -e "${GREEN}*** dev - start dev ledger ***${NC}"
-  docker run -itd -p 9701-9708:9701-9708 \
-    -p 9000:9000 \
-    -v sandbox:/var/lib/indy/sandbox/ \
-    --name findy-pool \
-    optechlab/indy-pool-browser:latest
+  if [ "$LEDGER_NAME" != "FINDY_FILE_LEDGER" ]; then
+    echo -e "${GREEN}*** dev - start dev ledger ***${NC}"
+    docker run -itd -p 9701-9708:9701-9708 \
+      -p 9000:9000 \
+      -v sandbox:/var/lib/indy/sandbox/ \
+      --name findy-pool \
+      optechlab/indy-pool-browser:latest
+  fi
+
   echo -e "${GREEN}*** dev - create pool ***${NC}"
   $CLI ledger pool create \
-    --name findy \
+    --name ${LEDGER_NAME} \
     --genesis-txn-file $CURRENT_DIR/genesis_transactions
   echo -e "${GREEN}*** dev - create steward ***${NC}"
   $CLI ledger steward create \
-    --pool-name findy \
+    --pool-name ${LEDGER_NAME} \
     --seed 000000000000000000000000Steward1 \
     --wallet-name sovrin_steward_wallet \
     --wallet-key 9C5qFG3grXfU9LodHdMop7CNVb3HtKddjgRc7oK5KhWY
 
-  run
+  run $LEDGER_NAME
 }
 
 install_run() {
   make install
 
-  run
+  run $1
 }
 
 onboard() {
