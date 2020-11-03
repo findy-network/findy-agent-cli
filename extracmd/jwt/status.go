@@ -15,11 +15,9 @@ import (
 
 var statusDoc = `    CONNECT = 0;
     ISSUE = 1;
-    PROPOSE_ISSUING = 2;
-    REQUEST_PROOF = 3;
-    PROPOSE_PROOFING = 4;
-    TRUST_PING = 5;
-    BASIC_MESSAGE = 6;
+    PROPOSE_PROOFING = 2;
+    TRUST_PING = 3;
+    BASIC_MESSAGE = 4;
 `
 
 // userCmd represents the user command
@@ -47,7 +45,8 @@ var statusCmd = &cobra.Command{
 
 		didComm := agency.NewDIDCommClient(conn)
 		statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
-			TypeId: agency.Protocol_Type(MyTypeID), //agency.Protocol_REQUEST_PROOF,
+			TypeId: agency.Protocol_Type(MyTypeID),
+			Role:   agency.Protocol_RESUME,
 			Id:     MyProtocolID,
 		})
 		err2.Check(err)
@@ -65,7 +64,7 @@ func init() {
 	})
 
 	statusCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
-	statusCmd.Flags().Int32VarP(&MyTypeID, "type", "t", 3, "3 req proof, 1 issue, see usage")
+	statusCmd.Flags().Int32VarP(&MyTypeID, "type", "t", 2, "3 req proof, 1 issue, see usage")
 
 	jwtCmd.AddCommand(statusCmd)
 }

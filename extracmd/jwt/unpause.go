@@ -42,9 +42,10 @@ var unpauseCmd = &cobra.Command{
 		if !ACK {
 			stateAck = agency.ProtocolState_NACK
 		}
-		unpauseResult, err := didComm.Unpause(ctx, &agency.ProtocolState{
+		unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
 			ProtocolId: &agency.ProtocolID{
-				TypeId: agency.Protocol_CONTINUE_PROOF,
+				TypeId: agency.Protocol_PROOF,
+				Role:   agency.Protocol_RESUME,
 				Id:     MyProtocolID,
 			},
 			State: stateAck,
