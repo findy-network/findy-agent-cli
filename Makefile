@@ -1,4 +1,5 @@
 AGENT_PATH=github.com/findy-network/findy-agent
+LEDGER_NAME:=FINDY_FILE_LEDGER
 
 deps:
 	go get -t ./...
@@ -78,8 +79,8 @@ agency: image
 # **** scripts for local agency development:
 # WARNING: this will erase all your local indy wallets
 scratch:
-	./scripts/dev/dev.sh scratch
+	./scripts/dev/dev.sh scratch $(LEDGER_NAME)
 
 run:
-	./scripts/dev/dev.sh install_run
+	./scripts/dev/dev.sh install_run $(LEDGER_NAME)
 # ****

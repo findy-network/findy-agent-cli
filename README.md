@@ -37,7 +37,7 @@ findy-agent-cli is a CLI tool for [findy-agent](https://github.com/findy-network
 
 Repo contains helper scripts for setting up ledger and findy-agency. NOTE: use with caution! **Helper scripts erase all local indy-data from ~/.indy_client**
 
-Starts test-ledger (docker), sets up steward and launches agency:
+Starts test-ledger (file), sets up steward and launches agency:
 
 ```bash
 make scratch
@@ -47,6 +47,13 @@ After first run, agency can be restarted with
 
 ```bash
 make run
+```
+
+If you want to use actual indy-node (in docker) for local test ledger, give ledger name as argument:
+
+```bash
+make scratch LEDGER_NAME="findy"
+make run LEDGER_NAME="findy"
 ```
 
 Agency API documentation can be found [here](https://github.com/findy-network/findy-agent-api).
