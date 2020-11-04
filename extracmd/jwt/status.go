@@ -2,9 +2,9 @@ package jwt
 
 import (
 	"context"
-	"errors"
 	"fmt"
 
+	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-agent/grpc/client"
 	"github.com/findy-network/findy-wrapper-go/dto"
@@ -12,12 +12,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var statusDoc = `    CONNECT = 0;
+    ISSUE = 1;
+    PROPOSE_PROOFING = 2;
+    TRUST_PING = 3;
+    BASIC_MESSAGE = 4;
+`
+
 // userCmd represents the user command
-var pingCmd = &cobra.Command{
-	Use:   "ping",
-	Short: "ping command for JWT gRPC",
-	Long: `
-`,
+var statusCmd = &cobra.Command{
+	Use:   "status",
+	Short: "status command for JWT gRPC",
+	Long:  statusDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
@@ -36,22 +42,28 @@ var pingCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		ch, err := client.Pairwise{ID: cmdData.ConnID}.Ping(ctx)
+		didComm := agency.NewDIDCommClient(conn)
+		statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
+			TypeId: agency.Protocol_Type(MyTypeID),
+			Role:   agency.Protocol_RESUME,
+			Id:     MyProtocolID,
+		})
 		err2.Check(err)
-		for status := range ch {
-			fmt.Println("ping status:", status.State, "|", status.Info)
-			if !client.OkStatus(status) {
-				panic(errors.New("error in panic"))
-			}
-		}
+
+		fmt.Println("result:", statusResult.Message)
 		return nil
 	},
 }
+
+var MyTypeID int32
 
 func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
 
-	jwtCmd.AddCommand(pingCmd)
+	statusCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
+	statusCmd.Flags().Int32VarP(&MyTypeID, "type", "t", 2, "3 req proof, 1 issue, see usage")
+
+	jwtCmd.AddCommand(statusCmd)
 }

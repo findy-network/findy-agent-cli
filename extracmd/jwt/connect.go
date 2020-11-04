@@ -27,10 +27,7 @@ var connectCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		addr := fmt.Sprintf("%s:%d", cmdData.APIService, cmdData.Port)
-		conn, err := client.NewClient(cmdData.CaDID, addr)
-		err2.Check(err)
-
+		conn := client.TryOpenConn(cmdData.CaDID, cmdData.APIService, cmdData.Port)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)

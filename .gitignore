@@ -8,6 +8,7 @@ findy.json
 exports/
 .idea
 tmp/
+scripts/client?00/
 
 # Binaries for programs and plugins
 *.exe

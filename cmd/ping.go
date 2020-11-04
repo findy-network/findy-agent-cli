@@ -14,12 +14,7 @@ var pingEnvs = map[string]string{
 	"service-endpoint": "SERVICE_ENDPOINT",
 }
 
-// pingCmd represents the user/service ping subcommand
-var pingCmd = &cobra.Command{
-	Use:   "ping",
-	Short: "Command for pinging services and agents",
-	Long: ` 
-Tests the connection to the CA with the given wallet. If secure connection works
+var pingDoc = `Tests the connection to the CA with the given wallet. If secure connection works
 ok it prints the invitation. If the EA is a SA the command pings it as well when
 the --service-endpoint flag is on.
 
@@ -30,7 +25,13 @@ Example
 		--wallet-key 6cih1cVgRH8...dv67o8QbufxaTHot3Qxp
 
 	this pings the CA and the connected SA as well. 
-	`,
+`
+
+// pingCmd represents the user/service ping subcommand
+var pingCmd = &cobra.Command{
+	Use:   "ping",
+	Short: "Command for pinging services and agents",
+	Long:  pingDoc,
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
 		return BindEnvs(pingEnvs, cmd.Name())
 	},

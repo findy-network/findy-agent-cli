@@ -9,7 +9,6 @@ import (
 	"github.com/findy-network/findy-agent-cli/cmd"
 )
 
-// userCmd represents the user command
 var implCmd = &cobra.Command{
 	Use:   "impl",
 	Short: "Parent command for service agent implementations",
