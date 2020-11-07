@@ -30,7 +30,7 @@ var unpauseCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		conn := client.TryOpenConn(cmdData.CaDID, cmdData.APIService, cmdData.Port)
+		conn := client.TryOpenConn(cmdData.CaDID, cmdData.APIService, cmdData.Port, nil)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
