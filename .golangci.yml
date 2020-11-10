@@ -52,7 +52,7 @@ linters:
     - dogsled
 #    - dupl
 #    - errcheck
-    - exhaustive
+#    - exhaustive
     - funlen
 #    - gochecknoinits
     - goconst
@@ -80,7 +80,7 @@ linters:
     - stylecheck
     - typecheck
     - unconvert
-    - unparam
+#    - unparam
     - unused
     - varcheck
 #    - whitespace
