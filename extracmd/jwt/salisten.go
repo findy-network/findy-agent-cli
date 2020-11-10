@@ -32,7 +32,8 @@ var saListenCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		conn = client.TryOpenConn(cmdData.CaDID, cmdData.APIService, cmdData.Port, nil)
+		baseCfg := client.BuildClientConnBase("", cmdData.APIService, cmdData.Port, nil)
+		conn = client.TryOpen(cmdData.CaDID, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithCancel(context.Background())

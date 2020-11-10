@@ -28,6 +28,7 @@ var lCmd agency.LoggingCmd
 
 func init() {
 	loggingCmd.Flags().StringVarP(&lCmd.Level, "level", "L", "3", "log level in the agency")
-	loggingCmd.Flags().StringVar(&lCmd.BaseAddr, "base-address", "localhost:50051", "gRPC address with port")
+	loggingCmd.Flags().StringVar(&lCmd.Addr, "address", "localhost", "gRPC server address")
+	loggingCmd.Flags().IntVar(&lCmd.Port, "port", 50051, "gRPC server port")
 	cmd.AgencyCmd.AddCommand(loggingCmd)
 }
