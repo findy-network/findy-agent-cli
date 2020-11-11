@@ -13,9 +13,9 @@ import (
 	"github.com/findy-network/findy-agent/grpc/client"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
 )
 
-// userCmd represents the user command
 var saListenCmd = &cobra.Command{
 	Use:   "salisten",
 	Short: "SA listen command for JWT gRPC",
@@ -32,7 +32,8 @@ var saListenCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		conn := client.TryOpenConn(cmdData.CaDID, cmdData.APIService, cmdData.Port)
+		baseCfg := client.BuildClientConnBase("", cmdData.APIService, cmdData.Port, nil)
+		conn = client.TryOpen(cmdData.CaDID, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithCancel(context.Background())
@@ -54,18 +55,18 @@ var saListenCmd = &cobra.Command{
 					fmt.Println("closed from server")
 					break loop
 				}
-				fmt.Println("listen status:", status.ClientId, status.Notification.TypeId, status.Notification.Id)
-				if status.Notification.TypeId == agency.Notification_ACTION_NEEDED_PING {
-					ctx := context.Background()
-					c := agency.NewAgentClient(conn)
-					cid, err := c.Give(ctx, &agency.Answer{
-						Id:       status.Notification.Id,
-						ClientId: status.ClientId,
-						Ack:      true,
-						Info:     "cmd salisten says hello!",
-					})
-					err2.Check(err)
-					fmt.Printf("ping answer (%s) send to client:%s\n", status.Notification.Id, cid.Id)
+				fmt.Println("listen status:", status.ClientId, status.Notification.TypeId, status.Notification.Id, status.Notification.ProtocolId)
+				switch status.Notification.TypeId {
+				case agency.Notification_ACTION_NEEDED:
+					resume(status, true)
+				case agency.Notification_ANSWER_NEEDED_PING:
+					reply(status, true)
+				case agency.Notification_ANSWER_NEEDED_ISSUE_PROPOSE:
+					reply(status, true)
+				case agency.Notification_ANSWER_NEEDED_PROOF_PROPOSE:
+					reply(status, true)
+				case agency.Notification_ANSWER_NEEDED_PROOF_VERIFY:
+					reply(status, true)
 				}
 			case <-intCh:
 				cancel()
@@ -77,10 +78,45 @@ var saListenCmd = &cobra.Command{
 	},
 }
 
+func reply(status *agency.AgentStatus, ack bool) {
+	ctx := context.Background()
+	c := agency.NewAgentClient(conn)
+	cid, err := c.Give(ctx, &agency.Answer{
+		Id:       status.Notification.Id,
+		ClientId: status.ClientId,
+		Ack:      ack,
+		Info:     "cmd salisten says hello!",
+	})
+	err2.Check(err)
+	fmt.Printf("Sending the answer (%s) send to client:%s\n", status.Notification.Id, cid.Id)
+}
+
+func resume(status *agency.AgentStatus, ack bool) {
+	ctx := context.Background()
+	didComm := agency.NewDIDCommClient(conn)
+	stateAck := agency.ProtocolState_ACK
+	if !ack {
+		stateAck = agency.ProtocolState_NACK
+	}
+	unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
+		ProtocolId: &agency.ProtocolID{
+			TypeId: agency.Protocol_PROOF,
+			Role:   agency.Protocol_RESUME,
+			Id:     status.Notification.ProtocolId,
+		},
+		State: stateAck,
+	})
+	err2.Check(err)
+	fmt.Println("result:", unpauseResult.String())
+}
+
+var conn *grpc.ClientConn
+var ack bool
+
 func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
-
+	jwtCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
 	jwtCmd.AddCommand(saListenCmd)
 }

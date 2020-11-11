@@ -36,7 +36,8 @@ var statusCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		conn := client.TryOpenConn(cmdData.CaDID, cmdData.APIService, cmdData.Port)
+		baseCfg := client.BuildClientConnBase("", cmdData.APIService, cmdData.Port, nil)
+		conn = client.TryOpen(cmdData.CaDID, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
@@ -50,7 +51,7 @@ var statusCmd = &cobra.Command{
 		})
 		err2.Check(err)
 
-		fmt.Println("result:", statusResult.Message)
+		fmt.Println("result:", statusResult.StatusJson, statusResult.State.ProtocolId.TypeId)
 		return nil
 	},
 }
@@ -63,7 +64,7 @@ func init() {
 	})
 
 	statusCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
-	statusCmd.Flags().Int32VarP(&MyTypeID, "type", "t", 2, "3 req proof, 1 issue, see usage")
+	statusCmd.Flags().Int32VarP(&MyTypeID, "type", "t", 3, "3=trust ping, 1=issue, ... see usage")
 
 	jwtCmd.AddCommand(statusCmd)
 }

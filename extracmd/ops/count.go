@@ -27,6 +27,7 @@ var countCmd = &cobra.Command{
 var cCmd agency.CountCmd
 
 func init() {
-	countCmd.Flags().StringVar(&cCmd.BaseAddr, "base-address", "localhost:50051", "gRPC address with port")
+	countCmd.Flags().StringVar(&cCmd.Addr, "address", "localhost", "gRPC server address")
+	countCmd.Flags().IntVar(&cCmd.Port, "port", 50051, "gRPC server port")
 	cmd.AgencyCmd.AddCommand(countCmd)
 }
