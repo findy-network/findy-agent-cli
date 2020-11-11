@@ -95,7 +95,7 @@ Example
 		err2.Check(paCmd.Validate())
 		if !rootFlags.dryRun {
 			cmd.SilenceUsage = true
-			err2.Try(paCmd.RpcExec(os.Stdout))
+			err2.Try(paCmd.Exec(os.Stdout))
 		}
 		return nil
 	},
