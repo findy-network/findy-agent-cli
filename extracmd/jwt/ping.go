@@ -37,7 +37,7 @@ var pingCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		ch, err := client.Pairwise{ID: cmdData.ConnID, Conn:conn}.Ping(ctx)
+		ch, err := client.Pairwise{ID: cmdData.ConnID, Conn: conn}.Ping(ctx)
 		err2.Check(err)
 		for status := range ch {
 			fmt.Println("ping status:", status.State, "|", status.Info)

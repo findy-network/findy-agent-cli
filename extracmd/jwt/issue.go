@@ -38,7 +38,7 @@ var issueCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		ch, err := client.Pairwise{ID: cmdData.ConnID, Conn:conn}.Issue(ctx, credDefID, attrJSON)
+		ch, err := client.Pairwise{ID: cmdData.ConnID, Conn: conn}.Issue(ctx, credDefID, attrJSON)
 		err2.Check(err)
 		for status := range ch {
 			fmt.Println("issue status:", status.State, "|", status.Info)
