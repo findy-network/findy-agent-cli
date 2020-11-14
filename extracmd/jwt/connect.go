@@ -34,7 +34,7 @@ var connectCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		connID, ch, err := client.Connection(ctx, invitationJSON)
+		connID, ch, err := conn.Connection(ctx, invitationJSON)
 		err2.Check(err)
 		for status := range ch {
 			fmt.Printf("Connection status: %s|%s: %s\n", connID, status.ProtocolId, status.State)

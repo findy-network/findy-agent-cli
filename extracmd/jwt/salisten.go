@@ -13,7 +13,6 @@ import (
 	"github.com/findy-network/findy-agent/grpc/client"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
 )
 
 var saListenCmd = &cobra.Command{
@@ -44,7 +43,7 @@ var saListenCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		ch, err := client.Listen(ctx, &agency.ClientID{Id: utils.UUID()})
+		ch, err := conn.Listen(ctx, &agency.ClientID{Id: utils.UUID()})
 		err2.Check(err)
 
 	loop:
@@ -110,7 +109,7 @@ func resume(status *agency.AgentStatus, ack bool) {
 	fmt.Println("result:", unpauseResult.String())
 }
 
-var conn *grpc.ClientConn
+var conn client.Conn
 var ack bool
 
 func init() {

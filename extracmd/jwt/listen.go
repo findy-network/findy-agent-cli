@@ -44,7 +44,7 @@ var listenCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		ch, err := client.Listen(ctx, &agency.ClientID{Id: utils.UUID()})
+		ch, err := conn.Listen(ctx, &agency.ClientID{Id: utils.UUID()})
 		err2.Check(err)
 
 	loop:
