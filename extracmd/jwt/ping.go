@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent/grpc/client"
+	"github.com/findy-network/findy-grpc/agency/client"
 	"github.com/findy-network/findy-wrapper-go/dto"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
