@@ -31,13 +31,13 @@ var statusCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
-			fmt.Println(dto.ToJSON(cmdData))
+			fmt.Println(dto.ToJSON(CmdData))
 			return nil
 		}
 		c.SilenceUsage = true
 
-		baseCfg := client.BuildClientConnBase("", cmdData.APIService, cmdData.Port, nil)
-		conn = client.TryOpen(cmdData.CaDID, baseCfg)
+		baseCfg := client.BuildClientConnBase("", CmdData.APIService, CmdData.Port, nil)
+		conn = client.TryOpen(CmdData.CaDID, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
@@ -66,5 +66,5 @@ func init() {
 	statusCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
 	statusCmd.Flags().Int32VarP(&MyTypeID, "type", "t", 3, "3=trust ping, 1=issue, ... see usage")
 
-	jwtCmd.AddCommand(statusCmd)
+	JwtCmd.AddCommand(statusCmd)
 }

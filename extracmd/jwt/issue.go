@@ -31,14 +31,14 @@ var issueCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		baseCfg := client.BuildClientConnBase("", cmdData.APIService, cmdData.Port, nil)
-		conn = client.TryOpen(cmdData.CaDID, baseCfg)
+		baseCfg := client.BuildClientConnBase("", CmdData.APIService, CmdData.Port, nil)
+		conn = client.TryOpen(CmdData.CaDID, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		ch, err := client.Pairwise{ID: cmdData.ConnID, Conn: conn}.Issue(ctx, credDefID, attrJSON)
+		ch, err := client.Pairwise{ID: CmdData.ConnID, Conn: conn}.Issue(ctx, credDefID, attrJSON)
 		err2.Check(err)
 		for status := range ch {
 			fmt.Println("issue status:", status.State, "|", status.Info)
@@ -55,7 +55,7 @@ func init() {
 	issueCmd.Flags().StringVar(&attrJSON, "attrs", "", "attrs json")
 	issueCmd.Flags().StringVar(&credDefID, "cred-def-id", "", "cred def id")
 
-	jwtCmd.AddCommand(issueCmd)
+	JwtCmd.AddCommand(issueCmd)
 }
 
 var issueEnvs = map[string]string{

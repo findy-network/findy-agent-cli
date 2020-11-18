@@ -25,13 +25,13 @@ var unpauseCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
-			fmt.Println(dto.ToJSON(cmdData))
+			fmt.Println(dto.ToJSON(CmdData))
 			return nil
 		}
 		c.SilenceUsage = true
 
-		baseCfg := client.BuildClientConnBase("", cmdData.APIService, cmdData.Port, nil)
-		conn = client.TryOpen(cmdData.CaDID, baseCfg)
+		baseCfg := client.BuildClientConnBase("", CmdData.APIService, CmdData.Port, nil)
+		conn = client.TryOpen(CmdData.CaDID, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
@@ -70,5 +70,5 @@ func init() {
 	unpauseCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
 	unpauseCmd.Flags().BoolVarP(&ACK, "ack", "a", true, "how to proceed with the protocol")
 
-	jwtCmd.AddCommand(unpauseCmd)
+	JwtCmd.AddCommand(unpauseCmd)
 }

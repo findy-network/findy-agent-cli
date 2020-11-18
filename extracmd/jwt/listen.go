@@ -32,8 +32,8 @@ var listenCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		baseCfg := client.BuildClientConnBase("", cmdData.APIService, cmdData.Port, nil)
-		conn = client.TryOpen(cmdData.CaDID, baseCfg)
+		baseCfg := client.BuildClientConnBase("", CmdData.APIService, CmdData.Port, nil)
+		conn = client.TryOpen(CmdData.CaDID, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithCancel(context.Background())
@@ -55,7 +55,10 @@ var listenCmd = &cobra.Command{
 					fmt.Println("closed from server")
 					break loop
 				}
-				fmt.Println("listen status:", status.ClientId, "|", status.Notification.TypeId, "|", status.Notification.ProtocolId)
+				fmt.Println("listen status:",
+					status.Notification.ProtocolType, "|",
+					status.Notification.TypeId, "|",
+					status.Notification.ProtocolId)
 			case <-intCh:
 				cancel()
 				fmt.Println("interrupted by user, cancel() called")
@@ -71,5 +74,5 @@ func init() {
 		fmt.Println(err)
 	})
 
-	jwtCmd.AddCommand(listenCmd)
+	JwtCmd.AddCommand(listenCmd)
 }

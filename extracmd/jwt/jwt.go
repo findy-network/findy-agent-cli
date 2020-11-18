@@ -10,7 +10,7 @@ import (
 )
 
 // userCmd represents the user command
-var jwtCmd = &cobra.Command{
+var JwtCmd = &cobra.Command{
 	Use:   "jwt",
 	Short: "Parent command for JWT gRPC commands",
 	Long: `
@@ -25,7 +25,7 @@ var jwtCmd = &cobra.Command{
 
 const timeout = 30000 * time.Second
 
-var cmdData = struct {
+var CmdData = struct {
 	APIService string
 	Port       int
 	ConnID     string
@@ -37,13 +37,13 @@ func init() {
 		fmt.Println(err)
 	})
 
-	flags := jwtCmd.PersistentFlags()
-	flags.StringVar(&cmdData.CaDID, "ca-did", "", "CA DID")
-	flags.StringVar(&cmdData.ConnID, "conn-id", "", "connection id aka pairwise id")
-	flags.StringVar(&cmdData.APIService, "server", "localhost", "gRPC server host name")
-	flags.IntVar(&cmdData.Port, "port", 50051, "port for gRPC server")
+	flags := JwtCmd.PersistentFlags()
+	flags.StringVar(&CmdData.CaDID, "ca-did", "", "CA DID")
+	flags.StringVar(&CmdData.ConnID, "conn-id", "", "connection id aka pairwise id")
+	flags.StringVar(&CmdData.APIService, "server", "localhost", "gRPC server host name")
+	flags.IntVar(&CmdData.Port, "port", 50051, "port for gRPC server")
 
-	cmd.RootCmd().AddCommand(jwtCmd)
+	cmd.RootCmd().AddCommand(JwtCmd)
 }
 
 var envs = map[string]string{

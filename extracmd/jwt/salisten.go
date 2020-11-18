@@ -31,8 +31,8 @@ var saListenCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		baseCfg := client.BuildClientConnBase("", cmdData.APIService, cmdData.Port, nil)
-		conn = client.TryOpen(cmdData.CaDID, baseCfg)
+		baseCfg := client.BuildClientConnBase("", CmdData.APIService, CmdData.Port, nil)
+		conn = client.TryOpen(CmdData.CaDID, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithCancel(context.Background())
@@ -116,6 +116,6 @@ func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
-	jwtCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
-	jwtCmd.AddCommand(saListenCmd)
+	JwtCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
+	JwtCmd.AddCommand(saListenCmd)
 }

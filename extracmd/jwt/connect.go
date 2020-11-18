@@ -27,8 +27,8 @@ var connectCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		baseCfg := client.BuildClientConnBase("", cmdData.APIService, cmdData.Port, nil)
-		conn = client.TryOpen(cmdData.CaDID, baseCfg)
+		baseCfg := client.BuildClientConnBase("", CmdData.APIService, CmdData.Port, nil)
+		conn = client.TryOpen(CmdData.CaDID, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
@@ -54,5 +54,5 @@ func init() {
 
 	connectCmd.Flags().StringVar(&invitationJSON, "invitation", "", "invitation json")
 
-	jwtCmd.AddCommand(connectCmd)
+	JwtCmd.AddCommand(connectCmd)
 }
