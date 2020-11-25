@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent/grpc/client"
+	"github.com/findy-network/findy-grpc/agency/client"
 	"github.com/findy-network/findy-wrapper-go/dto"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
@@ -25,19 +25,19 @@ var pingCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
-			fmt.Println(dto.ToJSON(cmdData))
+			fmt.Println(dto.ToJSON(CmdData))
 			return nil
 		}
 		c.SilenceUsage = true
 
-		baseCfg := client.BuildClientConnBase("", cmdData.APIService, cmdData.Port, nil)
-		conn = client.TryOpen(cmdData.CaDID, baseCfg)
+		baseCfg := client.BuildClientConnBase("", CmdData.APIService, CmdData.Port, nil)
+		conn = client.TryOpen(CmdData.CaDID, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		ch, err := client.Pairwise{ID: cmdData.ConnID}.Ping(ctx)
+		ch, err := client.Pairwise{ID: CmdData.ConnID, Conn: conn}.Ping(ctx)
 		err2.Check(err)
 		for status := range ch {
 			fmt.Println("ping status:", status.State, "|", status.Info)
@@ -54,5 +54,5 @@ func init() {
 		fmt.Println(err)
 	})
 
-	jwtCmd.AddCommand(pingCmd)
+	JwtCmd.AddCommand(pingCmd)
 }

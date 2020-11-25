@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent/grpc/client"
+	"github.com/findy-network/findy-grpc/agency/client"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -27,14 +27,14 @@ var connectCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		baseCfg := client.BuildClientConnBase("", cmdData.APIService, cmdData.Port, nil)
-		conn = client.TryOpen(cmdData.CaDID, baseCfg)
+		baseCfg := client.BuildClientConnBase("", CmdData.APIService, CmdData.Port, nil)
+		conn = client.TryOpen(CmdData.CaDID, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		connID, ch, err := client.Connection(ctx, invitationJSON)
+		connID, ch, err := conn.Connection(ctx, invitationJSON)
 		err2.Check(err)
 		for status := range ch {
 			fmt.Printf("Connection status: %s|%s: %s\n", connID, status.ProtocolId, status.State)
@@ -54,5 +54,5 @@ func init() {
 
 	connectCmd.Flags().StringVar(&invitationJSON, "invitation", "", "invitation json")
 
-	jwtCmd.AddCommand(connectCmd)
+	JwtCmd.AddCommand(connectCmd)
 }
