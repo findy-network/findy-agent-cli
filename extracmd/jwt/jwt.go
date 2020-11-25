@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// userCmd represents the user command
+// JwtCmd represents the JWT toke based user commands
 var JwtCmd = &cobra.Command{
 	Use:   "jwt",
 	Short: "Parent command for JWT gRPC commands",
