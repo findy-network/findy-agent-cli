@@ -152,6 +152,8 @@ github.com/findy-network/findy-agent v0.0.0-20201117100851-668b87ffe95f h1:gCwsR
 github.com/findy-network/findy-agent v0.0.0-20201117100851-668b87ffe95f/go.mod h1:fCC1Jo6Z3d5PJyR8oSJXyaBfz/xHf3rSQkf7k/ukolk=
 github.com/findy-network/findy-agent v0.0.0-20201117161120-c6982639f5a3 h1:3eKuPKpPTlUMHmmAzfHVH4evY6tzcAq48Qgba1GU2Ck=
 github.com/findy-network/findy-agent v0.0.0-20201117161120-c6982639f5a3/go.mod h1:lAsjdhHKO+01FhpKiIrbZQuvLOrxeCWUvR6bZwRXrzw=
+github.com/findy-network/findy-agent v0.0.0-20201125085336-f37a88893358 h1:yKKbreMGrjB506QWIlHRX6U1IHZ4k35DqNY5RijvKTY=
+github.com/findy-network/findy-agent v0.0.0-20201125085336-f37a88893358/go.mod h1:SlY9b1e4vZTTrPk1oYU+k6PJVx68VOdsQOVrr2BR81Y=
 github.com/findy-network/findy-agent-api v0.0.0-20201026130106-0fe325f489ed h1:6pnNhAWN1LgZmmZosE4qXtQKZR2wobT1Mvytw+AaJEw=
 github.com/findy-network/findy-agent-api v0.0.0-20201026130106-0fe325f489ed/go.mod h1:9rsIf/AtsdQgVUiGA77sbXInk2FnaPSCS2P+TmBUeIc=
 github.com/findy-network/findy-agent-api v0.0.0-20201103195359-b8802482560f h1:47xB2rQhdLlf6UleIsdaB7lAl5PTzmfHAMVsGAENWpo=
@@ -180,6 +182,8 @@ github.com/findy-network/findy-grpc v0.0.0-20201117103907-98549faf51fa h1:sMx2Ja
 github.com/findy-network/findy-grpc v0.0.0-20201117103907-98549faf51fa/go.mod h1:u7cLiXOaI84nmO/TCeq8A0iE45DdsDF6UWHsuzxh8p4=
 github.com/findy-network/findy-grpc v0.0.0-20201117160253-6b67c64bfbde h1:2Pb/B2efRGhy2EgmCqhGdkYnQ/+D3lZKb/DOqUAU/kM=
 github.com/findy-network/findy-grpc v0.0.0-20201117160253-6b67c64bfbde/go.mod h1:u7cLiXOaI84nmO/TCeq8A0iE45DdsDF6UWHsuzxh8p4=
+github.com/findy-network/findy-grpc v0.0.0-20201117173249-1ebf5a113c75 h1:CBn5qdoqlolh8rQWRsDpuuJ2mbgzw4EsOnqEE/c4xY4=
+github.com/findy-network/findy-grpc v0.0.0-20201117173249-1ebf5a113c75/go.mod h1:u7cLiXOaI84nmO/TCeq8A0iE45DdsDF6UWHsuzxh8p4=
 github.com/findy-network/findy-wrapper-go v0.0.0-20200827084841-e60f74b36fd2 h1:Gz6vTfYTJKgJ5nlBOXAK0W50KeyAr5bH9nvORc8jHkU=
 github.com/findy-network/findy-wrapper-go v0.0.0-20200827084841-e60f74b36fd2/go.mod h1:NZHHzY+NzVa68J3y+Gl9Ihj2+d8qUfQW6CnjaRqmKxI=
 github.com/findy-network/findy-wrapper-go v0.0.0-20201019132306-ec82ba1781cd h1:A6mKGXpQgUVbo+dcLLnr5jj4UTOsnesU5Tgdg/TMurM=
