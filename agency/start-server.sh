@@ -19,4 +19,4 @@ else
 fi
 
 cd $1
-./findy-agent-cli agency start --grpc
+./findy-agent-cli agency start --grpc true
