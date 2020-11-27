@@ -26,3 +26,5 @@ scripts/client?00/
 .secrets
 Dockerrun.aws.json
 s3.config
+
+*cli.code-workspace
