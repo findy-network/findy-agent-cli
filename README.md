@@ -73,8 +73,8 @@ Agency API documentation can be found [here](https://github.com/findy-network/fi
 Findy-agent serves all types of edge agents (EA) by implementing a corresponding
 cloud agent (CA) for them. An EA communicates with its CA with Aries's
 predecessor of DIDComm, which means that the communication between EA and CA
-needs indy SKD's wallet and crypto functions. The same mechanism is used when
-the agency calls a service agent (SA), a particular type of EA which performs
+needs indy SDK's wallet and crypto functions. The same mechanism is used when
+the agency calls a service agent (SA), a particular type of an EA which performs
 as an issuer or verifier or both.
 
 The agency offers an API to make a handshake, aka on-boarding, where a new CA is

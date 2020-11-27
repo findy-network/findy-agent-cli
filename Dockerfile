@@ -1,13 +1,16 @@
 FROM optechlab/indy-golang:1.15.0
 
-WORKDIR /go/src/github.com/findy-network/findy-agent-cli
+ARG HTTPS_PREFIX
 
-COPY .docker/findy-wrapper-go /go/src/github.com/findy-network/findy-wrapper-go
-COPY .docker/findy-agent /go/src/github.com/findy-network/findy-agent
+WORKDIR /findy-agent-cli
 
-COPY . .
+RUN git config --global url."https://"${HTTPS_PREFIX}"github.com/".insteadOf "https://github.com/"
 
-RUN make deps && make install
+COPY go* ./
+RUN go mod download
+
+COPY . ./
+RUN make install
 
 FROM optechlab/indy-base:1.15.0
 

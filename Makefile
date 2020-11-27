@@ -61,14 +61,11 @@ install:
 		-ldflags "-X '$(AGENT_PATH)-cli/utils.Version=$(VERSION)' -X '$(AGENT_PATH)/agent/utils.Version=$(VERSION)'" \
 		./...
 
-clean:
-	-rm -rf .docker
-
 image:
+	# https prefix for go build process to be able to clone private modules
+	@[ "${HTTPS_PREFIX}" ] || ( echo "ERROR: HTTPS_PREFIX <{githubUser}:{githubToken}@> is not set"; exit 1 )
 	$(eval VERSION = $(shell cat ./VERSION))
-	-git clone git@github.com:findy-network/findy-wrapper-go.git .docker/findy-wrapper-go
-	-git clone git@github.com:findy-network/findy-agent.git .docker/findy-agent
-	docker build -t findy-agent-cli .
+	docker build --build-arg HTTPS_PREFIX=$(HTTPS_PREFIX) -t findy-agent-cli .
 	docker tag findy-agent-cli:latest findy-agent-cli:$(VERSION)
 
 agency: image
