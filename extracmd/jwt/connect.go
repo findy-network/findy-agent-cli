@@ -34,7 +34,11 @@ var connectCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		connID, ch, err := conn.Connection(ctx, invitationJSON)
+		pw := client.Pairwise{
+			Conn:  conn,
+			Label: ourLabel,
+		}
+		connID, ch, err := pw.Connection(ctx, invitationJSON)
 		err2.Check(err)
 		for status := range ch {
 			fmt.Printf("Connection status: %s|%s: %s\n", connID, status.ProtocolId, status.State)
@@ -45,6 +49,7 @@ var connectCmd = &cobra.Command{
 
 var (
 	invitationJSON string
+	ourLabel       string
 )
 
 func init() {
@@ -53,6 +58,7 @@ func init() {
 	})
 
 	connectCmd.Flags().StringVar(&invitationJSON, "invitation", "", "invitation json")
+	connectCmd.Flags().StringVar(&ourLabel, "our-label", "", "our Aries connection Label ")
 
 	JwtCmd.AddCommand(connectCmd)
 }
