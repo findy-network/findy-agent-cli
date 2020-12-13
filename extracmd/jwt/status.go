@@ -12,11 +12,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var statusDoc = `    CONNECT = 0;
-    ISSUE = 1;
-    PROPOSE_PROOFING = 2;
-    TRUST_PING = 3;
-    BASIC_MESSAGE = 4;
+var statusDoc = `    CONNECT = 1;
+    ISSUE = 2;
+    PROPOSE_PROOFING = 3;
+    TRUST_PING = 4;
+    BASIC_MESSAGE = 5;
 `
 
 // userCmd represents the user command
@@ -45,7 +45,7 @@ var statusCmd = &cobra.Command{
 
 		didComm := agency.NewDIDCommClient(conn)
 		statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
-			TypeId: agency.Protocol_Type(MyTypeID),
+			TypeId: agency.Protocol_Type(MyTypeID), // casting!!!
 			Role:   agency.Protocol_RESUME,
 			Id:     MyProtocolID,
 		})
