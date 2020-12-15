@@ -9,8 +9,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-
-// userCmd represents the user command
 var botCmd = &cobra.Command{
 	Use:   "bot",
 	Short: "bot commands",
@@ -22,7 +20,6 @@ var botCmd = &cobra.Command{
 		cmd.SubCmdNeeded(c)
 	},
 }
-
 
 func init() {
 	defer err2.Catch(func(err error) {
@@ -36,4 +33,3 @@ var envs = map[string]string{
 	"wallet-name": "WALLET_NAME",
 	"wallet-key":  "WALLET_KEY",
 }
-

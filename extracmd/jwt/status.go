@@ -19,7 +19,6 @@ var statusDoc = `    CONNECT = 1;
     BASIC_MESSAGE = 5;
 `
 
-// userCmd represents the user command
 var statusCmd = &cobra.Command{
 	Use:   "status",
 	Short: "status command for JWT gRPC",

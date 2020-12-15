@@ -16,7 +16,6 @@ import (
 
 var issueDoc = `Credentials can issued with the command over existing DIDComm connection`
 
-// userCmd represents the user command
 var issueCmd = &cobra.Command{
 	Use:   "issue",
 	Short: "Sends the credential offer to other end of the pairwise/connection",

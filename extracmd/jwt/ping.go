@@ -12,7 +12,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// userCmd represents the user command
 var pingCmd = &cobra.Command{
 	Use:   "ping",
 	Short: "ping command for JWT gRPC",

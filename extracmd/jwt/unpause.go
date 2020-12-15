@@ -12,7 +12,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// userCmd represents the user command
 var unpauseCmd = &cobra.Command{
 	Use:   "unpause",
 	Short: "unpause command for JWT gRPC",

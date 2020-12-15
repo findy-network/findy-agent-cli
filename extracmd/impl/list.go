@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// userCmd represents the user command
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "Lists all preregistered implementation IDs for a service agent",
