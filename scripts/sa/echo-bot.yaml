@@ -1,0 +1,76 @@
+initial:
+  sends:
+  - data: Hello!
+    no_status: true
+    protocol: basic_message
+    rule: ""
+    type_id: ""
+  target: INITIAL
+name: echo machine
+states:
+  IDLE:
+    transitions:
+    - sends:
+      - data: Going to beginning.
+        no_status: true
+        protocol: basic_message
+        rule: ""
+        type_id: ""
+      target: INITIAL
+      trigger:
+        data: reset
+        protocol: basic_message
+        rule: INPUT_EQUAL
+        type_id: ""
+    - sends:
+      - no_status: true
+        protocol: basic_message
+        rule: INPUT
+        type_id: ""
+      target: IDLE
+      trigger:
+        protocol: basic_message
+        rule: INPUT
+        type_id: ""
+  INITIAL:
+    transitions:
+    - sends:
+      - data: |-
+          Hello! I'm echo bot.
+          Say: run, and I'start.
+          Say: reset, and I'll go beginning.
+        no_status: true
+        protocol: basic_message
+        rule: ""
+        type_id: ""
+      target: INITIAL
+      trigger:
+        protocol: connection
+        rule: ""
+        type_id: ""
+    - sends:
+      - data: Let's go!
+        no_status: true
+        protocol: basic_message
+        rule: ""
+        type_id: ""
+      target: IDLE
+      trigger:
+        data: run
+        protocol: basic_message
+        rule: INPUT_EQUAL
+        type_id: ""
+    - sends:
+      - data: |-
+          Hello! I'm echo bot.
+          Say: run, and I'start.
+          Say: reset, and I'll go beginning.
+        no_status: true
+        protocol: basic_message
+        rule: ""
+        type_id: ""
+      target: INITIAL
+      trigger:
+        protocol: basic_message
+        rule: ""
+        type_id: ""

@@ -1,0 +1,114 @@
+initial:
+  sends:
+  - data: Hello!
+    no_status: true
+    protocol: basic_message
+    rule: ""
+    type_id: ""
+  target: INITIAL
+name: machine
+states:
+  INITIAL:
+    transitions:
+    - sends:
+      - data: |-
+          Hello! I'm echo bot.
+          First I need your verified email.
+          I'm now sending you a proof request.
+          Please accept it and we can continue.
+        no_status: true
+        protocol: basic_message
+        rule: ""
+        type_id: ""
+      target: INITIAL
+      trigger:
+        protocol: connection
+        rule: ""
+        type_id: ""
+    - sends:
+      - data: '[{"name":"email","credDefId":"T2o5osjKcK6oVDPxcLjKnB:3:CL:T2o5osjKcK6oVDPxcLjKnB:2:my-schema:1.0:t1"}]'
+        protocol: present_proof
+        rule: ""
+        type_id: ""
+      target: WAITING_EMAIL_PROOF_QA
+      trigger:
+        protocol: basic_message
+        rule: ""
+        type_id: ""
+  WAITING_EMAIL_PROOF_QA:
+    transitions:
+    - sends:
+      - data: Going to beginning...
+        no_status: true
+        protocol: basic_message
+        rule: ""
+        type_id: ""
+      target: INITIAL
+      trigger:
+        data: reset
+        protocol: basic_message
+        rule: INPUT_EQUAL
+        type_id: ""
+    - sends:
+      - data: NACK
+        protocol: answer
+        rule: ""
+        type_id: ""
+      target: INITIAL
+      trigger:
+        data: '[{"name":"email","credDefId":"T2o5osjKcK6oVDPxcLjKnB:3:CL:T2o5osjKcK6oVDPxcLjKnB:2:my-schema:1.0:t1"}]'
+        protocol: present_proof
+        rule: NOT_ACCEPT_VALUES
+        type_id: ANSWER_NEEDED_PROOF_VERIFY
+    - sends:
+      - data: ACK
+        protocol: answer
+        rule: ""
+        type_id: ""
+      target: WAITING2_EMAIL_PROOF
+      trigger:
+        data: '[{"name":"email","credDefId":"T2o5osjKcK6oVDPxcLjKnB:3:CL:T2o5osjKcK6oVDPxcLjKnB:2:my-schema:1.0:t1"}]'
+        protocol: present_proof
+        rule: ACCEPT_AND_INPUT_VALUES
+        type_id: ANSWER_NEEDED_PROOF_VERIFY
+  WAITING_NEXT_CMD:
+    transitions:
+    - sends:
+      - data: Going to beginning.
+        no_status: true
+        protocol: basic_message
+        rule: ""
+        type_id: ""
+      target: INITIAL
+      trigger:
+        data: reset
+        protocol: basic_message
+        rule: INPUT_EQUAL
+        type_id: ""
+    - sends:
+      - data: '{{.email}} says: {{.LINE}}'
+        no_status: true
+        protocol: basic_message
+        rule: FORMAT_MEM
+        type_id: ""
+      target: WAITING_NEXT_CMD
+      trigger:
+        data: LINE
+        protocol: basic_message
+        rule: INPUT_SAVE
+        type_id: ""
+  WAITING2_EMAIL_PROOF:
+    transitions:
+    - sends:
+      - data: |-
+          Hello {{.email}}! I'm stupid bot who knows you have verified email address!!!
+          I can trust you.
+        no_status: true
+        protocol: basic_message
+        rule: FORMAT_MEM
+        type_id: ""
+      target: WAITING_NEXT_CMD
+      trigger:
+        protocol: present_proof
+        rule: ""
+        type_id: ""
