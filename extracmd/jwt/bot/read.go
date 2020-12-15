@@ -16,13 +16,21 @@ import (
 	"github.com/golang/glog"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
 )
+
+var readDoc = `The command simulates the chat window input stream where we can hear
+what other end sends to us.
+
+The command runs as long as it's stopped with ctrl-c. During the run it echoes 
+all of the Aries Basic Message protocol messages to standard output. It also
+replies all of the ctrl messages either by ACK or NACK depending of the flag
+given at the start.`
 
 var readCmd = &cobra.Command{
 	Use:   "read",
-	Short: "read basic message stream",
-	Long: `
-`,
+	Short: "read basic message stream and reply protocol ctrl questions",
+	Long:  readDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
@@ -113,4 +121,45 @@ func handleBM(conn client.Conn, status *agency.AgentStatus, _ bool) {
 		}
 		fmt.Println(statusResult.GetBasicMessage().Content)
 	}
+}
+
+func reply(conn *grpc.ClientConn, status *agency.AgentStatus, ack bool) {
+	ctx := context.Background()
+	c := agency.NewAgentClient(conn)
+	cid, err := c.Give(ctx, &agency.Answer{
+		Id:       status.Notification.Id,
+		ClientId: status.ClientId,
+		Ack:      ack,
+		Info:     "testing says hello!",
+	})
+	err2.Check(err)
+	glog.Infof("Sending the answer (%s) send to client:%s\n", status.Notification.Id, cid.Id)
+}
+
+func resume(conn *grpc.ClientConn, status *agency.AgentStatus, ack bool) {
+	ctx := context.Background()
+	didComm := agency.NewDIDCommClient(conn)
+	statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
+		TypeId: status.Notification.ProtocolType,
+		//Role:             agency.Protocol_ADDRESSEE,
+		Id:               status.Notification.ProtocolId,
+		NotificationTime: status.Notification.Timestamp,
+	})
+	err2.Check(err)
+	fmt.Println("** protocol state:", statusResult.State.State)
+
+	stateAck := agency.ProtocolState_ACK
+	if !ack {
+		stateAck = agency.ProtocolState_NACK
+	}
+	unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
+		ProtocolId: &agency.ProtocolID{
+			TypeId: status.Notification.ProtocolType,
+			Role:   agency.Protocol_RESUME,
+			Id:     status.Notification.ProtocolId,
+		},
+		State: stateAck,
+	})
+	err2.Check(err)
+	glog.Infoln("result:", unpauseResult.String())
 }

@@ -1,28 +1,30 @@
 package bot
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-agent-cli/extracmd/jwt"
 	"github.com/findy-network/findy-grpc/agency/client"
 	"github.com/findy-network/findy-grpc/agency/client/chat"
 	"github.com/findy-network/findy-grpc/agency/fsm"
-	"github.com/golang/glog"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
 )
 
-var startCmdDoc = `bot cmd starts a chat bot.`
+var startCmdDoc = `The command starts a multi-tenant chat bot service.
+
+The chat bot is general and can serve what ever purpose it is programmed. The
+chat bot programming is done thru state machines. The state machines can be
+declared either YAML or JSON. The specification for the state machine language
+can be found from...`
+
 var startCmd = &cobra.Command{
 	Use:   "start",
-	Short: "start a chat bot",
+	Short: "start a chat bot from state machine file",
 	Long:  startCmdDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
@@ -64,84 +66,16 @@ var startCmd = &cobra.Command{
 	},
 }
 
-var conn client.Conn
-var ack bool
-var fType string
+var (
+	conn  client.Conn
+	ack   bool
+	fType string
+)
 
 func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
-	startCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
 	startCmd.Flags().StringVarP(&fType, "type", "t", ".yaml", "file type used for state machine load")
 	botCmd.AddCommand(startCmd)
-}
-
-func _(conn client.Conn, status *agency.AgentStatus, _ bool) {
-	if status.Notification.ProtocolType == agency.Protocol_CONNECT {
-
-	} else if status.Notification.ProtocolType == agency.Protocol_BASIC_MESSAGE {
-		ctx := context.Background()
-		didComm := agency.NewDIDCommClient(conn)
-		statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
-			TypeId:           status.Notification.ProtocolType,
-			Role:             agency.Protocol_ADDRESSEE,
-			Id:               status.Notification.ProtocolId,
-			NotificationTime: status.Notification.Timestamp,
-		})
-		err2.Check(err)
-		if statusResult.GetBasicMessage().SentByMe {
-			glog.V(1).Infoln("-- ours, no reply")
-			return
-		}
-		ch, err := client.Pairwise{
-			ID:   status.Notification.ConnectionId,
-			Conn: conn,
-		}.BasicMessage(context.Background(), statusResult.GetBasicMessage().Content)
-		err2.Check(err)
-		for state := range ch {
-			glog.V(1).Infoln("BM send state:", state.State, "|", state.Info)
-		}
-	}
-}
-
-func reply(conn *grpc.ClientConn, status *agency.AgentStatus, ack bool) {
-	ctx := context.Background()
-	c := agency.NewAgentClient(conn)
-	cid, err := c.Give(ctx, &agency.Answer{
-		Id:       status.Notification.Id,
-		ClientId: status.ClientId,
-		Ack:      ack,
-		Info:     "testing says hello!",
-	})
-	err2.Check(err)
-	glog.Infof("Sending the answer (%s) send to client:%s\n", status.Notification.Id, cid.Id)
-}
-
-func resume(conn *grpc.ClientConn, status *agency.AgentStatus, ack bool) {
-	ctx := context.Background()
-	didComm := agency.NewDIDCommClient(conn)
-	statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
-		TypeId: status.Notification.ProtocolType,
-		//Role:             agency.Protocol_ADDRESSEE,
-		Id:               status.Notification.ProtocolId,
-		NotificationTime: status.Notification.Timestamp,
-	})
-	err2.Check(err)
-	fmt.Println("** protocol state:", statusResult.State.State)
-
-	stateAck := agency.ProtocolState_ACK
-	if !ack {
-		stateAck = agency.ProtocolState_NACK
-	}
-	unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
-		ProtocolId: &agency.ProtocolID{
-			TypeId: status.Notification.ProtocolType,
-			Role:   agency.Protocol_RESUME,
-			Id:     status.Notification.ProtocolId,
-		},
-		State: stateAck,
-	})
-	err2.Check(err)
-	glog.Infoln("result:", unpauseResult.String())
 }

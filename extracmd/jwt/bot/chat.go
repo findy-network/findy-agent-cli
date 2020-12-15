@@ -13,11 +13,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var chatDoc = `Starts the chat client which reads standard input and send each line
+as Aries basic_message thru the pairwise connection.`
+
 var chatCmd = &cobra.Command{
 	Use:   "chat",
-	Short: "chat client",
-	Long: `
-`,
+	Short: "chat client to send basic messages",
+	Long:  chatDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
@@ -49,6 +51,7 @@ var chatCmd = &cobra.Command{
 				fmt.Println("message status:", status.State, "|", status.Info)
 			}
 		}
+		err2.Check(scanner.Err())
 
 		return nil
 	},

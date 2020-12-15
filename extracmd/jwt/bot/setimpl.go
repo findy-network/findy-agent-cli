@@ -12,11 +12,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var setImplEndpDoc = `The command sets a service implementation for the cloud agent.
+
+The Service implementation ID stands for the protocol which is used for the
+communication between cloud agent and its controller. Because we are in the
+middle of the transition to gRPC API we still has to use this to allow previous
+API users to work.`
+
 var setImplEndpCmd = &cobra.Command{
 	Use:   "set",
 	Short: "set impl id which sets it permanently as EA endpoint",
-	Long: `
-`,
+	Long:  setImplEndpDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
