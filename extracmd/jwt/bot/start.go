@@ -32,19 +32,18 @@ var startCmd = &cobra.Command{
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
-		var m *fsm.Machine
-		if len(args) > 0 {
-			if args[0] == "-" {
-				m, err = chat.LoadFSM(fType, os.Stdin)
-				err2.Check(err)
-			} else {
-				fsmFile := args[0]
-				f := err2.File.Try(os.Open(fsmFile))
-				defer f.Close()
-				m, err = chat.LoadFSM(fsmFile, f)
-				err2.Check(err)
-			}
+		var md fsm.MachineData
+		if len(args) == 0 || (len(args) > 0 && args[0] == "-") {
+			md, err = chat.LoadFSMMachineData(fType, os.Stdin)
+			err2.Check(err)
+		} else {
+			fsmFile := args[0]
+			f := err2.File.Try(os.Open(fsmFile))
+			defer f.Close()
+			md, err = chat.LoadFSMMachineData(fsmFile, f)
+			err2.Check(err)
 		}
+
 		if cmd.DryRun() {
 			return nil
 		}
@@ -60,7 +59,10 @@ var startCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		chat.Bot{Conn: conn, Machine: m}.Run(intCh)
+		chat.Bot{
+			Conn: conn,
+			MachineData: md,
+		}.Run(intCh)
 
 		return nil
 	},
