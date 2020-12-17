@@ -123,9 +123,9 @@ func handleBM(conn client.Conn, status *agency.AgentStatus, _ bool) {
 	}
 }
 
-func reply(conn *grpc.ClientConn, status *agency.AgentStatus, ack bool) {
+func reply(cc grpc.ClientConnInterface, status *agency.AgentStatus, ack bool) {
 	ctx := context.Background()
-	c := agency.NewAgentClient(conn)
+	c := agency.NewAgentClient(cc)
 	cid, err := c.Give(ctx, &agency.Answer{
 		Id:       status.Notification.Id,
 		ClientId: status.ClientId,
@@ -136,9 +136,9 @@ func reply(conn *grpc.ClientConn, status *agency.AgentStatus, ack bool) {
 	glog.Infof("Sending the answer (%s) send to client:%s\n", status.Notification.Id, cid.Id)
 }
 
-func resume(conn *grpc.ClientConn, status *agency.AgentStatus, ack bool) {
+func resume(cc grpc.ClientConnInterface, status *agency.AgentStatus, ack bool) {
 	ctx := context.Background()
-	didComm := agency.NewDIDCommClient(conn)
+	didComm := agency.NewDIDCommClient(cc)
 	statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
 		TypeId: status.Notification.ProtocolType,
 		//Role:             agency.Protocol_ADDRESSEE,
