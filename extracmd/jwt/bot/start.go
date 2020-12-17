@@ -60,7 +60,7 @@ var startCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGINT)
 
 		chat.Bot{
-			Conn: conn,
+			Conn:        conn,
 			MachineData: md,
 		}.Run(intCh)
 
