@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// userCmd represents the user command
 var connectCmd = &cobra.Command{
 	Use:   "connect",
 	Short: "connect command for JWT gRPC",

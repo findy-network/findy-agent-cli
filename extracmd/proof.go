@@ -12,7 +12,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// userCmd represents the user command
 var proofCmd = &cobra.Command{
 	Use:   "proof",
 	Short: "sends proof request to other end of the pairwise/connection",

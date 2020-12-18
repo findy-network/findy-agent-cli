@@ -15,7 +15,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// userCmd represents the user command
 var listenCmd = &cobra.Command{
 	Use:   "listen",
 	Short: "listen command for JWT gRPC",

@@ -12,7 +12,6 @@ import (
 
 var credDefID, attrJSON string
 
-// userCmd represents the user command
 var issueCmd = &cobra.Command{
 	Use:   "issue",
 	Short: "issue credential command for JWT gRPC",

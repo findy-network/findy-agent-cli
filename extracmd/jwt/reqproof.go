@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// userCmd represents the user command
 var reqProofCmd = &cobra.Command{
 	Use:   "reqproof",
 	Short: "request proof command",

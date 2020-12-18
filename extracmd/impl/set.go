@@ -12,7 +12,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// userCmd represents the user command
 var setCmd = &cobra.Command{
 	Use:   "set",
 	Short: "sets preregistered implementation ID for an edge agent (EA)",
