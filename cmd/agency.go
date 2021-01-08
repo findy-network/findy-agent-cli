@@ -130,10 +130,10 @@ func init() {
 	flags.StringVar(&aCmd.StewardDid, "steward-did", "", flagInfo("steward DID", AgencyCmd.Name(), agencyStartEnvs["steward-did"]))
 	flags.StringVar(&aCmd.ServiceName2, "protocol-path", "a2a", flagInfo("URL path for A2A protocols", AgencyCmd.Name(), agencyStartEnvs["protocol-path"])) // agency.ProtocolPath is available
 	flags.StringVar(&aCmd.Salt, "salt", "", flagInfo("salt", AgencyCmd.Name(), agencyStartEnvs["salt"]))
-	flags.BoolVar(&aCmd.AllowRPC, "grpc", false, flagInfo("enable grpc", "", agencyStartEnvs["grpc"]))
-	flags.IntVar(&aCmd.GRPCPort, "grpc-port", 50051, flagInfo("grpc server port", "", agencyStartEnvs["grpc-port"]))
-	flags.StringVar(&aCmd.TlsCertPath, "grpc-cert-path", "", flagInfo("folder path for grpc server tls certificates", "", agencyStartEnvs["grpc-cert-path"]))
-	flags.StringVar(&aCmd.JWTSecret, "grpc-jwt-secret", "", flagInfo("secure string for JWT token generation", "", agencyStartEnvs["grpc-jwt-secret"]))
+	flags.BoolVar(&aCmd.AllowRPC, "grpc", false, flagInfo("enable grpc", AgencyCmd.Name(), agencyStartEnvs["grpc"]))
+	flags.IntVar(&aCmd.GRPCPort, "grpc-port", 50051, flagInfo("grpc server port", AgencyCmd.Name(), agencyStartEnvs["grpc-port"]))
+	flags.StringVar(&aCmd.TlsCertPath, "grpc-cert-path", "", flagInfo("folder path for grpc server tls certificates", AgencyCmd.Name(), agencyStartEnvs["grpc-cert-path"]))
+	flags.StringVar(&aCmd.JWTSecret, "grpc-jwt-secret", "", flagInfo("secure string for JWT token generation", AgencyCmd.Name(), agencyStartEnvs["grpc-jwt-secret"]))
 
 	p := pingAgencyCmd.Flags()
 	p.StringVar(&paCmd.BaseAddr, "base-address", "http://localhost:8080", flagInfo("base address of agency", AgencyCmd.Name(), agencyPingEnvs["base-address"]))
