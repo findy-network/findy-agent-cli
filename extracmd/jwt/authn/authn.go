@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
 	"os"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
@@ -16,7 +15,9 @@ import (
 
 var acatorDoc = `Authn is headless WebAuthn authenticator.
 
-The authenticator allows Register and Login to WebAuthn server.`
+The authenticator allows Register and Login to WebAuthn server. When prefilled
+JSON cmd is sent thru stdio or file, it's treated as secondary data source. That
+means that any its dictionary item can be over written by command flag values'`
 
 var acatorCmd = &cobra.Command{
 	Use:   "authn",
@@ -32,13 +33,12 @@ var acatorCmd = &cobra.Command{
 			return errors.New("input missing")
 		}
 
-		execCmd := authnCmd
-		var inJson io.ReadCloser = os.Stdin
+		inJson := os.Stdin
 		if args[0] != "-" {
 			inJson = err2.File.Try(os.Open(args[0]))
 			defer inJson.Close()
 		}
-		execCmd = execCmd.TryReadJSON(inJson)
+		execCmd := authnCmd.TryReadJSON(inJson)
 
 		if !cmd.DryRun() {
 			var r authn.Result
@@ -59,11 +59,11 @@ func init() {
 		fmt.Println(err)
 	})
 
-	acatorCmd.PersistentFlags().StringVarP(&authnCmd.UserName, "user_name", "u", "", "used for registration name")
-	acatorCmd.PersistentFlags().StringVar(&authnCmd.Url, "url", authnCmd.Url, "WebAuthn server URL aka origin")
-	acatorCmd.PersistentFlags().StringVar(&authnCmd.Key, "key", authnCmd.Key, "master key for authenticator")
-	acatorCmd.PersistentFlags().StringVar(&authnCmd.AAGUID, "aaguid", authnCmd.AAGUID, "authenticator AAGUID")
-	acatorCmd.PersistentFlags().Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter, "authenticator counter")
+	acatorCmd.Flags().StringVarP(&authnCmd.UserName, "user_name", "u", "", "used for registration name")
+	acatorCmd.Flags().StringVar(&authnCmd.Url, "url", authnCmd.Url, "WebAuthn server URL aka origin")
+	acatorCmd.Flags().StringVar(&authnCmd.Key, "key", authnCmd.Key, "master key for authenticator")
+	acatorCmd.Flags().StringVar(&authnCmd.AAGUID, "aaguid", authnCmd.AAGUID, "authenticator AAGUID")
+	acatorCmd.Flags().Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter, "authenticator counter")
 
 	jwt.JwtCmd.AddCommand(acatorCmd)
 }
