@@ -1,7 +1,11 @@
 package authn
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
+	"os"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-agent-cli/extracmd/jwt"
@@ -21,8 +25,32 @@ var acatorCmd = &cobra.Command{
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "authn")
 	},
-	Run: func(c *cobra.Command, args []string) {
-		cmd.SubCmdNeeded(c)
+	RunE: func(c *cobra.Command, args []string) (err error) {
+		defer err2.Return(&err)
+
+		if len(args) == 0 {
+			return errors.New("input missing")
+		}
+
+		execCmd := authnCmd
+		var inJson io.ReadCloser = os.Stdin
+		if args[0] != "-" {
+			inJson = err2.File.Try(os.Open(args[0]))
+			defer inJson.Close()
+		}
+		execCmd = execCmd.TryReadJSON(inJson)
+
+		if !cmd.DryRun() {
+			var r authn.Result
+			r, err = execCmd.Exec(os.Stdout)
+			err2.Check(err)
+			fmt.Println(r.String())
+		} else {
+			b, _ := json.MarshalIndent(execCmd, "", "  ")
+			fmt.Println(string(b))
+		}
+
+		return nil
 	},
 }
 
@@ -36,6 +64,7 @@ func init() {
 	acatorCmd.PersistentFlags().StringVar(&authnCmd.Key, "key", authnCmd.Key, "master key for authenticator")
 	acatorCmd.PersistentFlags().StringVar(&authnCmd.AAGUID, "aaguid", authnCmd.AAGUID, "authenticator AAGUID")
 	acatorCmd.PersistentFlags().Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter, "authenticator counter")
+
 	jwt.JwtCmd.AddCommand(acatorCmd)
 }
 
