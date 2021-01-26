@@ -30,6 +30,7 @@ var CmdData = struct {
 	Port       int
 	ConnID     string
 	CaDID      string
+	JWT        string
 }{}
 
 func init() {
@@ -38,6 +39,7 @@ func init() {
 	})
 
 	flags := JwtCmd.PersistentFlags()
+	flags.StringVar(&CmdData.JWT, "jwt", "", "JWT")
 	flags.StringVar(&CmdData.CaDID, "ca-did", "", "CA DID")
 	flags.StringVar(&CmdData.ConnID, "conn-id", "", "connection id aka pairwise id")
 	flags.StringVar(&CmdData.APIService, "server", "localhost", "gRPC server host name")
@@ -47,6 +49,7 @@ func init() {
 }
 
 var envs = map[string]string{
+	"jwt":     "JWT",
 	"ca-did":  "CA_DID",
 	"server":  "SERVER",
 	"port":    "PORT",
