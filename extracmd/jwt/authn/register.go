@@ -1,6 +1,7 @@
 package authn
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -30,6 +31,9 @@ var registerCmd = &cobra.Command{
 			r, err := myCmd.Exec(os.Stdout)
 			err2.Check(err)
 			fmt.Println(r.Token)
+		} else {
+			b, _ := json.MarshalIndent(myCmd, "", "  ")
+			fmt.Println(string(b))
 		}
 
 		return nil
