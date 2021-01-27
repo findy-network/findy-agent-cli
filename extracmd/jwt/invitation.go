@@ -27,6 +27,7 @@ var invitationCmd = &cobra.Command{
 			fmt.Println("JWT:", CmdData.JWT )
 			fmt.Println("Server:", CmdData.APIService )
 			fmt.Println("Port:", CmdData.Port )
+			fmt.Println("Label:", ourLabel)
 			return nil
 		}
 		c.SilenceUsage = true
@@ -55,7 +56,7 @@ func init() {
 		fmt.Println(err)
 	})
 
-	invitationCmd.Flags().StringVar(&ourLabel, "our-label", "", "our Aries connection Label ")
+	invitationCmd.Flags().StringVar(&ourLabel, "label", "", "our Aries connection Label ")
 
 	JwtCmd.AddCommand(invitationCmd)
 }
