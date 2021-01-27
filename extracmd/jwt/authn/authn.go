@@ -59,11 +59,11 @@ func init() {
 		fmt.Println(err)
 	})
 
-	acatorCmd.Flags().StringVarP(&authnCmd.UserName, "user_name", "u", "", "used for registration name")
-	acatorCmd.Flags().StringVar(&authnCmd.Url, "url", authnCmd.Url, "WebAuthn server URL aka origin")
-	acatorCmd.Flags().StringVar(&authnCmd.Key, "key", authnCmd.Key, "master key for authenticator")
-	acatorCmd.Flags().StringVar(&authnCmd.AAGUID, "aaguid", authnCmd.AAGUID, "authenticator AAGUID")
-	acatorCmd.Flags().Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter, "authenticator counter")
+	acatorCmd.PersistentFlags().StringVarP(&authnCmd.UserName, "user_name", "u", "", "used for registration name")
+	acatorCmd.PersistentFlags().StringVar(&authnCmd.Url, "url", authnCmd.Url, "WebAuthn server URL aka origin")
+	acatorCmd.PersistentFlags().StringVar(&authnCmd.Key, "key", authnCmd.Key, "master key for authenticator")
+	acatorCmd.PersistentFlags().StringVar(&authnCmd.AAGUID, "aaguid", authnCmd.AAGUID, "authenticator AAGUID")
+	acatorCmd.PersistentFlags().Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter, "authenticator counter")
 
 	jwt.JwtCmd.AddCommand(acatorCmd)
 }
