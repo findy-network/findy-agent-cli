@@ -51,7 +51,7 @@ var startCmd = &cobra.Command{
 
 		baseCfg := client.BuildClientConnBase("", jwt.CmdData.APIService,
 			jwt.CmdData.Port, nil)
-		conn = client.TryOpen(jwt.CmdData.CaDID, baseCfg)
+		conn = client.TryAuthOpen(jwt.CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		// Handle graceful shutdown
