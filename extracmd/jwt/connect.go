@@ -39,9 +39,9 @@ var connectCmd = &cobra.Command{
 			if args[0] == "-" {
 				invitationJSON = tryReadInvitation(os.Stdin)
 			} else {
-				inJson := err2.File.Try(os.Open(args[0]))
-				defer inJson.Close()
-				invitationJSON = tryReadInvitation(inJson)
+				inJSON := err2.File.Try(os.Open(args[0]))
+				defer inJSON.Close()
+				invitationJSON = tryReadInvitation(inJSON)
 			}
 		} else if invitationJSON == "" {
 			fmt.Println("CMD connect {invitationJSON|-}")
@@ -68,7 +68,7 @@ var connectCmd = &cobra.Command{
 		err2.Check(err)
 		for status := range ch {
 			if status.State == agency.ProtocolState_OK {
-				fmt.Printf(connID)
+				fmt.Println(connID)
 			} else if status.State == agency.ProtocolState_ERR {
 				err2.Try(fmt.Fprintln(os.Stderr, "server error:", status.Info))
 			}

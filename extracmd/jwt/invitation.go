@@ -24,9 +24,9 @@ var invitationCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
-			fmt.Println("JWT:", CmdData.JWT )
-			fmt.Println("Server:", CmdData.APIService )
-			fmt.Println("Port:", CmdData.Port )
+			fmt.Println("JWT:", CmdData.JWT)
+			fmt.Println("Server:", CmdData.APIService)
+			fmt.Println("Port:", CmdData.Port)
 			fmt.Println("Label:", ourLabel)
 			return nil
 		}
@@ -41,7 +41,7 @@ var invitationCmd = &cobra.Command{
 
 		agent := agency.NewAgentClient(conn)
 		r, err := agent.CreateInvitation(ctx, &agency.InvitationBase{
-			Id: utils.UUID(),
+			Id:    utils.UUID(),
 			Label: ourLabel,
 		})
 		err2.Check(err)

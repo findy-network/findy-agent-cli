@@ -33,12 +33,12 @@ var acatorCmd = &cobra.Command{
 			return errors.New("input missing")
 		}
 
-		inJson := os.Stdin
+		inJSON := os.Stdin
 		if args[0] != "-" {
-			inJson = err2.File.Try(os.Open(args[0]))
-			defer inJson.Close()
+			inJSON = err2.File.Try(os.Open(args[0]))
+			defer inJSON.Close()
 		}
-		execCmd := authnCmd.TryReadJSON(inJson)
+		execCmd := authnCmd.TryReadJSON(inJSON)
 
 		if !cmd.DryRun() {
 			var r authn.Result
