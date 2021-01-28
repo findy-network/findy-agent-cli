@@ -17,10 +17,10 @@ import (
 
 var startCmdDoc = `The command starts a multi-tenant chat bot service.
 
-The chat bot is general and can serve what ever purpose it is programmed. The
-chat bot programming is done thru state machines. The state machines can be
-declared either YAML or JSON. The specification for the state machine language
-can be found from...`
+The chat bot can serve what ever purpose it is programmed. The programming is
+done thru state machines. The machines can be declared either YAML or JSON. The
+specification for the state machine language can be found from
+  [todo URL here when spec is ready]`
 
 var startCmd = &cobra.Command{
 	Use:   "start",
