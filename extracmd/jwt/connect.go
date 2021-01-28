@@ -34,6 +34,7 @@ var connectCmd = &cobra.Command{
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
+		c.SilenceUsage = true
 		if len(args) > 0 {
 			if args[0] == "-" {
 				invitationJSON = tryReadInvitation(os.Stdin)
@@ -42,13 +43,15 @@ var connectCmd = &cobra.Command{
 				defer inJson.Close()
 				invitationJSON = tryReadInvitation(inJson)
 			}
+		} else if invitationJSON == "" {
+			fmt.Println("CMD connect {invitationJSON|-}")
+			return fmt.Errorf("invitation missing")
 		}
 
 		if cmd.DryRun() {
 			fmt.Println(invitationJSON)
 			return nil
 		}
-		c.SilenceUsage = true
 
 		baseCfg := client.BuildClientConnBase("", CmdData.APIService, CmdData.Port, nil)
 		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
