@@ -43,7 +43,7 @@ var readCmd = &cobra.Command{
 		c.SilenceUsage = true
 
 		baseCfg := client.BuildClientConnBase("", jwt.CmdData.APIService, jwt.CmdData.Port, nil)
-		conn = client.TryOpen(jwt.CmdData.CaDID, baseCfg)
+		conn = client.TryAuthOpen(jwt.CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithCancel(context.Background())

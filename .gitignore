@@ -9,6 +9,7 @@ exports/
 .idea
 tmp/
 scripts/client?00/
+scripts/op/
 
 # Binaries for programs and plugins
 *.exe

@@ -32,7 +32,7 @@ var listenCmd = &cobra.Command{
 		c.SilenceUsage = true
 
 		baseCfg := client.BuildClientConnBase("", CmdData.APIService, CmdData.Port, nil)
-		conn = client.TryOpen(CmdData.CaDID, baseCfg)
+		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithCancel(context.Background())

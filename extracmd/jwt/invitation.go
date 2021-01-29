@@ -6,16 +6,16 @@ import (
 
 	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
+	"github.com/findy-network/findy-agent/agent/utils"
 	"github.com/findy-network/findy-grpc/agency/client"
-	"github.com/findy-network/findy-wrapper-go/dto"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
 
-var unpauseCmd = &cobra.Command{
-	Use:   "unpause",
-	Short: "unpause command for JWT gRPC",
-	Long: `
+var invitationCmd = &cobra.Command{
+	Use:   "invitation",
+	Short: "invitation command for JWT gRPC",
+	Long: `Connects the cloud agent to produce invitation JSON
 `,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
@@ -24,7 +24,10 @@ var unpauseCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
-			fmt.Println(dto.ToJSON(CmdData))
+			fmt.Println("JWT:", CmdData.JWT)
+			fmt.Println("Server:", CmdData.APIService)
+			fmt.Println("Port:", CmdData.Port)
+			fmt.Println("Label:", ourLabel)
 			return nil
 		}
 		c.SilenceUsage = true
@@ -36,38 +39,24 @@ var unpauseCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		didComm := agency.NewDIDCommClient(conn)
-		stateAck := agency.ProtocolState_ACK
-		if !ACK {
-			stateAck = agency.ProtocolState_NACK
-		}
-		unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
-			ProtocolId: &agency.ProtocolID{
-				TypeId: agency.Protocol_PROOF,
-				Role:   agency.Protocol_RESUME,
-				Id:     MyProtocolID,
-			},
-			State: stateAck,
+		agent := agency.NewAgentClient(conn)
+		r, err := agent.CreateInvitation(ctx, &agency.InvitationBase{
+			Id:    utils.UUID(),
+			Label: ourLabel,
 		})
 		err2.Check(err)
+		fmt.Println(r.JsonStr)
 
-		fmt.Println("result:", unpauseResult.String())
 		return nil
 	},
 }
-
-var (
-	MyProtocolID string
-	ACK          bool
-)
 
 func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
 
-	unpauseCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
-	unpauseCmd.Flags().BoolVarP(&ACK, "ack", "a", true, "how to proceed with the protocol")
+	invitationCmd.Flags().StringVar(&ourLabel, "label", "", "our Aries connection Label ")
 
-	JwtCmd.AddCommand(unpauseCmd)
+	JwtCmd.AddCommand(invitationCmd)
 }
