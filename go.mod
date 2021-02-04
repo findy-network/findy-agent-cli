@@ -3,10 +3,11 @@ module github.com/findy-network/findy-agent-cli
 go 1.15
 
 require (
-	github.com/findy-network/findy-agent v0.0.0-20210127105449-9f763e8866a9
-	github.com/findy-network/findy-agent-api v0.0.0-20201220164103-15fb6a83ff0a
-	github.com/findy-network/findy-grpc v0.0.0-20210128170251-13ec7263b2a1
+	github.com/findy-network/findy-agent v0.0.0-20210204111641-e112d99eaf2c
+	github.com/findy-network/findy-agent-api v0.0.0-20210203142917-ee7d471ffd4b
+	github.com/findy-network/findy-grpc v0.1.1-0.20210204112624-935adf8c9f79
 	github.com/findy-network/findy-wrapper-go v0.0.0-20201026120712-dc9ac6619595
+	github.com/fxamacker/cbor v1.5.1 // indirect
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/lainio/err2 v0.6.1
 	github.com/sideshow/apns2 v0.20.0 // indirect
