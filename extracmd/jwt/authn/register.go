@@ -10,8 +10,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var registerDoc = `Starts the chat client which reads standard input and send each line
-as Aries basic_message thru the pairwise connection.`
+var registerDoc = `Registers a new WebAuthn authenticator with given arguments.
+The authenticator commands are stateless which means that the caller must keep
+track all of the needed data. See more information from authn parent command.`
 
 var registerCmd = &cobra.Command{
 	Use:   "register",
