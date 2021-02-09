@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo $@
+
+go run ../.. agency start "$@" \
+--steward-wallet-name "sovrin_steward_wallet" \
+--steward-wallet-key "4Vwsj6Qcczmhk2Ak7H5GGvFE1cQCdRtWfW4jchahNUoE" \
+--pool-name "FINDY_FILE_LEDGER" \
+--steward-did "Th7MpTaRZVRYnPiabds81Y" \
+--register-file "findy.json" \
+--host-address "localhost" \
+--grpc \
+--host-scheme "http" \
+--enclave-backup "/home/harri/.indy_client/backups/enclave.bolt" \
+--enclave-backup-time "18:59" \
+--register-backup "/home/harri/.indy_client/backups/findy.json.bak" \
+--register-backup-interval "1m" \
+--wallet-backup "/home/harri/.indy_client/backups/" \
+--wallet-backup-time "19:05"
