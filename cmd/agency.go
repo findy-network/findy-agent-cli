@@ -3,6 +3,7 @@ package cmd
 import (
 	"log"
 	"os"
+	"time"
 
 	"github.com/findy-network/findy-agent/cmds/agency"
 	"github.com/lainio/err2"
@@ -22,26 +23,36 @@ Parent command for starting and pinging agency
 }
 
 var agencyStartEnvs = map[string]string{
-	"apns-p12-file":       "APNS_P12_FILE",
-	"host-address":        "HOST_ADDRESS",
-	"host-port":           "HOST_PORT",
-	"server-port":         "SERVER_PORT",
-	"service-name":        "SERVICE_NAME",
-	"pool-name":           "POOL_NAME",
-	"pool-protocol":       "POOL_PROTOCOL",
-	"steward-seed":        "STEWARD_SEED",
-	"psm-database-file":   "PSM_DATABASE_FILE",
-	"reset-register":      "RESET_REGISTER",
-	"register-file":       "REGISTER_FILE",
-	"steward-wallet-name": "STEWARD_WALLET_NAME",
-	"steward-wallet-key":  "STEWARD_WALLET_KEY",
-	"steward-did":         "STEWARD_DID",
-	"protocol-path":       "PROTOCOL_PATH",
-	"salt":                "SALT",
-	"grpc":                "GRPC",
-	"grpc-port":           "GRPC_PORT",
-	"grpc-cert-path":      "GRPC_CERT_PATH",
-	"grpc-jwt-secret":     "GRPC_JWT_SECRET",
+	"apns-p12-file":            "APNS_P12_FILE",
+	"host-address":             "HOST_ADDRESS",
+	"host-port":                "HOST_PORT",
+	"server-port":              "SERVER_PORT",
+	"service-name":             "SERVICE_NAME",
+	"pool-name":                "POOL_NAME",
+	"pool-protocol":            "POOL_PROTOCOL",
+	"steward-seed":             "STEWARD_SEED",
+	"psm-database-file":        "PSM_DATABASE_FILE",
+	"reset-register":           "RESET_REGISTER",
+	"register-file":            "REGISTER_FILE",
+	"steward-wallet-name":      "STEWARD_WALLET_NAME",
+	"steward-wallet-key":       "STEWARD_WALLET_KEY",
+	"steward-did":              "STEWARD_DID",
+	"protocol-path":            "PROTOCOL_PATH",
+	"salt":                     "SALT",
+	"admin-id":                 "ADMIN_ID",
+	"grpc":                     "GRPC",
+	"grpc-port":                "GRPC_PORT",
+	"grpc-cert-path":           "GRPC_CERT_PATH",
+	"grpc-jwt-secret":          "GRPC_JWT_SECRET",
+	"enclave-path":             "ENCLAVE_PATH",
+	"enclave-backup":           "ENCLAVE_BACKUP",
+	"enclave-backup-time":      "ENCLAVE_BACKUP_TIME",
+	"enclave-key":              "ENCLAVE_KEY",
+	"host-scheme":              "HOST_SCHEME",
+	"register-backup":          "REGISTER_BACKUP",
+	"register-backup-interval": "REGISTER_BACKUP_INTERVAL",
+	"wallet-backup":            "WALLET_BACKUP",
+	"wallet-backup-time":       "WALLET_BACKUP_TIME",
 }
 
 // startAgencyCmd represents the agency start subcommand
@@ -104,14 +115,19 @@ Example
 	},
 }
 
-var aCmd = agency.Cmd{VersionInfo: "findy-agent-cli v. 0.1"}
+var (
+	aCmd  = agency.DefaultValues
+	paCmd = agency.PingCmd{}
+)
 
-var paCmd = agency.PingCmd{}
+const registerBackupInterval = 12 * time.Hour
 
 func init() {
 	defer err2.CatchTrace(func(err error) {
 		log.Println(err)
 	})
+
+	aCmd.VersionInfo = "findy-agent-cli v. 0.1"
 
 	flags := startAgencyCmd.Flags()
 	flags.StringVar(&aCmd.APNSP12CertFile, "apns-p12-file", "", flagInfo("APNS certificate p12 file", AgencyCmd.Name(), agencyStartEnvs["apns-p12-file"]))
@@ -134,6 +150,17 @@ func init() {
 	flags.IntVar(&aCmd.GRPCPort, "grpc-port", 50051, flagInfo("grpc server port", AgencyCmd.Name(), agencyStartEnvs["grpc-port"]))
 	flags.StringVar(&aCmd.TlsCertPath, "grpc-cert-path", "", flagInfo("folder path for grpc server tls certificates", AgencyCmd.Name(), agencyStartEnvs["grpc-cert-path"]))
 	flags.StringVar(&aCmd.JWTSecret, "grpc-jwt-secret", "", flagInfo("secure string for JWT token generation", AgencyCmd.Name(), agencyStartEnvs["grpc-jwt-secret"]))
+
+	flags.StringVar(&aCmd.HostScheme, "admin-id", aCmd.GRPCAdmin, flagInfo("agency's admin ID", AgencyCmd.Name(), agencyStartEnvs["admin-id"]))
+	flags.StringVar(&aCmd.HostScheme, "host-scheme", aCmd.HostScheme, flagInfo("scheme of the agency's host address", AgencyCmd.Name(), agencyStartEnvs["host-scheme"]))
+	flags.StringVar(&aCmd.EnclaveKey, "enclave-key", "", flagInfo("SHA-256 32 bytes in hex ascii", AgencyCmd.Name(), agencyStartEnvs["enclave-key"]))
+	flags.StringVar(&aCmd.EnclavePath, "enclave-path", "", flagInfo("Enclave full file name", AgencyCmd.Name(), agencyStartEnvs["enclave-path"]))
+	flags.StringVar(&aCmd.EnclaveBackupName, "enclave-backup", "", flagInfo("Base name for enclave backup file", AgencyCmd.Name(), agencyStartEnvs["enclave-backup"]))
+	flags.StringVar(&aCmd.EnclaveBackupTime, "enclave-backup-time", "03:00", flagInfo("Time to start enclave backup in HH:MM[:SS]", AgencyCmd.Name(), agencyStartEnvs["enclave-backup-time"]))
+	flags.StringVar(&aCmd.RegisterBackupName, "register-backup", "findy.json.bak", flagInfo("handshake registry backup file", AgencyCmd.Name(), agencyStartEnvs["register-backup"]))
+	flags.DurationVar(&aCmd.RegisterBackupInterval, "register-backup-interval", registerBackupInterval, flagInfo("Duration between handshake registry backups", AgencyCmd.Name(), agencyStartEnvs["register-backup-interval"]))
+	flags.StringVar(&aCmd.WalletBackupPath, "wallet-backup", "", flagInfo("Path for wallet backups", AgencyCmd.Name(), agencyStartEnvs["wallet-backup"]))
+	flags.StringVar(&aCmd.WalletBackupTime, "wallet-backup-time", "04:00", flagInfo("Time to start wallet backups for dirty ones", AgencyCmd.Name(), agencyStartEnvs["wallet-backup-time"]))
 
 	p := pingAgencyCmd.Flags()
 	p.StringVar(&paCmd.BaseAddr, "base-address", "http://localhost:8080", flagInfo("base address of agency", AgencyCmd.Name(), agencyPingEnvs["base-address"]))
