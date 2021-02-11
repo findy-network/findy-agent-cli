@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [[ "$1" == "" ]]; then
-	echo "Usage:\t""$0"" <time_1> [time_2]"
-	echo "\ttime format: HH:MM"
+	printf "Usage:\t""$0"" <time_1> [time_2]\n"
+	printf "\n\ttime format: HH:MM\n"
 	exit 1
 fi
 
