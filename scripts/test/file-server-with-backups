@@ -22,9 +22,9 @@ go run ../.. agency start \
 --host-address "localhost" \
 --grpc \
 --host-scheme "http" \
---enclave-backup "~/.indy_client/backups/enclave.bolt" \
+--enclave-backup "$HOME""/.indy_client/backups/enclave.bolt" \
 --enclave-backup-time "$t1" \
---register-backup "~/.indy_client/backups/findy.json.bak" \
+--register-backup "$HOME""/.indy_client/backups/findy.json.bak" \
 --register-backup-interval "1m" \
---wallet-backup "~/.indy_client/backups/" \
+--wallet-backup "$HOME""/.indy_client/backups/" \
 --wallet-backup-time "$t2"
