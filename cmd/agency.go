@@ -39,6 +39,7 @@ var agencyStartEnvs = map[string]string{
 	"steward-did":              "STEWARD_DID",
 	"protocol-path":            "PROTOCOL_PATH",
 	"salt":                     "SALT",
+	"admin-id":                 "ADMIN_ID",
 	"grpc":                     "GRPC",
 	"grpc-port":                "GRPC_PORT",
 	"grpc-cert-path":           "GRPC_CERT_PATH",
@@ -115,7 +116,7 @@ Example
 }
 
 var (
-	aCmd  = agency.Cmd{VersionInfo: "findy-agent-cli v. 0.1"}
+	aCmd  = agency.DefaultValues
 	paCmd = agency.PingCmd{}
 )
 
@@ -125,6 +126,8 @@ func init() {
 	defer err2.CatchTrace(func(err error) {
 		log.Println(err)
 	})
+
+	aCmd.VersionInfo = "findy-agent-cli v. 0.1"
 
 	flags := startAgencyCmd.Flags()
 	flags.StringVar(&aCmd.APNSP12CertFile, "apns-p12-file", "", flagInfo("APNS certificate p12 file", AgencyCmd.Name(), agencyStartEnvs["apns-p12-file"]))
@@ -148,7 +151,8 @@ func init() {
 	flags.StringVar(&aCmd.TlsCertPath, "grpc-cert-path", "", flagInfo("folder path for grpc server tls certificates", AgencyCmd.Name(), agencyStartEnvs["grpc-cert-path"]))
 	flags.StringVar(&aCmd.JWTSecret, "grpc-jwt-secret", "", flagInfo("secure string for JWT token generation", AgencyCmd.Name(), agencyStartEnvs["grpc-jwt-secret"]))
 
-	flags.StringVar(&aCmd.HostScheme, "host-scheme", "http", flagInfo("scheme of the agency's host address", AgencyCmd.Name(), agencyStartEnvs["host-scheme"]))
+	flags.StringVar(&aCmd.HostScheme, "admin-id", aCmd.GRPCAdmin, flagInfo("agency's admin ID", AgencyCmd.Name(), agencyStartEnvs["admin-id"]))
+	flags.StringVar(&aCmd.HostScheme, "host-scheme", aCmd.HostScheme, flagInfo("scheme of the agency's host address", AgencyCmd.Name(), agencyStartEnvs["host-scheme"]))
 	flags.StringVar(&aCmd.EnclaveKey, "enclave-key", "", flagInfo("SHA-256 32 bytes in hex ascii", AgencyCmd.Name(), agencyStartEnvs["enclave-key"]))
 	flags.StringVar(&aCmd.EnclavePath, "enclave-path", "", flagInfo("Enclave full file name", AgencyCmd.Name(), agencyStartEnvs["enclave-path"]))
 	flags.StringVar(&aCmd.EnclaveBackupName, "enclave-backup", "", flagInfo("Base name for enclave backup file", AgencyCmd.Name(), agencyStartEnvs["enclave-backup"]))
