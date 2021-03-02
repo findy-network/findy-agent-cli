@@ -1,4 +1,4 @@
-FROM optechlab/indy-golang:1.15.0
+FROM optechlab/indy-golang:1.16.0
 
 ARG HTTPS_PREFIX
 
@@ -12,7 +12,7 @@ RUN go mod download
 COPY . ./
 RUN make install
 
-FROM optechlab/indy-base:1.15.0
+FROM optechlab/indy-base:1.16.0
 
 COPY --from=0 /go/bin/findy-agent-cli /findy-agent-cli
 
