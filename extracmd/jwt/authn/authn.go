@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/findy-network/findy-agent-auth/acator/authn"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-agent-cli/extracmd/jwt"
-	"github.com/findy-network/findy-grpc/acator/authn"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
