@@ -12,7 +12,7 @@ import (
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-agent-cli/extracmd/jwt"
 	"github.com/findy-network/findy-agent/agent/utils"
-	"github.com/findy-network/findy-grpc/agency/client"
+	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/golang/glog"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
