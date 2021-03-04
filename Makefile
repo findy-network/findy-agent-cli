@@ -8,7 +8,7 @@ GRPC_BRANCH=$(shell ./branch.sh ../findy-common-go/)
 modules:
 	@echo Syncing modules for work brances ...
 	go get github.com/findy-network/findy-agent-api@$(API_BRANCH)
-	go get github.com/findy-network/findy-grpc@$(GRPC_BRANCH)
+	go get github.com/findy-network/findy-common-go@$(GRPC_BRANCH)
 	go get github.com/findy-network/findy-agent@$(AGENT_BRANCH)
 
 deps:
