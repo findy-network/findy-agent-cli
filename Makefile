@@ -25,19 +25,19 @@ drop_agent:
 drop_all: drop_api drop_comm drop_wrap drop_wrap drop_auth
 
 repl_wrap:
-	go mod edit -replace github.com/findy-network/findy-wrapper-go=../fingy-wrapper-go
+	go mod edit -replace github.com/findy-network/findy-wrapper-go=../findy-wrapper-go
 
 repl_comm:
-	go mod edit -replace github.com/findy-network/findy-common-go=../fingy-common-go
+	go mod edit -replace github.com/findy-network/findy-common-go=../findy-common-go
 
 repl_api:
-	go mod edit -replace github.com/findy-network/findy-agent-api=../fingy-agent-api
+	go mod edit -replace github.com/findy-network/findy-agent-api=../findy-agent-api
 
 repl_auth:
-	go mod edit -replace github.com/findy-network/findy-agent-auth=../fingy-agent-auth
+	go mod edit -replace github.com/findy-network/findy-agent-auth=../findy-agent-auth
 
 repl_agent:
-	go mod edit -replace github.com/findy-network/findy-agent=../fingy-agent
+	go mod edit -replace github.com/findy-network/findy-agent=../findy-agent
 
 repl_all: repl_api repl_comm repl_wrap repl_agent repl_auth
 
