@@ -172,6 +172,8 @@ github.com/findy-network/findy-agent-auth v0.0.0-20210304064530-24376f89d333 h1:
 github.com/findy-network/findy-agent-auth v0.0.0-20210304064530-24376f89d333/go.mod h1:OB5F1bUA9qBl/Lyz4e84fTxCMt0EVf9FtMRL9a7FXNs=
 github.com/findy-network/findy-common-go v0.1.1 h1:8VdHCJO1TNT/PR/unjJ9v5IZmwhXh9Qd5zGNsx2i1d4=
 github.com/findy-network/findy-common-go v0.1.1/go.mod h1:tNw5/XkkNhFe+rdS9ArfCwfk0UCRAjJvebh72zA98BU=
+github.com/findy-network/findy-common-go v0.1.2-0.20210304145749-94f700a63abf h1:joVJtC9eObMDRbF963kwLfkiQfEq06tF0RSVoh12Ec8=
+github.com/findy-network/findy-common-go v0.1.2-0.20210304145749-94f700a63abf/go.mod h1:tNw5/XkkNhFe+rdS9ArfCwfk0UCRAjJvebh72zA98BU=
 github.com/findy-network/findy-grpc v0.0.0-20201113091436-e47cd902d2c7/go.mod h1:JIDCAuvF/tejnV1BfS4STPKI3MYGch23XclLeETglIM=
 github.com/findy-network/findy-grpc v0.0.0-20210108131015-372836897ab4/go.mod h1:HijcPhtuP3dKowt9rUSJKZF4xL4LnLM4R0Q3CvXlsSY=
 github.com/findy-network/findy-grpc v0.0.0-20210127104251-9687b3532b14/go.mod h1:7wsaOZE8iRD6XR4ZxKxQB4yFcEerxRaenzUcyoff8VU=
@@ -182,6 +184,7 @@ github.com/findy-network/findy-wrapper-go v0.0.0-20210302063517-bb98c7f07ea4 h1:
 github.com/findy-network/findy-wrapper-go v0.0.0-20210302063517-bb98c7f07ea4/go.mod h1:Zx69TCN3TCkMJubsmwodYRbLUZK8v7JbEvSQMq+xb+k=
 github.com/form3tech-oss/jwt-go v3.2.2+incompatible h1:TcekIExNqud5crz4xD2pavyTgWiPvpYe4Xau31I0PRk=
 github.com/form3tech-oss/jwt-go v3.2.2+incompatible/go.mod h1:pbq4aXjuKjdthFRnoDwaVPLA+WlJuPGy+QneDUgJi2k=
+github.com/fsnotify/fsnotify v1.4.7 h1:IXs+QLmnXW2CcXuY+8Mzv/fWEsPGWxqefPtCP5CnV9I=
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
 github.com/fsnotify/fsnotify v1.4.9 h1:hsms1Qyu0jgnwNXIxa+/V/PDsU6CfLf6CNO8H7IWoS4=
 github.com/fsnotify/fsnotify v1.4.9/go.mod h1:znqG4EE+3YCdAaPaxE2ZRY/06pZUdp0tY4IgpuI1SZQ=
