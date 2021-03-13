@@ -27,7 +27,6 @@ Findy agent cli tool
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		agency.ParseLoggingArgs(rootFlags.logging)
 		handleViperFlags(cmd)
-		aCmd.PreRun()
 	},
 }
 

@@ -30,5 +30,5 @@ func init() {
 	countCmd.Flags().StringVar(&cCmd.Addr, "address", "localhost", "gRPC server address")
 	countCmd.Flags().StringVar(&cCmd.AdminID, "admin-id", "findy-root", "gRPC server admin id")
 	countCmd.Flags().IntVar(&cCmd.Port, "port", 50051, "gRPC server port")
-	cmd.AgencyCmd.AddCommand(countCmd)
+	cmd.RootCmd().AddCommand(countCmd)
 }

@@ -31,5 +31,5 @@ func init() {
 	loggingCmd.Flags().StringVar(&lCmd.Addr, "address", "localhost", "gRPC server address")
 	loggingCmd.Flags().StringVar(&cCmd.AdminID, "admin-id", "findy-root", "gRPC server admin id")
 	loggingCmd.Flags().IntVar(&lCmd.Port, "port", 50051, "gRPC server port")
-	cmd.AgencyCmd.AddCommand(loggingCmd)
+	cmd.RootCmd().AddCommand(loggingCmd)
 }
