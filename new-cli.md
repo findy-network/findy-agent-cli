@@ -17,4 +17,4 @@ allocation service.
 - [ ] move authn commands to root level
 - [x] check offer.go and proof.go: they are old!! **remove**
 - [ ] think about name for agency cmds with new gRPC API
-- [ ] 
+- [ ] move flags to new cmd tree like server addr and port to root cmd
