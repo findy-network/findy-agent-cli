@@ -53,7 +53,7 @@ var connectCmd = &cobra.Command{
 			return nil
 		}
 
-		baseCfg := client.BuildClientConnBase("", CmdData.APIService, CmdData.Port, nil)
+		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
 		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
