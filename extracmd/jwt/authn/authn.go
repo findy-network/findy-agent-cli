@@ -8,7 +8,6 @@ import (
 
 	"github.com/findy-network/findy-agent-auth/acator/authn"
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent-cli/extracmd/jwt"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -65,7 +64,7 @@ func init() {
 	acatorCmd.PersistentFlags().StringVar(&authnCmd.AAGUID, "aaguid", authnCmd.AAGUID, "authenticator AAGUID")
 	acatorCmd.PersistentFlags().Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter, "authenticator counter")
 
-	jwt.JwtCmd.AddCommand(acatorCmd)
+	cmd.RootCmd().AddCommand(acatorCmd)
 }
 
 var authnCmd = authn.Cmd{
