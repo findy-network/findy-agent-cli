@@ -51,7 +51,5 @@ func init() {
 var envs = map[string]string{
 	"jwt":     "JWT",
 	"ca-did":  "CA_DID",
-	"server":  "SERVER",
-	"port":    "PORT",
 	"conn-id": "CONN_ID",
 }

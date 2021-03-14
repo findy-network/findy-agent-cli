@@ -18,3 +18,5 @@ require (
 )
 
 replace github.com/findy-network/findy-agent => ../findy-agent
+
+replace github.com/findy-network/findy-common-go => ../findy-common-go

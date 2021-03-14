@@ -58,9 +58,11 @@ func DryRun() bool {
 
 // RootFlags are the common flags
 type RootFlags struct {
-	cfgFile string
-	dryRun  bool
-	logging string
+	cfgFile     string
+	dryRun      bool
+	logging     string
+	port        int
+	serviceAddr string
 }
 
 // ClientFlags agent flags
@@ -77,6 +79,8 @@ var rootEnvs = map[string]string{
 	"config":  "CONFIG",
 	"logging": "LOGGING",
 	"dry-run": "DRY_RUN",
+	"server":  "SERVER",
+	"port":    "PORT",
 }
 
 func init() {
@@ -89,10 +93,14 @@ func init() {
 	flags := rootCmd.PersistentFlags()
 	flags.StringVar(&rootFlags.cfgFile, "config", "", flagInfo("configuration file", "", rootEnvs["config"]))
 	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", flagInfo("logging startup arguments", "", rootEnvs["logging"]))
+	flags.StringVar(&rootFlags.serviceAddr, "server", "localhost", "gRPC server host name")
 	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, flagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
+	flags.IntVar(&rootFlags.port, "port", 50051, "port for gRPC server")
 
 	err2.Check(viper.BindPFlag("logging", flags.Lookup("logging")))
 	err2.Check(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
+	err2.Check(viper.BindPFlag("server", flags.Lookup("server")))
+	err2.Check(viper.BindPFlag("port", flags.Lookup("port")))
 
 	BindEnvs(rootEnvs, "")
 
