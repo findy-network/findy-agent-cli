@@ -9,8 +9,8 @@ import (
 
 	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent/agent/utils"
 	"github.com/findy-network/findy-common-go/agency/client"
+	"github.com/google/uuid"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -43,7 +43,7 @@ var listenCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		ch, err := conn.Listen(ctx, &agency.ClientID{Id: utils.UUID()})
+		ch, err := conn.Listen(ctx, &agency.ClientID{Id: uuid.New().String()})
 		err2.Check(err)
 
 	loop:

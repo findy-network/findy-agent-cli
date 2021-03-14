@@ -11,9 +11,9 @@ import (
 	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-agent-cli/extracmd/jwt"
-	"github.com/findy-network/findy-agent/agent/utils"
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/golang/glog"
+	"github.com/google/uuid"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
@@ -56,7 +56,7 @@ var readCmd = &cobra.Command{
 
 		err2.Check(flag.Set("v", "0"))
 
-		ch, err := conn.Listen(ctx, &agency.ClientID{Id: utils.UUID()})
+		ch, err := conn.Listen(ctx, &agency.ClientID{Id: uuid.New().String()})
 		err2.Check(err)
 
 	loop:

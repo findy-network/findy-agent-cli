@@ -6,8 +6,8 @@ import (
 
 	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent/agent/utils"
 	"github.com/findy-network/findy-common-go/agency/client"
+	"github.com/google/uuid"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -41,7 +41,7 @@ var invitationCmd = &cobra.Command{
 
 		agent := agency.NewAgentClient(conn)
 		r, err := agent.CreateInvitation(ctx, &agency.InvitationBase{
-			Id:    utils.UUID(),
+			Id:    uuid.New().String(),
 			Label: ourLabel,
 		})
 		err2.Check(err)
