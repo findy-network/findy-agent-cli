@@ -4,7 +4,6 @@
 ![test](https://github.com/findy-network/findy-agent-cli/workflows/test/badge.svg?branch=dev)
 ![e2e test](https://github.com/findy-network/findy-agent-cli/workflows/e2e%20test/badge.svg)
 
-
 findy-agent-cli is a CLI tool for [findy-agent](https://github.com/findy-network/findy-agent) project. This tool provides some basic agency, pool & agent actions. findy-agent-cli can be used e.g. to start agency, create pool & making connections between agents.
 
 When [indy-cli](https://github.com/hyperledger/indy-sdk/tree/master/cli) starts new prompt where you give commands **findy-agent-cli** is build the way that you don't have to do that. You can stay on your favorite shell and execute commands from there. findy-agent-cli includes many features to make its usage as convenient as possible.
@@ -84,6 +83,7 @@ following command is an example of calling an API to make a handshake and export
 the client wallet and move it where the final SA will run.
 
 Example:
+
 ```
   findy-agent-cli service onboard \
     --agency-url=http://localhost:8080 \
@@ -121,6 +121,7 @@ You can also read invitation json from standard input.
 To make connection without using invitation message.
 
 Example:
+
 ```
   findy-agent-cli service connect \
     --wallet-name=my_wallet \
@@ -135,6 +136,7 @@ Example:
 Only service agents are able to create schemas. You need to specify name, version and attributes of the schema.
 
 Example:
+
 ```
   findy-agent-cli service schema create \
     --wallet-name=my_wallet \
@@ -150,6 +152,7 @@ Example:
 Only service agents are able to create credential definitions. You need to specify tag and schema-id of the credential definition.
 
 Example:
+
 ```
   findy-agent-cli service creddef create \
     --wallet-name=my_wallet \
@@ -180,6 +183,7 @@ In order to use configuration file place your configuration file path to --confi
 Example: `findy-agent-cli agency start --config path/to/my/config.yaml`
 
 ##### Dev Tip
+
 If you have `export FCLI_CONFIG=./cfg.yaml` in your environment variables you easily can have directory based configurations to execute CLI-tools commands just by defining `cfg.yaml` files to those directories you want to present your agent. Only thing you have to do is switch to the directory which contains the proper `cfg.yaml` for the context you want to use. The directory name tells you the context you are in.
 
 ### ENV variable usage
@@ -204,6 +208,7 @@ zsh: `source <(findy-agent-cli completion zsh)`
 Note! Bash autocompletion requires [bash-completion](https://github.com/scop/bash-completion) to be installed beforehand.
 
 ##### Dev Tip
+
 There is `sa-compl.sh` helper script to allow easily take use of autocompletion at the run-time even with complex aliases like this:
 
 ```shell script
@@ -224,13 +229,14 @@ Run end-to-end tests for findy-agent-cli with:
 ```
 make e2e
 ```
+
 This starts test-ledger & runs e2e tests for findy-agent-cli.
 
 `make e2e_ci` doesn't initialize test-ledger.
 
 ## Using Example Scripts as A Playground
 
-The `scripts` folder includes `test` directory to start two different types of the agencies. The `mem-server` start agency with inmemory ledger that vanish when server stops, and `file-server` which saves all ledger transactions to `FINDY_FILE_LEDGRE.json` (default `~/.indy_client/`). The file ledger allows you to run long-running agency services on your own machine without running the real ledger on the same machine. 
+The `scripts` folder includes `test` directory to start two different types of the agencies. The `mem-server` start agency with inmemory ledger that vanish when server stops, and `file-server` which saves all ledger transactions to `FINDY_FILE_LEDGRE.json` (default `~/.indy_client/`). The file ledger allows you to run long-running agency services on your own machine without running the real ledger on the same machine.
 
 The `scripts/clientN` folders include examples of configuration files to run _holder agents_. The example of the _server agent_ (SA) for these agents is in the `/scrips/sa` folder. Please note that you cannot directly use the configuration files but you must first onboard your own agents (allocate cloud agents from the current agency) and write the configuration files after that according to the information from onboardings, invitations, connections, etc.
 
@@ -241,3 +247,14 @@ The `script/sa` includes helper scripts `create.sh` and `issue.sh`. The first on
 #### JWT and gRPC Version of Agency API
 
 After on-boarding a client and allocating the cloud agent you can use JWT-based authentication systems for the agency's gRPC API access. The commands that are using the new API are sub commands of the `JWT`. Please see more information from its usage.
+
+## Publishing new version
+
+Release script will tag the current version and push the tag to remote. This will trigger e2e-tests in CI automatically and if they succeed, the tag is merged to master.
+
+Release script assumes it is triggered from dev branch. It takes one parameter, the next working version. E.g. if current working version is 0.1.0, following will release version 0.1.0 and update working version to 0.2.0.
+
+```bash
+git checkout dev
+./release 0.2.0
+```
