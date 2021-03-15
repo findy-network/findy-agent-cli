@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"time"
 
 	pb "github.com/findy-network/findy-agent-api/grpc/ops"
 	"github.com/findy-network/findy-agent-cli/cmd"
@@ -22,7 +21,7 @@ var loggingCmd = &cobra.Command{
 		defer err2.Return(&err)
 		if !cmd.DryRun() {
 			c.SilenceUsage = true
-			err2.Try(RpcLogging(os.Stdout))
+			err2.Try(Logging(os.Stdout))
 		}
 		return nil
 	},
@@ -37,14 +36,14 @@ func init() {
 	OpsCmd.AddCommand(loggingCmd)
 }
 
-func RpcLogging(w io.Writer) (err error) {
+func Logging(w io.Writer) (err error) {
 	defer err2.Return(&err)
 
 	baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
 	// todo: this wont work until we have way to build JWT
 	conn := client.TryOpen("findy-root", baseCfg)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
 	opsClient := pb.NewDevOpsClient(conn)

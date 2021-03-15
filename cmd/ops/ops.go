@@ -2,7 +2,6 @@ package ops
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/lainio/err2"
@@ -21,8 +20,6 @@ var OpsCmd = &cobra.Command{
 		cmd.SubCmdNeeded(c)
 	},
 }
-
-const timeout = 30000 * time.Second
 
 var CmdData = struct {
 	JWT string

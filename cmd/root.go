@@ -73,7 +73,6 @@ type ClientFlags struct {
 }
 
 var rootFlags = RootFlags{}
-var cFlags = ClientFlags{}
 
 var rootEnvs = map[string]string{
 	"config":  "CONFIG",

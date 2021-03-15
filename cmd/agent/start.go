@@ -68,7 +68,6 @@ var startCmd = &cobra.Command{
 
 var (
 	conn  client.Conn
-	ack   bool
 	fType string
 )
 

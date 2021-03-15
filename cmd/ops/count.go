@@ -22,24 +22,26 @@ var countCmd = &cobra.Command{
 		defer err2.Return(&err)
 		if !cmd.DryRun() {
 			c.SilenceUsage = true
-			err2.Try(RpcCount(os.Stdout))
+			err2.Try(Count(os.Stdout))
 		}
 		return nil
 	},
 }
 
+const timeout = 10 * time.Second
+
 func init() {
 	OpsCmd.AddCommand(countCmd)
 }
 
-func RpcCount(w io.Writer) (err error) {
+func Count(w io.Writer) (err error) {
 	defer err2.Return(&err)
 
 	baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
 	// todo: this wont work until we have way to build JWT
 	conn := client.TryOpen("findy-root", baseCfg)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
 	opsClient := pb.NewDevOpsClient(conn)
