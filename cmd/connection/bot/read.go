@@ -10,7 +10,7 @@ import (
 
 	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent-cli/extracmd/jwt"
+	"github.com/findy-network/findy-agent-cli/cmd/agent"
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/golang/glog"
 	"github.com/google/uuid"
@@ -31,9 +31,6 @@ var readCmd = &cobra.Command{
 	Use:   "read",
 	Short: "read basic message stream and reply protocol ctrl questions",
 	Long:  readDoc,
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
-		return cmd.BindEnvs(envs, "")
-	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
@@ -43,7 +40,7 @@ var readCmd = &cobra.Command{
 		c.SilenceUsage = true
 
 		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
-		conn = client.TryAuthOpen(jwt.CmdData.JWT, baseCfg)
+		conn := client.TryAuthOpen(agent.CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithCancel(context.Background())
@@ -95,6 +92,8 @@ var readCmd = &cobra.Command{
 		return nil
 	},
 }
+
+var ack bool
 
 func init() {
 	defer err2.Catch(func(err error) {

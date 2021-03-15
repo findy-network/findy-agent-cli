@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent-cli/extracmd/jwt"
+	"github.com/findy-network/findy-agent-cli/cmd/connection"
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
@@ -20,9 +20,6 @@ var chatCmd = &cobra.Command{
 	Use:   "chat",
 	Short: "chat client to send basic messages",
 	Long:  chatDoc,
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
-		return cmd.BindEnvs(envs, "")
-	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 
@@ -32,7 +29,7 @@ var chatCmd = &cobra.Command{
 		c.SilenceUsage = true
 
 		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
-		conn = client.TryAuthOpen(jwt.CmdData.JWT, baseCfg)
+		conn := client.TryAuthOpen(connection.CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithCancel(context.Background())
@@ -42,7 +39,7 @@ var chatCmd = &cobra.Command{
 
 		for scanner.Scan() {
 			r, err := client.Pairwise{
-				ID:   jwt.CmdData.ConnID,
+				ID:   connection.CmdData.ConnID,
 				Conn: conn,
 			}.BasicMessage(ctx, scanner.Text())
 			err2.Check(err)

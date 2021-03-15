@@ -1,4 +1,4 @@
-package jwt
+package agent
 
 import (
 	"context"
@@ -25,15 +25,14 @@ var invitationCmd = &cobra.Command{
 
 		if cmd.DryRun() {
 			fmt.Println("JWT:", CmdData.JWT)
-			fmt.Println("Server:", CmdData.APIService)
-			fmt.Println("Port:", CmdData.Port)
+			fmt.Println("Server:", cmd.ServiceAddr())
 			fmt.Println("Label:", ourLabel)
 			return nil
 		}
 		c.SilenceUsage = true
 
 		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
-		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
+		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
@@ -58,5 +57,5 @@ func init() {
 
 	invitationCmd.Flags().StringVar(&ourLabel, "label", "", "our Aries connection Label ")
 
-	JwtCmd.AddCommand(invitationCmd)
+	AgentCmd.AddCommand(invitationCmd)
 }

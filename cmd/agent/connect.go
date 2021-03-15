@@ -1,4 +1,4 @@
-package jwt
+package agent
 
 import (
 	"context"
@@ -54,7 +54,7 @@ var connectCmd = &cobra.Command{
 		}
 
 		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
-		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
+		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
@@ -90,7 +90,7 @@ func init() {
 	connectCmd.Flags().StringVar(&invitationJSON, "invitation", "", "invitation json")
 	connectCmd.Flags().StringVar(&ourLabel, "label", "", "our Aries connection Label ")
 
-	JwtCmd.AddCommand(connectCmd)
+	AgentCmd.AddCommand(connectCmd)
 }
 
 // readInvitation function reads invitation json, parses it & stores it to connectionCmd.Invitation pointer

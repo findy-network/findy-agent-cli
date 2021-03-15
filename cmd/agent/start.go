@@ -1,4 +1,4 @@
-package bot
+package agent
 
 import (
 	"fmt"
@@ -7,7 +7,6 @@ import (
 	"syscall"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent-cli/extracmd/jwt"
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/findy-network/findy-common-go/agency/client/chat"
 	"github.com/findy-network/findy-common-go/agency/fsm"
@@ -50,7 +49,7 @@ var startCmd = &cobra.Command{
 		c.SilenceUsage = true
 
 		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
-		conn = client.TryAuthOpen(jwt.CmdData.JWT, baseCfg)
+		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		// Handle graceful shutdown
@@ -78,5 +77,5 @@ func init() {
 		fmt.Println(err)
 	})
 	startCmd.Flags().StringVarP(&fType, "type", "t", ".yaml", "file type used for state machine load")
-	botCmd.AddCommand(startCmd)
+	AgentCmd.AddCommand(startCmd)
 }

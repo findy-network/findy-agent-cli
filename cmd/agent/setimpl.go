@@ -1,4 +1,4 @@
-package bot
+package agent
 
 import (
 	"context"
@@ -35,7 +35,7 @@ var setImplEndpCmd = &cobra.Command{
 		c.SilenceUsage = true
 
 		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
-		conn = client.TryAuthOpen(jwt.CmdData.JWT, baseCfg)
+		conn := client.TryAuthOpen(jwt.CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithCancel(context.Background())
@@ -60,5 +60,5 @@ func init() {
 	})
 	setImplEndpCmd.Flags().StringVarP(&implID, "id", "i", "grpc", "implementation ID for us as a Edge Agent")
 	setImplEndpCmd.Flags().BoolVarP(&persistent, "persistent", "p", true, "tells to write implementation ID to wallet")
-	botCmd.AddCommand(setImplEndpCmd)
+	AgentCmd.AddCommand(setImplEndpCmd)
 }
