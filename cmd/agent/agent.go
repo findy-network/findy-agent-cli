@@ -11,10 +11,9 @@ import (
 
 // AgentCmd represents the JWT toke based user commands
 var AgentCmd = &cobra.Command{
-	Use:   "jwt",
-	Short: "Parent command for JWT gRPC commands",
-	Long: `
-`,
+	Use:   "agent",
+	Short: "Use the cloud agent",
+	Long:  ``,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},

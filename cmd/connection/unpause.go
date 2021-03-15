@@ -1,4 +1,4 @@
-package jwt
+package connection
 
 import (
 	"context"
@@ -69,5 +69,5 @@ func init() {
 	unpauseCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
 	unpauseCmd.Flags().BoolVarP(&ACK, "ack", "a", true, "how to proceed with the protocol")
 
-	JwtCmd.AddCommand(unpauseCmd)
+	ConnectionCmd.AddCommand(unpauseCmd)
 }

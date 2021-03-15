@@ -1,4 +1,4 @@
-package jwt
+package connection
 
 import (
 	"context"
@@ -73,5 +73,5 @@ func init() {
 		fmt.Println(err)
 	})
 
-	JwtCmd.AddCommand(listenCmd)
+	ConnectionCmd.AddCommand(listenCmd)
 }

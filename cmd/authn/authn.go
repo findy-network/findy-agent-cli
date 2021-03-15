@@ -20,7 +20,7 @@ means that any its dictionary item can be over written by command flag values'`
 
 var acatorCmd = &cobra.Command{
 	Use:   "authn",
-	Short: "authn commands",
+	Short: "WebAuthn commands",
 	Long:  acatorDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "authn")

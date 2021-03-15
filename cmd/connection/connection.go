@@ -11,10 +11,9 @@ import (
 
 // ConnectionCmd represents the JWT toke based user commands
 var ConnectionCmd = &cobra.Command{
-	Use:   "jwt",
-	Short: "Parent command for JWT gRPC commands",
-	Long: `
-`,
+	Use:   "connection",
+	Short: "Manage connections",
+	Long:  ``,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},

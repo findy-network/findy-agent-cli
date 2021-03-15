@@ -1,4 +1,4 @@
-package jwt
+package connection
 
 import (
 	"context"
@@ -116,6 +116,6 @@ func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
-	JwtCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
-	JwtCmd.AddCommand(saListenCmd)
+	ConnectionCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
+	ConnectionCmd.AddCommand(saListenCmd)
 }

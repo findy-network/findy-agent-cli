@@ -1,34 +1,53 @@
 package ops
 
 import (
+	"context"
+	"fmt"
+	"io"
 	"os"
+	"time"
 
+	pb "github.com/findy-network/findy-agent-api/grpc/ops"
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent/cmds/agency"
+	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
 
 var countCmd = &cobra.Command{
 	Use:   "count",
-	Short: "",
+	Short: "Query statistics from the agency",
 	Long:  ``,
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
-		err2.Check(cCmd.Validate())
 		if !cmd.DryRun() {
 			c.SilenceUsage = true
-			err2.Try(cCmd.RpcExec(os.Stdout))
+			err2.Try(RpcCount(os.Stdout))
 		}
 		return nil
 	},
 }
 
-var cCmd agency.CountCmd
-
 func init() {
-	countCmd.Flags().StringVar(&cCmd.Addr, "address", "localhost", "gRPC server address")
-	countCmd.Flags().StringVar(&cCmd.AdminID, "admin-id", "findy-root", "gRPC server admin id")
-	countCmd.Flags().IntVar(&cCmd.Port, "port", 50051, "gRPC server port")
-	cmd.RootCmd().AddCommand(countCmd)
+	OpsCmd.AddCommand(countCmd)
+}
+
+func RpcCount(w io.Writer) (err error) {
+	defer err2.Return(&err)
+
+	baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
+	// todo: this wont work until we have way to build JWT
+	conn := client.TryOpen("findy-root", baseCfg)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	opsClient := pb.NewDevOpsClient(conn)
+	result, err := opsClient.Enter(ctx, &pb.Cmd{
+		Type: pb.Cmd_COUNT,
+	})
+	err2.Check(err)
+	fmt.Fprintln(w, "count result:\n", result.GetCount())
+
+	return nil
 }

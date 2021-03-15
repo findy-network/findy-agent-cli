@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
+	"github.com/findy-network/findy-agent-cli/cmd/agent"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -28,5 +29,5 @@ func init() {
 		fmt.Println(err)
 	})
 
-	cmd.RootCmd().AddCommand(botCmd)
+	agent.AgentCmd.AddCommand(botCmd)
 }

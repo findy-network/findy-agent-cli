@@ -1,4 +1,4 @@
-package jwt
+package connection
 
 import (
 	"context"
@@ -10,11 +10,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var credDefID, attrJSON string
-
-var issueCmd = &cobra.Command{
-	Use:   "issue",
-	Short: "issue credential command for JWT gRPC",
+var reqProofCmd = &cobra.Command{
+	Use:   "reqproof",
+	Short: "request proof command",
 	Long: `
 `,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
@@ -23,7 +21,7 @@ var issueCmd = &cobra.Command{
 		return cmd.BindEnvs(issueEnvs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Annotate("issuing error", &err)
+		defer err2.Return(&err)
 
 		if cmd.DryRun() {
 			return nil
@@ -37,7 +35,7 @@ var issueCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		ch, err := client.Pairwise{ID: CmdData.ConnID, Conn: conn}.Issue(ctx, credDefID, attrJSON)
+		ch, err := client.Pairwise{ID: CmdData.ConnID, Conn: conn}.ReqProof(ctx, attrJSON)
 		err2.Check(err)
 		for status := range ch {
 			fmt.Println("issue status:", status.State, "|", status.Info)
@@ -51,13 +49,7 @@ func init() {
 		fmt.Println(err)
 	})
 
-	issueCmd.Flags().StringVar(&attrJSON, "attrs", "", "attrs json")
-	issueCmd.Flags().StringVar(&credDefID, "cred-def-id", "", "cred def id")
+	reqProofCmd.Flags().StringVar(&attrJSON, "attrs", "", "attrs json")
 
-	JwtCmd.AddCommand(issueCmd)
-}
-
-var issueEnvs = map[string]string{
-	"attrs":       "ATTRS",
-	"cred-def-id": "CRED_DEF_ID",
+	ConnectionCmd.AddCommand(reqProofCmd)
 }

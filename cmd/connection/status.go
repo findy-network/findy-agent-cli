@@ -1,4 +1,4 @@
-package jwt
+package connection
 
 import (
 	"context"
@@ -65,5 +65,5 @@ func init() {
 	statusCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
 	statusCmd.Flags().Int32VarP(&MyTypeID, "type", "t", 3, "3=trust ping, 1=issue, ... see usage")
 
-	JwtCmd.AddCommand(statusCmd)
+	ConnectionCmd.AddCommand(statusCmd)
 }

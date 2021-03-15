@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/findy-network/findy-agent-cli/utils"
-	"github.com/findy-network/findy-agent/cmds/agency"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -21,11 +20,9 @@ var rootCmd = &cobra.Command{
 	Version: utils.Version,
 	Use:     "findy-agent-cli",
 	Short:   "Findy agent cli tool",
-	Long: `
-Findy agent cli tool
-	`,
+	Long:    `Findy agent cli tool`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		agency.ParseLoggingArgs(rootFlags.logging)
+		utils.ParseLoggingArgs(rootFlags.logging)
 		handleViperFlags(cmd)
 	},
 }

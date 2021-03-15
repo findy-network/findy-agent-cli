@@ -1,35 +1,60 @@
 package ops
 
 import (
+	"context"
+	"fmt"
+	"io"
 	"os"
+	"time"
 
+	pb "github.com/findy-network/findy-agent-api/grpc/ops"
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent/cmds/agency"
+	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
 
 var loggingCmd = &cobra.Command{
 	Use:   "logging",
-	Short: "",
+	Short: "Manage logging level of the agency",
 	Long:  ``,
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
-		err2.Check(lCmd.Validate())
 		if !cmd.DryRun() {
 			c.SilenceUsage = true
-			err2.Try(lCmd.RpcExec(os.Stdout))
+			err2.Try(RpcLogging(os.Stdout))
 		}
 		return nil
 	},
 }
 
-var lCmd agency.LoggingCmd
+var lCmd struct {
+	Level string
+}
 
 func init() {
 	loggingCmd.Flags().StringVarP(&lCmd.Level, "level", "L", "3", "log level in the agency")
-	loggingCmd.Flags().StringVar(&lCmd.Addr, "address", "localhost", "gRPC server address")
-	loggingCmd.Flags().StringVar(&cCmd.AdminID, "admin-id", "findy-root", "gRPC server admin id")
-	loggingCmd.Flags().IntVar(&lCmd.Port, "port", 50051, "gRPC server port")
-	cmd.RootCmd().AddCommand(loggingCmd)
+	OpsCmd.AddCommand(loggingCmd)
+}
+
+func RpcLogging(w io.Writer) (err error) {
+	defer err2.Return(&err)
+
+	baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
+	// todo: this wont work until we have way to build JWT
+	conn := client.TryOpen("findy-root", baseCfg)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	opsClient := pb.NewDevOpsClient(conn)
+	err2.Empty.Try(opsClient.Enter(ctx, &pb.Cmd{
+		Type:    pb.Cmd_LOGGING,
+		Request: &pb.Cmd_Logging{Logging: lCmd.Level},
+	}))
+	err2.Check(err)
+
+	fmt.Fprintln(w, "logging level set to:", lCmd.Level)
+
+	return nil
 }
