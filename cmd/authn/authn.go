@@ -58,11 +58,16 @@ func init() {
 		fmt.Println(err)
 	})
 
-	acatorCmd.PersistentFlags().StringVarP(&authnCmd.UserName, "user_name", "u", "", "used for registration name")
-	acatorCmd.PersistentFlags().StringVar(&authnCmd.Url, "url", authnCmd.Url, "WebAuthn server URL aka origin")
-	acatorCmd.PersistentFlags().StringVar(&authnCmd.Key, "key", authnCmd.Key, "master key for authenticator")
-	acatorCmd.PersistentFlags().StringVar(&authnCmd.AAGUID, "aaguid", authnCmd.AAGUID, "authenticator AAGUID")
-	acatorCmd.PersistentFlags().Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter, "authenticator counter")
+	acatorCmd.PersistentFlags().StringVarP(&authnCmd.UserName, "user_name", "u", "",
+		"used for registration name")
+	acatorCmd.PersistentFlags().StringVar(&authnCmd.Url, "url", authnCmd.Url,
+		cmd.FlagInfo("WebAuthn server URL aka origin", "", envs["url"]))
+	acatorCmd.PersistentFlags().StringVar(&authnCmd.Key, "key", authnCmd.Key,
+		cmd.FlagInfo("master key for authenticator", "", envs["key"]))
+	acatorCmd.PersistentFlags().StringVar(&authnCmd.AAGUID, "aaguid", authnCmd.AAGUID,
+		cmd.FlagInfo("authenticator AAGUID", "", envs["aaguid"]))
+	acatorCmd.PersistentFlags().Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter,
+		cmd.FlagInfo("authenticator counter", "", envs["counter"]))
 
 	cmd.RootCmd().AddCommand(acatorCmd)
 }

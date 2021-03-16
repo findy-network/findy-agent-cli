@@ -35,8 +35,10 @@ func init() {
 	})
 
 	flags := ConnectionCmd.PersistentFlags()
-	flags.StringVar(&CmdData.JWT, "jwt", "", "JWT")
-	flags.StringVar(&CmdData.ConnID, "conn-id", "", "connection id aka pairwise id")
+	flags.StringVar(&CmdData.JWT, "jwt", "",
+		cmd.FlagInfo("cloud agent JWT token", "", envs["jwt"]))
+	flags.StringVar(&CmdData.ConnID, "conn-id", "",
+		cmd.FlagInfo("connection id aka pairwise id", "", envs["conn-id"]))
 
 	cmd.RootCmd().AddCommand(ConnectionCmd)
 }

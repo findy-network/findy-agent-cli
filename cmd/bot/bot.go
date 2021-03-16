@@ -40,8 +40,10 @@ func init() {
 	})
 
 	flags := botCmd.PersistentFlags()
-	flags.StringVar(&CmdData.JWT, "jwt", "", "JWT")
-	flags.StringVar(&CmdData.ConnID, "conn-id", "", "connection id aka pairwise id")
+	flags.StringVar(&CmdData.JWT, "jwt", "",
+		cmd.FlagInfo("agent JWT token", "", envs["jwt"]))
+	flags.StringVar(&CmdData.ConnID, "conn-id", "",
+		cmd.FlagInfo("connection id aka pairwise id", "", envs["conn-id"]))
 
 	cmd.RootCmd().AddCommand(botCmd)
 }

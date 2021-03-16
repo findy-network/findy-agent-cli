@@ -49,8 +49,10 @@ func init() {
 		fmt.Println(err)
 	})
 
-	issueCmd.Flags().StringVar(&attrJSON, "attrs", "", "attrs json")
-	issueCmd.Flags().StringVar(&credDefID, "cred-def-id", "", "cred def id")
+	issueCmd.Flags().StringVar(&attrJSON, "attrs", "",
+		cmd.FlagInfo("attrs json", "", issueEnvs["attrs"]))
+	issueCmd.Flags().StringVar(&credDefID, "cred-def-id", "",
+		cmd.FlagInfo("cred def id", "", issueEnvs["cred-def-id"]))
 
 	ConnectionCmd.AddCommand(issueCmd)
 }

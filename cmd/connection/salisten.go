@@ -23,7 +23,7 @@ controller resumes all protocol steps according the given ACK or NACK flag.`
 var saListenCmd = &cobra.Command{
 	Use:   "salisten",
 	Short: "Start to listen service agent",
-	Long: saListenDoc,
+	Long:  saListenDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
