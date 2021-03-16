@@ -6,7 +6,7 @@ require (
 	github.com/findy-network/findy-agent v0.0.0-20210302063538-627f8f3c8758
 	github.com/findy-network/findy-agent-api v0.0.0-20210203142917-ee7d471ffd4b
 	github.com/findy-network/findy-agent-auth v0.0.0-20210304064530-24376f89d333
-	github.com/findy-network/findy-common-go v0.1.2-0.20210304145749-94f700a63abf
+	github.com/findy-network/findy-common-go v0.1.2-0.20210314110550-1711fcae935e
 	github.com/findy-network/findy-wrapper-go v0.0.0-20210302063517-bb98c7f07ea4
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/google/uuid v1.2.0 // indirect
@@ -18,5 +18,3 @@ require (
 )
 
 replace github.com/findy-network/findy-agent => ../findy-agent
-
-replace github.com/findy-network/findy-common-go => ../findy-common-go
