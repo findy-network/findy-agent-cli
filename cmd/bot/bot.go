@@ -17,7 +17,7 @@ incoming messages another for sending them back in a loop.`
 
 var botCmd = &cobra.Command{
 	Use:   "bot",
-	Short: "bot commands",
+	Short: "Manage Bot",
 	Long:  botDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")

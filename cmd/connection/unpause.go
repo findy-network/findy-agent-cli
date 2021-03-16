@@ -13,8 +13,8 @@ import (
 )
 
 var unpauseCmd = &cobra.Command{
-	Use:   "unpause",
-	Short: "unpause command for JWT gRPC",
+	Use:   "resume",
+	Short: "Resume protocol",
 	Long: `
 `,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {

@@ -17,7 +17,7 @@ import (
 
 var listenCmd = &cobra.Command{
 	Use:   "listen",
-	Short: "listen command for JWT gRPC",
+	Short: "Start to listen cloud agent until ctrl-C",
 	Long: `
 `,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {

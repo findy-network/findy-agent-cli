@@ -15,11 +15,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var saListenDoc = `Starts to cloud agent controller.
+
+The controller runs until interrupted with ctrl-c. During the execution the
+controller resumes all protocol steps according the given ACK or NACK flag.`
+
 var saListenCmd = &cobra.Command{
 	Use:   "salisten",
-	Short: "SA listen command for JWT gRPC",
-	Long: `
-`,
+	Short: "Start to listen service agent",
+	Long: saListenDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
@@ -116,6 +120,6 @@ func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
-	ConnectionCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
+	saListenCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
 	ConnectionCmd.AddCommand(saListenCmd)
 }

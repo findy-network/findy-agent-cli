@@ -14,7 +14,7 @@ import (
 
 var invitationCmd = &cobra.Command{
 	Use:   "invitation",
-	Short: "invitation command for JWT gRPC",
+	Short: "Print connection invitation",
 	Long: `Connects the cloud agent to produce invitation JSON
 `,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {

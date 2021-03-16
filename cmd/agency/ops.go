@@ -11,7 +11,7 @@ import (
 // OpsCmd represents the JWT toke based user commands
 var OpsCmd = &cobra.Command{
 	Use:   "agency",
-	Short: "Operations to manage the cloud agency",
+	Short: "Manage Agency",
 	Long:  ``,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")

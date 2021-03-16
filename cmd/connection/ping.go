@@ -13,8 +13,8 @@ import (
 )
 
 var pingCmd = &cobra.Command{
-	Use:   "ping",
-	Short: "ping command for JWT gRPC",
+	Use:   "trustping",
+	Short: "Trustping protocol",
 	Long: `
 `,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {

@@ -14,9 +14,7 @@ var credDefID, attrJSON string
 
 var issueCmd = &cobra.Command{
 	Use:   "issue",
-	Short: "issue credential command for JWT gRPC",
-	Long: `
-`,
+	Short: "Issue credential",
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(cmd.BindEnvs(envs, ""))

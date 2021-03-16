@@ -21,7 +21,7 @@ var statusDoc = `    CONNECT = 1;
 
 var statusCmd = &cobra.Command{
 	Use:   "status",
-	Short: "status command for JWT gRPC",
+	Short: "Return protocol status",
 	Long:  statusDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")

@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var connectDoc = `Connect builds a new pairwise connection to another agent. The other agent
+var connectDoc = `Builds a new DIDComm connection to another agent. The other agent
 is specified by an invitation. The invitation can be entered in three ways:
 
 1. As a flag string (--invitation)
@@ -26,7 +26,7 @@ is specified by an invitation. The invitation can be entered in three ways:
 
 var connectCmd = &cobra.Command{
 	Use:   "connect",
-	Short: "connect command for JWT gRPC",
+	Short: "Connect to agent",
 	Long:  connectDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
