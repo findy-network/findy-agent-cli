@@ -27,8 +27,6 @@ var botCmd = &cobra.Command{
 	},
 }
 
-const timeout = 30000 * time.Second
-
 var CmdData = struct {
 	ConnID string
 	JWT    string
