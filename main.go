@@ -2,9 +2,10 @@ package main
 
 import (
 	"github.com/findy-network/findy-agent-cli/cmd"
+	_ "github.com/findy-network/findy-agent-cli/cmd/agency"
 	_ "github.com/findy-network/findy-agent-cli/cmd/authn"
-	_ "github.com/findy-network/findy-agent-cli/cmd/connection/bot"
-	_ "github.com/findy-network/findy-agent-cli/cmd/ops"
+	_ "github.com/findy-network/findy-agent-cli/cmd/bot"
+	_ "github.com/findy-network/findy-agent-cli/cmd/connection"
 )
 
 func main() {
