@@ -89,10 +89,10 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	flags := rootCmd.PersistentFlags()
-	flags.StringVar(&rootFlags.cfgFile, "config", "", flagInfo("configuration file", "", rootEnvs["config"]))
-	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", flagInfo("logging startup arguments", "", rootEnvs["logging"]))
+	flags.StringVar(&rootFlags.cfgFile, "config", "", FlagInfo("configuration file", "", rootEnvs["config"]))
+	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", FlagInfo("logging startup arguments", "", rootEnvs["logging"]))
 	flags.StringVar(&rootFlags.ServiceAddr, "server", "localhost:50051", "gRPC server addr:port")
-	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, flagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
+	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, FlagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
 
 	err2.Check(viper.BindPFlag("logging", flags.Lookup("logging")))
 	err2.Check(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
@@ -142,7 +142,7 @@ func BindEnvs(envMap map[string]string, cmdName string) (err error) {
 	return nil
 }
 
-func flagInfo(info, cmdPrefix, envName string) string {
+func FlagInfo(info, cmdPrefix, envName string) string {
 	return info + ", " + getEnvName(cmdPrefix, envName)
 }
 
