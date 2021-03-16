@@ -63,7 +63,7 @@ func init() {
 	})
 
 	statusCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
-	statusCmd.Flags().Int32VarP(&MyTypeID, "type", "t", 3, "3=trust ping, 1=issue, ... see usage")
+	statusCmd.Flags().Int32VarP(&MyTypeID, "type", "t", 4, "4=trust ping, 1=issue, ... see usage")
 
 	ConnectionCmd.AddCommand(statusCmd)
 }

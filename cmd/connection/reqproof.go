@@ -13,8 +13,7 @@ import (
 var reqProofCmd = &cobra.Command{
 	Use:   "reqproof",
 	Short: "request proof command",
-	Long: `
-`,
+	Long:  `Requests a proof from DIDComm's other end agent.`,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(cmd.BindEnvs(envs, ""))

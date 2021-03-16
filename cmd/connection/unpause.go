@@ -15,8 +15,7 @@ import (
 var unpauseCmd = &cobra.Command{
 	Use:   "resume",
 	Short: "Resume protocol",
-	Long: `
-`,
+	Long:  `Resumes a protocol with given ACK/NACK.`,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},

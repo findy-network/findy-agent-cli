@@ -120,6 +120,8 @@ func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
+
 	saListenCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
+
 	ConnectionCmd.AddCommand(saListenCmd)
 }

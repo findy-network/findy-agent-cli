@@ -15,8 +15,7 @@ import (
 var invitationCmd = &cobra.Command{
 	Use:   "invitation",
 	Short: "Print connection invitation",
-	Long: `Connects the cloud agent to produce invitation JSON
-`,
+	Long:  `Commands the cloud agent to produce invitation JSON`,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},

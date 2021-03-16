@@ -18,8 +18,7 @@ import (
 var listenCmd = &cobra.Command{
 	Use:   "listen",
 	Short: "Start to listen cloud agent until ctrl-C",
-	Long: `
-`,
+	Long:  `Starts to listen the cloud agent and prints every notification.`,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
