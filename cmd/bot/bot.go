@@ -2,7 +2,6 @@ package bot
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/lainio/err2"
