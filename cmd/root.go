@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/findy-network/findy-agent-cli/utils"
-	"github.com/findy-network/findy-agent/cmds/agency"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -21,13 +20,10 @@ var rootCmd = &cobra.Command{
 	Version: utils.Version,
 	Use:     "findy-agent-cli",
 	Short:   "Findy agent cli tool",
-	Long: `
-Findy agent cli tool
-	`,
+	Long:    `Findy agent cli tool`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		agency.ParseLoggingArgs(rootFlags.logging)
+		utils.ParseLoggingArgs(rootFlags.logging)
 		handleViperFlags(cmd)
-		aCmd.PreRun()
 	},
 }
 
@@ -57,11 +53,16 @@ func DryRun() bool {
 	return rootFlags.dryRun
 }
 
+func ServiceAddr() string {
+	return rootFlags.ServiceAddr
+}
+
 // RootFlags are the common flags
 type RootFlags struct {
-	cfgFile string
-	dryRun  bool
-	logging string
+	cfgFile     string
+	dryRun      bool
+	logging     string
+	ServiceAddr string
 }
 
 // ClientFlags agent flags
@@ -72,12 +73,12 @@ type ClientFlags struct {
 }
 
 var rootFlags = RootFlags{}
-var cFlags = ClientFlags{}
 
 var rootEnvs = map[string]string{
 	"config":  "CONFIG",
 	"logging": "LOGGING",
 	"dry-run": "DRY_RUN",
+	"server":  "SERVER",
 }
 
 func init() {
@@ -88,12 +89,18 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	flags := rootCmd.PersistentFlags()
-	flags.StringVar(&rootFlags.cfgFile, "config", "", flagInfo("configuration file", "", rootEnvs["config"]))
-	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2", flagInfo("logging startup arguments", "", rootEnvs["logging"]))
-	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false, flagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
+	flags.StringVar(&rootFlags.cfgFile, "config", "",
+		FlagInfo("configuration file", "", rootEnvs["config"]))
+	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=2",
+		FlagInfo("logging startup arguments", "", rootEnvs["logging"]))
+	flags.StringVar(&rootFlags.ServiceAddr, "server", "localhost:50051",
+		FlagInfo("gRPC server addr:port", "", rootEnvs["server"]))
+	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false,
+		FlagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
 
 	err2.Check(viper.BindPFlag("logging", flags.Lookup("logging")))
 	err2.Check(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
+	err2.Check(viper.BindPFlag("server", flags.Lookup("server")))
 
 	BindEnvs(rootEnvs, "")
 
@@ -139,7 +146,7 @@ func BindEnvs(envMap map[string]string, cmdName string) (err error) {
 	return nil
 }
 
-func flagInfo(info, cmdPrefix, envName string) string {
+func FlagInfo(info, cmdPrefix, envName string) string {
 	return info + ", " + getEnvName(cmdPrefix, envName)
 }
 

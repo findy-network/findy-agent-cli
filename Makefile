@@ -3,12 +3,64 @@ LEDGER_NAME:=FINDY_FILE_LEDGER
 
 AGENT_BRANCH=$(shell ./branch.sh ../findy-agent/)
 API_BRANCH=$(shell ./branch.sh ../findy-agent-api/)
+AUTH_BRANCH=$(shell ./branch.sh ../findy-agent-auth/)
 GRPC_BRANCH=$(shell ./branch.sh ../findy-common-go/)
+WRAP_BRANCH=$(shell ./branch.sh ../findy-wrapper-go/)
 
-modules:
-	@echo Syncing modules for work brances ...
+drop_wrap:
+	go mod edit -dropreplace github.com/findy-network/findy-wrapper-go
+
+drop_comm:
+	go mod edit -dropreplace github.com/findy-network/findy-common-go
+
+drop_auth:
+	go mod edit -dropreplace github.com/findy-network/findy-agent-auth
+
+drop_api:
+	go mod edit -dropreplace github.com/findy-network/findy-agent-api
+
+drop_agent:
+	go mod edit -dropreplace github.com/findy-network/findy-agent
+
+drop_all: drop_api drop_comm drop_wrap drop_wrap drop_auth
+
+repl_wrap:
+	go mod edit -replace github.com/findy-network/findy-wrapper-go=../findy-wrapper-go
+
+repl_comm:
+	go mod edit -replace github.com/findy-network/findy-common-go=../findy-common-go
+
+repl_api:
+	go mod edit -replace github.com/findy-network/findy-agent-api=../findy-agent-api
+
+repl_auth:
+	go mod edit -replace github.com/findy-network/findy-agent-auth=../findy-agent-auth
+
+repl_agent:
+	go mod edit -replace github.com/findy-network/findy-agent=../findy-agent
+
+repl_all: repl_api repl_comm repl_wrap repl_agent repl_auth
+
+modules: modules_api modules_auth modules_wrap modules_comm modules_agent
+
+modules_api: 
+	@echo Syncing modules: findy-agent-api/$(API_BRANCH)
 	go get github.com/findy-network/findy-agent-api@$(API_BRANCH)
+
+modules_auth:
+	@echo Syncing modules: findy-agent-api/@$(AUTH_BRANCH)
+	go get github.com/findy-network/findy-agent-auth@$(AUTH_BRANCH)
+
+modules_wrap:
+	@echo Syncing modules: findy-agent-api/$(WRAP_BRANCH)
+	go get github.com/findy-network/findy-wrapper-go@$(WRAP_BRANCH)
+
+modules_comm:
+	@echo Syncing modules: findy-agent-api/$(GRPC_BRANCH) 
 	go get github.com/findy-network/findy-common-go@$(GRPC_BRANCH)
+
+modules_agent:
+	@echo Syncing modules: findy-agent-api/$(AGENT_BRANCH) 
 	go get github.com/findy-network/findy-agent@$(AGENT_BRANCH)
 
 deps:
@@ -58,7 +110,7 @@ install:
 	$(eval VERSION = $(shell cat ./VERSION))
 	@echo "Installing version $(VERSION)"
 	go install \
-		-ldflags "-X '$(AGENT_PATH)-cli/utils.Version=$(VERSION)' -X '$(AGENT_PATH)/agent/utils.Version=$(VERSION)'" \
+		-ldflags "-X '$(AGENT_PATH)-cli/utils.Version=$(VERSION)'" \
 		./...
 
 image:

@@ -11,7 +11,7 @@ var treeDoc = `Prints the findy-agent-cli command structure.
 
 The whole command structure is printed if no argument is given.
 If command name is given as argument, only specified command structure is printed.
-(Command must be direct subcommand of the root command.)
+(Command must be direct subcommand of the root.)
 `
 
 var treeCmd = &cobra.Command{

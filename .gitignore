@@ -10,6 +10,7 @@ exports/
 tmp/
 scripts/client?00/
 scripts/op/
+Session.vim
 
 # Binaries for programs and plugins
 *.exe
