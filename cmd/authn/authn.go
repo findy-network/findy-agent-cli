@@ -32,6 +32,8 @@ var acatorCmd = &cobra.Command{
 			return errors.New("input missing")
 		}
 
+		c.SilenceUsage = true
+
 		inJSON := os.Stdin
 		if args[0] != "-" {
 			inJSON = err2.File.Try(os.Open(args[0]))

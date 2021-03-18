@@ -29,6 +29,7 @@ var registerCmd = &cobra.Command{
 
 		err2.Check(myCmd.Validate())
 		if !cmd.DryRun() {
+			c.SilenceUsage = true
 			r, err := myCmd.Exec(os.Stdout)
 			err2.Check(err)
 			fmt.Println(r.Token)
