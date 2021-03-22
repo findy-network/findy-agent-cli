@@ -59,5 +59,7 @@ func init() {
 	})
 	setImplEndpCmd.Flags().StringVarP(&implID, "id", "i", "grpc", "controller implementation ID")
 	setImplEndpCmd.Flags().BoolVarP(&persistent, "persistent", "p", true, "tells to write implementation ID to CA's wallet")
+	setImplEndpCmd.MarkFlagRequired("id")
+	setImplEndpCmd.MarkFlagRequired("persistent")
 	AgentCmd.AddCommand(setImplEndpCmd)
 }
