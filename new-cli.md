@@ -14,7 +14,7 @@ We will use grpc.Client wrapper and bot. As well, authn service, from our wallet
 allocation service.
 
 ### TODO
-- [ ] move authn commands to root level
+- [x] move authn commands to root level
 - [x] check offer.go and proof.go: they are old!! **remove**
-- [ ] think about name for agency cmds with new gRPC API
-- [ ] move flags to new cmd tree like server addr and port to root cmd
+- [x] think about name for agency cmds with new gRPC API
+- [x] move flags to new cmd tree like server addr and port to root cmd

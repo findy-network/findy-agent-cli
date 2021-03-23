@@ -33,7 +33,7 @@ var pingCmd = &cobra.Command{
 		c.SilenceUsage = true
 
 		// high security is not the point here, but help debugging with ID
-		// that's why the security linter is supressed for this
+		// that's why the security linter is suppressed for this
 		rand.Seed(time.Now().UnixNano())
 		const min = 10
 		const max = 30
