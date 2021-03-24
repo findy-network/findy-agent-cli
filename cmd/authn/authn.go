@@ -32,6 +32,8 @@ var acatorCmd = &cobra.Command{
 			return errors.New("input missing")
 		}
 
+		c.SilenceUsage = true
+
 		inJSON := os.Stdin
 		if args[0] != "-" {
 			inJSON = err2.File.Try(os.Open(args[0]))
@@ -58,16 +60,23 @@ func init() {
 		fmt.Println(err)
 	})
 
-	acatorCmd.PersistentFlags().StringVarP(&authnCmd.UserName, "user_name", "u", "",
+	flags := acatorCmd.PersistentFlags()
+	flags.StringVarP(&authnCmd.UserName, "user-name", "u", "",
 		"used for registration name")
-	acatorCmd.PersistentFlags().StringVar(&authnCmd.Url, "url", authnCmd.Url,
+	flags.StringVar(&authnCmd.Url, "url", authnCmd.Url,
 		cmd.FlagInfo("WebAuthn server URL aka origin", "", envs["url"]))
-	acatorCmd.PersistentFlags().StringVar(&authnCmd.Key, "key", authnCmd.Key,
+	flags.StringVar(&authnCmd.Key, "key", authnCmd.Key,
 		cmd.FlagInfo("master key for authenticator", "", envs["key"]))
-	acatorCmd.PersistentFlags().StringVar(&authnCmd.AAGUID, "aaguid", authnCmd.AAGUID,
+	flags.StringVar(&authnCmd.AAGUID, "aaguid", authnCmd.AAGUID,
 		cmd.FlagInfo("authenticator AAGUID", "", envs["aaguid"]))
-	acatorCmd.PersistentFlags().Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter,
+	flags.Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter,
 		cmd.FlagInfo("authenticator counter", "", envs["counter"]))
+
+	acatorCmd.MarkPersistentFlagRequired("user-name")
+	acatorCmd.MarkPersistentFlagRequired("url")
+	acatorCmd.MarkPersistentFlagRequired("aaguid")
+	acatorCmd.MarkPersistentFlagRequired("counter")
+	acatorCmd.MarkPersistentFlagRequired("key")
 
 	cmd.RootCmd().AddCommand(acatorCmd)
 }

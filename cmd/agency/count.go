@@ -23,6 +23,8 @@ var countCmd = &cobra.Command{
 		if !cmd.DryRun() {
 			c.SilenceUsage = true
 			err2.Try(Count(os.Stdout))
+		} else {
+			fmt.Println("jwt:", CmdData.JWT)
 		}
 		return nil
 	},
@@ -38,8 +40,7 @@ func Count(w io.Writer) (err error) {
 	defer err2.Return(&err)
 
 	baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
-	// todo: this wont work until we have way to build JWT
-	conn := client.TryOpen("findy-root", baseCfg)
+	conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()

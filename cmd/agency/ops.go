@@ -32,7 +32,7 @@ func init() {
 
 	flags := OpsCmd.PersistentFlags()
 	flags.StringVar(&CmdData.JWT, "jwt", "",
-		cmd.FlagInfo("agent JWT token", "", envs["jwt"]))
+		cmd.FlagInfo("Agency management JWT", "", envs["jwt"]))
 
 	cmd.RootCmd().AddCommand(OpsCmd)
 }
