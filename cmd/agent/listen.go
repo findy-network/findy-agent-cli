@@ -1,4 +1,4 @@
-package connection
+package agent
 
 import (
 	"context"
@@ -72,5 +72,5 @@ func init() {
 		fmt.Println(err)
 	})
 
-	ConnectionCmd.AddCommand(listenCmd)
+	AgentCmd.AddCommand(listenCmd)
 }

@@ -1,4 +1,4 @@
-package connection
+package agent
 
 import (
 	"context"
@@ -123,5 +123,5 @@ func init() {
 
 	saListenCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
 
-	ConnectionCmd.AddCommand(saListenCmd)
+	AgentCmd.AddCommand(saListenCmd)
 }
