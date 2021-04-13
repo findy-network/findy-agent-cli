@@ -105,3 +105,6 @@ install:
 		-ldflags "-X '$(AGENT_PATH)-cli/utils.Version=$(VERSION)'" \
 		./...
 
+# https://goreleaser.com/install/
+test_release:
+	goreleaser --snapshot --skip-publish --rm-dist
