@@ -30,3 +30,5 @@ Dockerrun.aws.json
 s3.config
 
 *cli.code-workspace
+
+dist/
