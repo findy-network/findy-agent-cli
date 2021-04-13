@@ -50,11 +50,11 @@ linters:
     - deadcode
     - depguard
     - dogsled
-#    - dupl
-#    - errcheck
-#    - exhaustive
+    #    - dupl
+    #    - errcheck
+    #    - exhaustive
     - funlen
-#    - gochecknoinits
+    #    - gochecknoinits
     - goconst
     - gocritic
     - gocyclo
@@ -68,7 +68,7 @@ linters:
     - govet
     - ineffassign
     - interfacer
-#    - lll
+    #    - lll
     - misspell
     - nakedret
     - noctx
@@ -80,7 +80,7 @@ linters:
     - stylecheck
     - typecheck
     - unconvert
-#    - unparam
+    #    - unparam
     - unused
     - varcheck
 #    - whitespace
@@ -98,6 +98,6 @@ issues:
       text: "should not use dot imports"
 run:
 service:
-  golangci-lint-version: 1.32.x # use the fixed version to not introduce new linters unexpectedly
+  golangci-lint-version: 1.39.x # use the fixed version to not introduce new linters unexpectedly
   prepare:
     - echo "here I can run custom commands, but no preparation needed for this repo"

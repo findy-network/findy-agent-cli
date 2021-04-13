@@ -105,3 +105,17 @@ install:
 		-ldflags "-X '$(AGENT_PATH)-cli/utils.Version=$(VERSION)'" \
 		./...
 
+# https://goreleaser.com/install/
+test_release:
+	goreleaser --snapshot --skip-publish --rm-dist
+
+# TODO:
+# use tar files instead of unpacked binaries
+# integrate to CI pipeline
+npm_publish: test_release
+	-rm -rf npm/dist
+	rm dist/*.tar.gz
+	rm dist/*.yaml
+	rm dist/*.txt
+	mv dist npm/
+	cd npm && npm publish
