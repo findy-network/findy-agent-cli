@@ -27,6 +27,8 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.16
+      - name: use token
+        run: git config --global url."https://"${{ secrets.https_prefix }}"github.com/".insteadOf "https://github.com/"
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
