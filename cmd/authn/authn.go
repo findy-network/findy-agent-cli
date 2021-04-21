@@ -88,6 +88,7 @@ var authnCmd = authn.Cmd{
 	AAGUID:   "12c85a48-4baf-47bd-b51f-f192871a1511",
 	Key:      "15308490f1e4026284594dd08d31291bc8ef2aeac730d0daf6ff87bb92d4336c",
 	Counter:  0,
+	Token:    "",
 }
 
 var envs = map[string]string{
@@ -95,4 +96,5 @@ var envs = map[string]string{
 	"aaguid":  "AAGUID",
 	"key":     "KEY",
 	"counter": "COUNTER",
+	"jwt":     "JWT",
 }
