@@ -2,7 +2,6 @@
 
 ![lint](https://github.com/findy-network/findy-agent-cli/workflows/golangci-lint/badge.svg?branch=dev)
 ![test](https://github.com/findy-network/findy-agent-cli/workflows/test/badge.svg?branch=dev)
-![e2e test](https://github.com/findy-network/findy-agent-cli/workflows/e2e%20test/badge.svg)
 
 findy-agent-cli is a CLI tool for [findy-agent](https://github.com/findy-network/findy-agent) project. This tool provides some basic agency, pool & agent actions. findy-agent-cli can be used e.g. to start agency, create pool & making connections between agents.
 
@@ -221,18 +220,6 @@ If you are using `make cli` to build dev-time version of the command to your `GO
 #### Enable to all shell sessions (optional)
 
 According which shell you are using, add one of the previous commands to your shell configuration scripts (e.g. .bash_profile/.zshrc)
-
-## Running e2e tests
-
-Run end-to-end tests for findy-agent-cli with:
-
-```
-make e2e
-```
-
-This starts test-ledger & runs e2e tests for findy-agent-cli.
-
-`make e2e_ci` doesn't initialize test-ledger.
 
 ## Using Example Scripts as A Playground
 

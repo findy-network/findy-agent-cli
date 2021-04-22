@@ -140,7 +140,6 @@ github.com/dgryski/go-sip13 v0.0.0-20181026042036-e10d5fee7954/go.mod h1:vAd38F8
 github.com/duo-labs/webauthn v0.0.0-20191119193225-4bf9a0f776d4/go.mod h1:KR2KScxcZAWdZGOUnsPGjD3ow0cvNfv3WHXC/Xz+d9g=
 github.com/duo-labs/webauthn v0.0.0-20200714211715-1daaee874e43 h1:eEEfwrmEwl0LVuWz/VkAefdgtPbX174Huu5dxxceihI=
 github.com/duo-labs/webauthn v0.0.0-20200714211715-1daaee874e43/go.mod h1:/X2OJiJxjQ7alqWZqX9EtBTmZc+4qQ0LvZ1k5wP67RM=
-github.com/duo-labs/webauthn.io v0.0.0-20200929144140-c031a3e0f95d h1:XvvixctACtuJCC/X2n5NwKfmoc9HK5BBYOcKS8MDMDY=
 github.com/duo-labs/webauthn.io v0.0.0-20200929144140-c031a3e0f95d/go.mod h1:fAQEHOngvfrn+T6HvMoB/AJ8CMVcCqvk3Ue3JYJshsA=
 github.com/dustin/go-humanize v1.0.0 h1:VSnTsYCnlFHaM2/igO1h6X3HA71jcobQuxemgkq4zYo=
 github.com/dustin/go-humanize v1.0.0/go.mod h1:HtrtbFcZ19U5GC7JDqmcUSB87Iq5E25KnS6fMYU6eOk=
@@ -167,12 +166,9 @@ github.com/findy-network/findy-agent-api v0.0.0-20201109160522-df5a4d4cb181/go.m
 github.com/findy-network/findy-agent-api v0.0.0-20201117092904-2c15be0d866b/go.mod h1:9rsIf/AtsdQgVUiGA77sbXInk2FnaPSCS2P+TmBUeIc=
 github.com/findy-network/findy-agent-api v0.0.0-20201219123952-3cdb51cfb26d/go.mod h1:9rsIf/AtsdQgVUiGA77sbXInk2FnaPSCS2P+TmBUeIc=
 github.com/findy-network/findy-agent-api v0.0.0-20201220164103-15fb6a83ff0a/go.mod h1:9rsIf/AtsdQgVUiGA77sbXInk2FnaPSCS2P+TmBUeIc=
-github.com/findy-network/findy-agent-api v0.0.0-20210203142917-ee7d471ffd4b h1:qdCbDZX1/JToeybDlbNZoyzaV/qg5qf2DtVW4kvbpik=
 github.com/findy-network/findy-agent-api v0.0.0-20210203142917-ee7d471ffd4b/go.mod h1:9rsIf/AtsdQgVUiGA77sbXInk2FnaPSCS2P+TmBUeIc=
 github.com/findy-network/findy-agent-api v0.1.1-0.20210321174356-f9643fd00f1f h1:fH6TGxuFV6b9N5UyHKSKE4EYKcnEDlpu2uhg7vmfgcU=
 github.com/findy-network/findy-agent-api v0.1.1-0.20210321174356-f9643fd00f1f/go.mod h1:9rsIf/AtsdQgVUiGA77sbXInk2FnaPSCS2P+TmBUeIc=
-github.com/findy-network/findy-agent-auth v0.0.0-20210304064530-24376f89d333 h1:DnSMidJte8KFxt2uEVBVhuDWJLC7988QpyzzowH6kFs=
-github.com/findy-network/findy-agent-auth v0.0.0-20210304064530-24376f89d333/go.mod h1:OB5F1bUA9qBl/Lyz4e84fTxCMt0EVf9FtMRL9a7FXNs=
 github.com/findy-network/findy-agent-auth v0.1.1-0.20210318145233-c65e941d9b2b h1:lU4T9bn3r45240A/+znBCLoRlSPh6QXPfMwJ3lhkTkw=
 github.com/findy-network/findy-agent-auth v0.1.1-0.20210318145233-c65e941d9b2b/go.mod h1:zlbSGi0nwraQqytjVjZXLZC9dGOcxZ25M1PcPvSn114=
 github.com/findy-network/findy-agent-auth v0.1.4-0.20210421160857-fa97baa3b52a h1:JCFgPsOO+blKXNK9oxJ3zJJ5I0WHqzPJPmVuvxWdyIU=
@@ -188,14 +184,12 @@ github.com/findy-network/findy-common-go v0.1.2-0.20210421160228-49a5213c3ab5/go
 github.com/findy-network/findy-grpc v0.0.0-20201113091436-e47cd902d2c7/go.mod h1:JIDCAuvF/tejnV1BfS4STPKI3MYGch23XclLeETglIM=
 github.com/findy-network/findy-grpc v0.0.0-20210108131015-372836897ab4/go.mod h1:HijcPhtuP3dKowt9rUSJKZF4xL4LnLM4R0Q3CvXlsSY=
 github.com/findy-network/findy-grpc v0.0.0-20210127104251-9687b3532b14/go.mod h1:7wsaOZE8iRD6XR4ZxKxQB4yFcEerxRaenzUcyoff8VU=
-github.com/findy-network/findy-grpc v0.1.1-0.20210211153806-808c6e0b6a92 h1:9PlC0mLPd7h3iP09bjbzo9kip4UpSMipPmOZeshjeM8=
 github.com/findy-network/findy-grpc v0.1.1-0.20210211153806-808c6e0b6a92/go.mod h1:fgl+RvY5Iqn0vIhXB9FOsydT288UTGs9eoFHxQqElOc=
 github.com/findy-network/findy-wrapper-go v0.0.0-20201026120712-dc9ac6619595/go.mod h1:++vXqeWA3CPK7COIC8nsDLF6HSqeQaUIR2b/iCRCNLw=
 github.com/findy-network/findy-wrapper-go v0.0.0-20210302063517-bb98c7f07ea4 h1:I1GolGhxwsZJVFIL//mpYKC2bFtQP8wXqaSpUgywjTk=
 github.com/findy-network/findy-wrapper-go v0.0.0-20210302063517-bb98c7f07ea4/go.mod h1:Zx69TCN3TCkMJubsmwodYRbLUZK8v7JbEvSQMq+xb+k=
 github.com/form3tech-oss/jwt-go v3.2.2+incompatible h1:TcekIExNqud5crz4xD2pavyTgWiPvpYe4Xau31I0PRk=
 github.com/form3tech-oss/jwt-go v3.2.2+incompatible/go.mod h1:pbq4aXjuKjdthFRnoDwaVPLA+WlJuPGy+QneDUgJi2k=
-github.com/fsnotify/fsnotify v1.4.7 h1:IXs+QLmnXW2CcXuY+8Mzv/fWEsPGWxqefPtCP5CnV9I=
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
 github.com/fsnotify/fsnotify v1.4.9 h1:hsms1Qyu0jgnwNXIxa+/V/PDsU6CfLf6CNO8H7IWoS4=
 github.com/fsnotify/fsnotify v1.4.9/go.mod h1:znqG4EE+3YCdAaPaxE2ZRY/06pZUdp0tY4IgpuI1SZQ=
@@ -204,7 +198,6 @@ github.com/fxamacker/cbor/v2 v2.2.0/go.mod h1:TA1xS00nchWmaBnEIxPSE5oHLuJBAVvqrt
 github.com/getsentry/raven-go v0.0.0-20180121060056-563b81fc02b7/go.mod h1:KungGk8q33+aIAZUIVWZDr2OfAEBsO49PX4NzFV5kcQ=
 github.com/ghodss/yaml v1.0.0 h1:wQHKEahhL6wmXdzwWG11gIVCkOv05bNOh+Rxn0yngAk=
 github.com/ghodss/yaml v1.0.0/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=
-github.com/go-co-op/gocron v0.7.0 h1:oHOZagvz/HmQaTLgqcuH0DauG5YDGCZK1UzH1rJCXAE=
 github.com/go-co-op/gocron v0.7.0/go.mod h1:Hyge6OdrinfqhNgi1kNLnA/O7GtFsr004+Rbrgx5Ylc=
 github.com/go-critic/go-critic v0.3.5-0.20190526074819-1df300866540/go.mod h1:+sE8vrLDS2M0pZkBk0wy6+nLdKexVDrl/jBqQOTDThA=
 github.com/go-critic/go-critic v0.3.5-0.20190904082202-d79a9f0c64db/go.mod h1:+sE8vrLDS2M0pZkBk0wy6+nLdKexVDrl/jBqQOTDThA=
@@ -224,7 +217,6 @@ github.com/go-sql-driver/mysql v1.3.0/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG
 github.com/go-sql-driver/mysql v1.4.0/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
 github.com/go-sql-driver/mysql v1.4.1/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
-github.com/go-test/deep v1.0.7 h1:/VSMRlnY/JSyqxQUzQLKVMAskpY/NZKFA5j2P+0pP2M=
 github.com/go-test/deep v1.0.7/go.mod h1:QV8Hv/iy04NyLBxAdO9njL0iVPN1S4d/A3NVv1V36o8=
 github.com/go-toolsmith/astcast v1.0.0 h1:JojxlmI6STnFVG9yOImLeGREv8W2ocNUM+iOhR6jE7g=
 github.com/go-toolsmith/astcast v1.0.0/go.mod h1:mt2OdQTeAQcY4DQgPSArJjHCcOwlX+Wl/kwN+LbLGQ4=
@@ -378,11 +370,8 @@ github.com/gorilla/context v1.1.1/go.mod h1:kBGZzfjB9CEq2AlWe17Uuf7NDRt0dE0s8S51
 github.com/gorilla/mux v1.6.2/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
 github.com/gorilla/mux v1.7.3/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
 github.com/gorilla/mux v1.7.4/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
-github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
 github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
-github.com/gorilla/securecookie v1.1.1 h1:miw7JPhV+b/lAHSXz4qd/nN9jRiAFV5FwjeKyCS8BvQ=
 github.com/gorilla/securecookie v1.1.1/go.mod h1:ra0sb63/xPlUeL+yeDciTfxMRAA+MP+HVt/4epWDjd4=
-github.com/gorilla/sessions v1.2.0 h1:S7P+1Hm5V/AT9cjEcUD5uDaQSX0OE577aCXgoaKpYbQ=
 github.com/gorilla/sessions v1.2.0/go.mod h1:dk2InVEVJ0sfLlnXv9EAgkf6ecYs/i80K/zI+bUmuGM=
 github.com/gorilla/websocket v1.4.0/go.mod h1:E7qHFY5m1UJ88s3WnNqhKjPHQ0heANvMoAMk2YaljkQ=
 github.com/gorilla/websocket v1.4.1/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
@@ -649,7 +638,6 @@ github.com/rogpeppe/go-internal v1.5.2/go.mod h1:xXDCJY+GAPziupqXw64V24skbSoqbTE
 github.com/rogpeppe/go-internal v1.6.1/go.mod h1:xXDCJY+GAPziupqXw64V24skbSoqbTEfhy4qGm1nDQc=
 github.com/rogpeppe/go-internal v1.6.2/go.mod h1:xXDCJY+GAPziupqXw64V24skbSoqbTEfhy4qGm1nDQc=
 github.com/rs/cors v1.6.0/go.mod h1:gFx+x8UowdsKA9AchylcLynDq+nNFfI8FkUZdN/jGCU=
-github.com/rs/cors v1.7.0 h1:+88SsELBHx5r+hZ8TCkggzSstaWNbDvThkVK8H6f9ik=
 github.com/rs/cors v1.7.0/go.mod h1:gFx+x8UowdsKA9AchylcLynDq+nNFfI8FkUZdN/jGCU=
 github.com/russross/blackfriday v1.5.2 h1:HyvC0ARfnZBqnXwABFeSZHpKvJHJJfPz81GNueLj0oo=
 github.com/russross/blackfriday v1.5.2/go.mod h1:JO/DiYxRf+HjHt06OyowR9PTA263kcR/rfWxYHBV53g=
@@ -679,7 +667,6 @@ github.com/shurcooL/go v0.0.0-20180423040247-9e1955d9fb6e/go.mod h1:TDJrrUr11Vxr
 github.com/shurcooL/go-goon v0.0.0-20170922171312-37c2f522c041/go.mod h1:N5mDOmsrJOB+vfqUK+7DmDyjhSLIIBnXo9lvZJj3MWQ=
 github.com/shurcooL/sanitized_anchor_name v1.0.0 h1:PdmoCO6wvbs+7yrJyMORt4/BmY5IYyJwS/kOiWx8mHo=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=
-github.com/sideshow/apns2 v0.20.0 h1:5Lzk4DUq+waVc6/BkKzpDTpQjtk/BZOP0YsayBpY1NE=
 github.com/sideshow/apns2 v0.20.0/go.mod h1:f7dArLPLbiZ3qPdzzrZXdCSlMp8FD0p6z7tHssDOLvk=
 github.com/sirupsen/logrus v1.0.5/go.mod h1:pMByvHTf9Beacp5x1UXfOR9xyW/9antXMhjMPG0dEzc=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
@@ -935,7 +922,6 @@ golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e/go.mod h1:RxMgew5VJxzue5/jJ
 golang.org/x/sync v0.0.0-20200317015054-43a5402ce75a/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sync v0.0.0-20200625203802-6e8e738ad208/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
-golang.org/x/sync v0.0.0-20201207232520-09787c993a3a h1:DcqTD9SDLc+1P/r1EmRBwnVsrOwW+kk2vWf9n+1sGhs=
 golang.org/x/sync v0.0.0-20201207232520-09787c993a3a/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sys v0.0.0-20171026204733-164713f0dfce/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20180823144017-11551d06cbcc/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
