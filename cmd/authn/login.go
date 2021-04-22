@@ -19,7 +19,7 @@ var loginCmd = &cobra.Command{
 	Short: "Login with our authenticator",
 	Long:  loginDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
-		return cmd.BindEnvs(envs, "authn")
+		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)

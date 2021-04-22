@@ -29,7 +29,7 @@ var issueCmd = &cobra.Command{
 		c.SilenceUsage = true
 
 		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
-		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
+		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)

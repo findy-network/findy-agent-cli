@@ -2,7 +2,6 @@ package bot
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"os"
 	"os/signal"
@@ -10,7 +9,6 @@ import (
 
 	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
-	"github.com/findy-network/findy-agent-cli/cmd/agent"
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/golang/glog"
 	"github.com/google/uuid"
@@ -40,7 +38,7 @@ var readCmd = &cobra.Command{
 		c.SilenceUsage = true
 
 		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
-		conn := client.TryAuthOpen(agent.CmdData.JWT, baseCfg)
+		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithCancel(context.Background())
@@ -50,8 +48,6 @@ var readCmd = &cobra.Command{
 		intCh := make(chan os.Signal, 1)
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
-
-		err2.Check(flag.Set("v", "0"))
 
 		ch, err := conn.Listen(ctx, &agency.ClientID{Id: uuid.New().String()})
 		err2.Check(err)

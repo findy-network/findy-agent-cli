@@ -106,7 +106,7 @@ states:
               Github: {{.GITHUB}}
 
               Say "reset" if you want to start over or "back" to re-enter github id.
-              If the data is correct please say "yes" and I'll send you a credential offer.
+              If the data is correct please say "confirm" and I'll send you a credential offer.
             no_status: true
             protocol: basic_message
             rule: FORMAT_MEM
@@ -132,47 +132,44 @@ states:
             protocol: basic_message
         target: WAITING_GITHUB_ID
       - trigger:
-          data: yess
+          data: confirm
           protocol: basic_message
           rule: INPUT_EQUAL
         sends:
-          - data: We are at the end.
+          - data: |-
+              Thank you! Issuing an email credential for address:
+              {{.EMAIL}}
+              Please follow your wallet app's instructions
             no_status: true
             protocol: basic_message
+            rule: FORMAT_MEM
+          - data:  '[{"name":"name","value":"{{.NAME}}"},{"name":"email","value":"{{.EMAIL}}"},{"name":"github","value":"{{.GITHUB}}"}]'
+            event_data:
+              issuing:
+                AttrsJSON: '[{"name":"name","value":"{{.NAME}}"},{"name":"email","value":"{{.EMAIL}}"},{"name":"github","value":"{{.GITHUB}}"}]'
+                CredDefID: T2o5osjKcK6oVDPxcLjKnB:3:CL:T2o5osjKcK6oVDPxcLjKnB:2:GeneralSchema:1.0:SA
+            protocol: issue_cred
+            rule: FORMAT_MEM
         target: WAITING_ISSUING_STATUS
-#      - trigger:
-#          data: yes
-#          protocol: basic_message
-#          rule: INPUT_EQUAL
-#        sends:
-#          - data: |-
-#              Thank you! Issuing an email credential for address:
-#              {{.EMAIL}}
-#              Please follow your wallet app's instructions
-#            no_status: true
-#            protocol: basic_message
-#            rule: FORMAT_MEM
-#          - data: '[{"name":"email","value":"{{.EMAIL}}"}]'
-#            event_data:
-#              issuing:
-#                AttrsJSON: '[{"name":"email","value":"{{.EMAIL}}"}]'
-#                CredDefID: T2o5osjKcK6oVDPxcLjKnB:3:CL:T2o5osjKcK6oVDPxcLjKnB:2:my-schema:1.0:t1
-#            protocol: issue_cred
-#            rule: FORMAT_MEM
-#        target: WAITING_ISSUING_STATUS
+      - trigger:
+          protocol: basic_message
+        sends:
+          - data: 'Your options are: reset|back|confirm' 
+            no_status: true
+            protocol: basic_message
+        target: WAITING_DECISION
   WAITING_ISSUING_STATUS:
     transitions:
+      #      - trigger:
+      #          data: reset
+      #          protocol: basic_message
+      #          rule: INPUT_EQUAL
+      #        sends:
+      #          - data: Please enter your email address.
+      #            no_status: true
+      #            protocol: basic_message
+      #        target: WAITING_EMAIL_ADDRESS
       - trigger:
-          data: reset
-          protocol: basic_message
-          rule: INPUT_EQUAL
-        sends:
-          - data: Please enter your email address.
-            no_status: true
-            protocol: basic_message
-        target: WAITING_EMAIL_ADDRESS
-      - target: IDLE
-        trigger:
           protocol: issue_cred
           rule: OUR_STATUS
         sends:
@@ -182,3 +179,4 @@ states:
             no_status: true
             protocol: basic_message
             rule: FORMAT_MEM
+        target: IDLE

@@ -1,8 +1,6 @@
-#wallet-name: perf_w10
-#wallet-key: 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp
+wallet-name: perf_w10
+wallet-key: 6cih1cVgRH8yHD54nEYyPKLmdv67o8QbufxaTHot3Qxp
 connection-id: c07421ba-8e6b-4761-80b3-2d488cb3db74
 conn-id: c07421ba-8e6b-4761-80b3-2d488cb3db74
-#ca-did: MuYkMsVBjvH4Ryqvfoofre
 label: test_service_agent
-jwt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1biI6Ik11WWtNc1ZCanZINFJ5cXZmb29mcmUiLCJleHAiOjE2MTMzMTIyOTV9.dPEMNTN5mYS-R-sauVbAp-4UrRnsh1ro9O3lj7PU4uo
 

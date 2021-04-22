@@ -8,6 +8,7 @@ import (
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
+	"github.com/golang/glog"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -44,7 +45,7 @@ var chatCmd = &cobra.Command{
 			err2.Check(err)
 
 			for status := range r {
-				fmt.Println("message status:", status.State, "|", status.Info)
+				glog.V(2).Infoln("message status:", status.State, "|", status.Info)
 			}
 		}
 		err2.Check(scanner.Err())

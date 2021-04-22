@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
+	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -28,6 +29,8 @@ var CmdData = struct {
 	ConnID string
 	JWT    string
 }{}
+
+var conn client.Conn
 
 func init() {
 	defer err2.Catch(func(err error) {
