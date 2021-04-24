@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/findy-network/findy-agent-api/grpc/agency"
+	agency "github.com/findy-network/findy-agent-api/grpc/agency/v1"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/findy-network/findy-wrapper-go/dto"
@@ -42,15 +42,15 @@ var statusCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		didComm := agency.NewDIDCommClient(conn)
+		didComm := agency.NewProtocolServiceClient(conn)
 		statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
-			TypeId: agency.Protocol_Type(MyTypeID), // casting!!!
-			Role:   agency.Protocol_RESUME,
-			Id:     MyProtocolID,
+			TypeID: agency.Protocol_Type(MyTypeID), // casting!!!
+			Role:   agency.Protocol_RESUMER,
+			ID:     MyProtocolID,
 		})
 		err2.Check(err)
 
-		fmt.Println("result:", statusResult.StatusJson, statusResult.State.ProtocolId.TypeId)
+		fmt.Println("result:", statusResult.StatusJson, statusResult.State.ProtocolID.TypeID)
 		return nil
 	},
 }

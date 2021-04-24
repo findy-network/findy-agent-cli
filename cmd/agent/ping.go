@@ -6,7 +6,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/findy-network/findy-agent-api/grpc/agency"
+	agency "github.com/findy-network/findy-agent-api/grpc/agency/v1"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/lainio/err2"
@@ -47,16 +47,16 @@ var pingCmd = &cobra.Command{
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		agent := agency.NewAgentClient(conn)
+		agent := agency.NewAgentServiceClient(conn)
 		r, err := agent.Ping(ctx, &agency.PingMsg{
-			Id: id, PingController: andController})
+			ID: id, PingController: andController})
 		err2.Check(err)
 
-		if id == r.Id {
+		if id == r.ID {
 			fmt.Println("ping OK")
 		} else {
 			fmt.Println("wrong ping ID from agency")
-			fmt.Println("got:", r.Id, "has:", id)
+			fmt.Println("got:", r.ID, "has:", id)
 		}
 		return nil
 	},

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/findy-network/findy-agent-api/grpc/agency"
+	agency "github.com/findy-network/findy-agent-api/grpc/agency/v1"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/lainio/err2"
@@ -38,9 +38,9 @@ var getSchemaCmd = &cobra.Command{
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		agent := agency.NewAgentClient(conn)
+		agent := agency.NewAgentServiceClient(conn)
 		r, err := agent.GetSchema(ctx, &agency.Schema{
-			Id: schemaID,
+			ID: schemaID,
 		})
 		err2.Check(err)
 		// plain output for script-friendlyness of the command

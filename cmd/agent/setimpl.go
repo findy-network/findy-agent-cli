@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/findy-network/findy-agent-api/grpc/agency"
+	agency "github.com/findy-network/findy-agent-api/grpc/agency/v1"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/lainio/err2"
@@ -40,11 +40,11 @@ var setImplEndpCmd = &cobra.Command{
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel() // for server side stops, for proper cleanup
 
-		agent := agency.NewAgentClient(conn)
+		agent := agency.NewAgentServiceClient(conn)
 		r, err := agent.SetImplId(ctx, &agency.SAImplementation{
-			Id: implID, Persistent: persistent})
+			ID: implID, Persistent: persistent})
 		err2.Check(err)
-		fmt.Println("implementation ID set to:", r.Id)
+		fmt.Println("implementation ID set to:", r.ID)
 
 		return nil
 	},

@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/findy-network/findy-agent-api/grpc/agency"
+	agency "github.com/findy-network/findy-agent-api/grpc/agency/v1"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/google/uuid"
@@ -47,28 +47,31 @@ var saListenCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		ch, err := conn.Listen(ctx, &agency.ClientID{Id: uuid.New().String()})
+		ch, err := conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()})
 		err2.Check(err)
 
 	loop:
 		for {
 			select {
-			case status, ok := <-ch:
+			case question, ok := <-ch:
 				if !ok {
 					fmt.Println("closed from server")
 					break loop
 				}
-				fmt.Println("listen status:", status.ClientId, status.Notification.TypeId, status.Notification.Id, status.Notification.ProtocolId)
-				switch status.Notification.TypeId {
+				status := question.Status
+				fmt.Println("listen status:", status.ClientID, status.Notification.TypeID, status.Notification.ID, status.Notification.ProtocolID)
+				switch status.Notification.TypeID {
 				case agency.Notification_ACTION_NEEDED:
 					resume(status, true)
-				case agency.Notification_ANSWER_NEEDED_PING:
+				}
+				switch question.TypeID {
+				case agency.Question_ANSWER_NEEDED_PING:
 					reply(status, true)
-				case agency.Notification_ANSWER_NEEDED_ISSUE_PROPOSE:
+				case agency.Question_ANSWER_NEEDED_ISSUE_PROPOSE:
 					reply(status, true)
-				case agency.Notification_ANSWER_NEEDED_PROOF_PROPOSE:
+				case agency.Question_ANSWER_NEEDED_PROOF_PROPOSE:
 					reply(status, true)
-				case agency.Notification_ANSWER_NEEDED_PROOF_VERIFY:
+				case agency.Question_ANSWER_NEEDED_PROOF_VERIFY:
 					reply(status, true)
 				}
 			case <-intCh:
@@ -83,29 +86,29 @@ var saListenCmd = &cobra.Command{
 
 func reply(status *agency.AgentStatus, ack bool) {
 	ctx := context.Background()
-	c := agency.NewAgentClient(conn)
+	c := agency.NewAgentServiceClient(conn)
 	cid, err := c.Give(ctx, &agency.Answer{
-		Id:       status.Notification.Id,
-		ClientId: status.ClientId,
+		ID:       status.Notification.ID,
+		ClientID: status.ClientID,
 		Ack:      ack,
 		Info:     "cmd salisten says hello!",
 	})
 	err2.Check(err)
-	fmt.Printf("Sending the answer (%s) send to client:%s\n", status.Notification.Id, cid.Id)
+	fmt.Printf("Sending the answer (%s) send to client:%s\n", status.Notification.ID, cid.ID)
 }
 
 func resume(status *agency.AgentStatus, ack bool) {
 	ctx := context.Background()
-	didComm := agency.NewDIDCommClient(conn)
+	didComm := agency.NewProtocolServiceClient(conn)
 	stateAck := agency.ProtocolState_ACK
 	if !ack {
 		stateAck = agency.ProtocolState_NACK
 	}
 	unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
-		ProtocolId: &agency.ProtocolID{
-			TypeId: agency.Protocol_PROOF,
-			Role:   agency.Protocol_RESUME,
-			Id:     status.Notification.ProtocolId,
+		ProtocolID: &agency.ProtocolID{
+			TypeID: agency.Protocol_PRESENT_PROOF,
+			Role:   agency.Protocol_RESUMER,
+			ID:     status.Notification.ProtocolID,
 		},
 		State: stateAck,
 	})
