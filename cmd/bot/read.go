@@ -7,9 +7,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	agency "github.com/findy-network/findy-agent-api/grpc/agency/v1"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
+	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/golang/glog"
 	"github.com/google/uuid"
 	"github.com/lainio/err2"

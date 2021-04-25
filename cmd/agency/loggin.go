@@ -6,9 +6,9 @@ import (
 	"io"
 	"os"
 
-	pb "github.com/findy-network/findy-agent-api/grpc/ops/v1"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
+	pb "github.com/findy-network/findy-common-go/grpc/ops/v1"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -45,7 +45,7 @@ func Logging(w io.Writer) (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
-	opsClient := pb.NewDevOpsClient(conn)
+	opsClient := pb.NewDevOpsServiceClient(conn)
 	err2.Empty.Try(opsClient.Enter(ctx, &pb.Cmd{
 		Type:    pb.Cmd_LOGGING,
 		Request: &pb.Cmd_Logging{Logging: lCmd.Level},

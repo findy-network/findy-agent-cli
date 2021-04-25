@@ -6,9 +6,9 @@ import (
 	"math/rand"
 	"time"
 
-	agency "github.com/findy-network/findy-agent-api/grpc/agency/v1"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
+	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
