@@ -3,7 +3,6 @@ module github.com/findy-network/findy-agent-cli
 go 1.16
 
 require (
-	github.com/findy-network/findy-agent-api v0.1.1-0.20210321174356-f9643fd00f1f
 	github.com/findy-network/findy-agent-auth v0.1.4-0.20210421160857-fa97baa3b52a
 	github.com/findy-network/findy-common-go v0.1.2-0.20210421160228-49a5213c3ab5
 	github.com/findy-network/findy-wrapper-go v0.0.0-20210302063517-bb98c7f07ea4
