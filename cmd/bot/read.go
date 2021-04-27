@@ -69,7 +69,7 @@ var readCmd = &cobra.Command{
 				switch status.Notification.TypeID {
 				case agency.Notification_STATUS_UPDATE:
 					handleBM(conn, status, true)
-				case agency.Notification_ACTION_NEEDED:
+				case agency.Notification_PROTOCOL_PAUSED:
 					resume(conn.ClientConn, status, true)
 				}
 				switch question.TypeID {

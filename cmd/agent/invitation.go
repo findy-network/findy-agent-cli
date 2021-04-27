@@ -43,7 +43,7 @@ var invitationCmd = &cobra.Command{
 			Label: ourLabel,
 		})
 		err2.Check(err)
-		fmt.Println(r.JsonStr)
+		fmt.Println(r.JSON)
 
 		return nil
 	},

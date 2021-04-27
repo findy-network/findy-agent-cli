@@ -61,7 +61,7 @@ var saListenCmd = &cobra.Command{
 				status := question.Status
 				fmt.Println("listen status:", status.ClientID, status.Notification.TypeID, status.Notification.ID, status.Notification.ProtocolID)
 				switch status.Notification.TypeID {
-				case agency.Notification_ACTION_NEEDED:
+				case agency.Notification_PROTOCOL_PAUSED:
 					resume(status, true)
 				}
 				switch question.TypeID {

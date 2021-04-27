@@ -50,7 +50,7 @@ var statusCmd = &cobra.Command{
 		})
 		err2.Check(err)
 
-		fmt.Println("result:", statusResult.StatusJson, statusResult.State.ProtocolID.TypeID)
+		fmt.Println("result:", statusResult.StatusJSON, statusResult.State.ProtocolID.TypeID)
 		return nil
 	},
 }

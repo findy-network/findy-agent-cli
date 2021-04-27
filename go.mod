@@ -13,3 +13,5 @@ require (
 	github.com/spf13/viper v1.7.1
 	google.golang.org/grpc v1.36.0
 )
+
+replace github.com/findy-network/findy-common-go => ../findy-common-go
