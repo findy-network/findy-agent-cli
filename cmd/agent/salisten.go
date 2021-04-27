@@ -65,13 +65,13 @@ var saListenCmd = &cobra.Command{
 					resume(status, true)
 				}
 				switch question.TypeID {
-				case agency.Question_ANSWER_NEEDED_PING:
+				case agency.Question_PING_WAITS:
 					reply(status, true)
-				case agency.Question_ANSWER_NEEDED_ISSUE_PROPOSE:
+				case agency.Question_ISSUE_PROPOSE_WAITS:
 					reply(status, true)
-				case agency.Question_ANSWER_NEEDED_PROOF_PROPOSE:
+				case agency.Question_PROOF_PROPOSE_WAITS:
 					reply(status, true)
-				case agency.Question_ANSWER_NEEDED_PROOF_VERIFY:
+				case agency.Question_PROOF_VERIFY_WAITS:
 					reply(status, true)
 				}
 			case <-intCh:
