@@ -43,23 +43,23 @@ repl_all: repl_api repl_comm repl_wrap repl_agent repl_auth
 
 modules: modules_api modules_auth modules_wrap modules_comm modules_agent
 
-modules_api: 
+modules_api: drop_api
 	@echo Syncing modules: findy-agent-api/$(API_BRANCH)
 	go get github.com/findy-network/findy-agent-api@$(API_BRANCH)
 
-modules_auth:
+modules_auth: drop_auth
 	@echo Syncing modules: findy-agent-api/@$(AUTH_BRANCH)
 	go get github.com/findy-network/findy-agent-auth@$(AUTH_BRANCH)
 
-modules_wrap:
+modules_wrap: drop_wrap
 	@echo Syncing modules: findy-agent-api/$(WRAP_BRANCH)
 	go get github.com/findy-network/findy-wrapper-go@$(WRAP_BRANCH)
 
-modules_comm:
+modules_comm: drop_comm
 	@echo Syncing modules: findy-agent-api/$(GRPC_BRANCH) 
 	go get github.com/findy-network/findy-common-go@$(GRPC_BRANCH)
 
-modules_agent:
+modules_agent: drop_agent
 	@echo Syncing modules: findy-agent-api/$(AGENT_BRANCH) 
 	go get github.com/findy-network/findy-agent@$(AGENT_BRANCH)
 
