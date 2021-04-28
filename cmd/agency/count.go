@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	pb "github.com/findy-network/findy-agent-api/grpc/ops"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
+	pb "github.com/findy-network/findy-common-go/grpc/ops/v1"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -45,7 +45,7 @@ func Count(w io.Writer) (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
-	opsClient := pb.NewDevOpsClient(conn)
+	opsClient := pb.NewDevOpsServiceClient(conn)
 	result, err := opsClient.Enter(ctx, &pb.Cmd{
 		Type: pb.Cmd_COUNT,
 	})

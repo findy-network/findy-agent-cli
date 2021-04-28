@@ -7,9 +7,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
+	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/golang/glog"
 	"github.com/google/uuid"
 	"github.com/lainio/err2"
@@ -49,34 +49,37 @@ var readCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		ch, err := conn.Listen(ctx, &agency.ClientID{Id: uuid.New().String()})
+		ch, err := conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()})
 		err2.Check(err)
 
 	loop:
 		for {
 			select {
-			case status, ok := <-ch:
+			case question, ok := <-ch:
 				if !ok {
 					fmt.Println("closed from server")
 					break loop
 				}
+				status := question.Status
 				glog.V(1).Infoln("listen status:",
-					status.ClientId,
-					status.Notification.TypeId,
-					status.Notification.Id,
-					status.Notification.ProtocolId)
-				switch status.Notification.TypeId {
+					status.ClientID,
+					status.Notification.TypeID,
+					status.Notification.ID,
+					status.Notification.ProtocolID)
+				switch status.Notification.TypeID {
 				case agency.Notification_STATUS_UPDATE:
 					handleBM(conn, status, true)
-				case agency.Notification_ACTION_NEEDED:
+				case agency.Notification_PROTOCOL_PAUSED:
 					resume(conn.ClientConn, status, true)
-				case agency.Notification_ANSWER_NEEDED_PING:
+				}
+				switch question.TypeID {
+				case agency.Question_PING_WAITS:
 					reply(conn.ClientConn, status, true)
-				case agency.Notification_ANSWER_NEEDED_ISSUE_PROPOSE:
+				case agency.Question_ISSUE_PROPOSE_WAITS:
 					reply(conn.ClientConn, status, true)
-				case agency.Notification_ANSWER_NEEDED_PROOF_PROPOSE:
+				case agency.Question_PROOF_PROPOSE_WAITS:
 					reply(conn.ClientConn, status, true)
-				case agency.Notification_ANSWER_NEEDED_PROOF_VERIFY:
+				case agency.Question_PROOF_VERIFY_WAITS:
 					reply(conn.ClientConn, status, true)
 				}
 			case <-intCh:
@@ -102,11 +105,11 @@ func init() {
 func handleBM(conn client.Conn, status *agency.AgentStatus, _ bool) {
 	if status.Notification.ProtocolType == agency.Protocol_BASIC_MESSAGE {
 		ctx := context.Background()
-		didComm := agency.NewDIDCommClient(conn)
+		didComm := agency.NewProtocolServiceClient(conn)
 		statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
-			TypeId:           status.Notification.ProtocolType,
+			TypeID:           status.Notification.ProtocolType,
 			Role:             agency.Protocol_ADDRESSEE,
-			Id:               status.Notification.ProtocolId,
+			ID:               status.Notification.ProtocolID,
 			NotificationTime: status.Notification.Timestamp,
 		})
 		err2.Check(err)
@@ -120,23 +123,23 @@ func handleBM(conn client.Conn, status *agency.AgentStatus, _ bool) {
 
 func reply(cc grpc.ClientConnInterface, status *agency.AgentStatus, ack bool) {
 	ctx := context.Background()
-	c := agency.NewAgentClient(cc)
+	c := agency.NewAgentServiceClient(cc)
 	cid, err := c.Give(ctx, &agency.Answer{
-		Id:       status.Notification.Id,
-		ClientId: status.ClientId,
+		ID:       status.Notification.ID,
+		ClientID: status.ClientID,
 		Ack:      ack,
 		Info:     "testing says hello!",
 	})
 	err2.Check(err)
-	glog.Infof("Sending the answer (%s) send to client:%s\n", status.Notification.Id, cid.Id)
+	glog.Infof("Sending the answer (%s) send to client:%s\n", status.Notification.ID, cid.ID)
 }
 
 func resume(cc grpc.ClientConnInterface, status *agency.AgentStatus, ack bool) {
 	ctx := context.Background()
-	didComm := agency.NewDIDCommClient(cc)
+	didComm := agency.NewProtocolServiceClient(cc)
 	statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
-		TypeId:           status.Notification.ProtocolType,
-		Id:               status.Notification.ProtocolId,
+		TypeID:           status.Notification.ProtocolType,
+		ID:               status.Notification.ProtocolID,
 		NotificationTime: status.Notification.Timestamp,
 	})
 	err2.Check(err)
@@ -147,10 +150,10 @@ func resume(cc grpc.ClientConnInterface, status *agency.AgentStatus, ack bool) {
 		stateAck = agency.ProtocolState_NACK
 	}
 	unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
-		ProtocolId: &agency.ProtocolID{
-			TypeId: status.Notification.ProtocolType,
-			Role:   agency.Protocol_RESUME,
-			Id:     status.Notification.ProtocolId,
+		ProtocolID: &agency.ProtocolID{
+			TypeID: status.Notification.ProtocolType,
+			Role:   agency.Protocol_RESUMER,
+			ID:     status.Notification.ProtocolID,
 		},
 		State: stateAck,
 	})

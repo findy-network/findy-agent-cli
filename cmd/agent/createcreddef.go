@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
+	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -38,11 +38,11 @@ var createCredDefCmd = &cobra.Command{
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel() // for server side stops, for proper cleanup
 
-		agent := agency.NewAgentClient(conn)
+		agent := agency.NewAgentServiceClient(conn)
 		r, err := agent.CreateCredDef(ctx, &agency.CredDefCreate{
-			SchemaId: schemaID, Tag: tag})
+			SchemaID: schemaID, Tag: tag})
 		err2.Check(err)
-		fmt.Println(r.Id) // plain output for pipes
+		fmt.Println(r.ID) // plain output for pipes
 
 		return nil
 	},

@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
-	"github.com/findy-network/findy-wrapper-go/dto"
+	"github.com/findy-network/findy-common-go/dto"
+	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -35,16 +35,16 @@ var unpauseCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		didComm := agency.NewDIDCommClient(conn)
+		didComm := agency.NewProtocolServiceClient(conn)
 		stateAck := agency.ProtocolState_ACK
 		if !ACK {
 			stateAck = agency.ProtocolState_NACK
 		}
 		unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
-			ProtocolId: &agency.ProtocolID{
-				TypeId: agency.Protocol_PROOF,
-				Role:   agency.Protocol_RESUME,
-				Id:     MyProtocolID,
+			ProtocolID: &agency.ProtocolID{
+				TypeID: agency.Protocol_PRESENT_PROOF,
+				Role:   agency.Protocol_RESUMER,
+				ID:     MyProtocolID,
 			},
 			State: stateAck,
 		})

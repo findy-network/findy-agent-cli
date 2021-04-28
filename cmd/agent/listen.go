@@ -7,9 +7,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/findy-network/findy-agent-api/grpc/agency"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
+	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/google/uuid"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
@@ -42,7 +42,7 @@ var listenCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		ch, err := conn.Listen(ctx, &agency.ClientID{Id: uuid.New().String()})
+		ch, err := conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()})
 		err2.Check(err)
 
 	loop:
@@ -54,9 +54,9 @@ var listenCmd = &cobra.Command{
 					break loop
 				}
 				fmt.Println("listen status:",
-					status.Notification.ProtocolType, "|",
-					status.Notification.TypeId, "|",
-					status.Notification.ProtocolId)
+					status.Status.Notification.ProtocolType, "|",
+					status.Status.Notification.TypeID, "|",
+					status.Status.Notification.ProtocolID)
 			case <-intCh:
 				cancel()
 				fmt.Println("interrupted by user, cancel() called")
