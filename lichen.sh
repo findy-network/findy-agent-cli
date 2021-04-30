@@ -4,6 +4,11 @@
 # as we want to do here:
 #set -e
 
+if ! command -v lichen &> /dev/null
+then
+	go get github.com/uw-labs/lichen
+fi
+
 # debugging lines for ready to play with
 #lichen --template="" $1
 #lichen --template="{{range .Modules}}{{range .Module.Licenses}}{{.Name | printf \"%s\n\"}}{{end}}{{end}}" $1
@@ -18,4 +23,5 @@ then
 	echo "Licenssing error"
 	exit 1
 fi
+echo "Licenssing OK"
 
