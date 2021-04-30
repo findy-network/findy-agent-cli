@@ -1,5 +1,7 @@
 name: test
 on: push
+env:
+  GOPRIVATE: "github.com/findy-network/*"
 jobs:
   test:
     runs-on: ubuntu-latest
