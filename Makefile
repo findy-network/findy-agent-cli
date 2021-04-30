@@ -66,6 +66,9 @@ modules_agent: drop_agent
 deps:
 	go get -t ./...
 
+scan:
+	@./scan.sh
+
 build:
 	go build ./...
 
