@@ -42,7 +42,7 @@ var listenCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		ch, err := conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()})
+		ch, err := conn.ListenAndRetry(ctx, &agency.ClientID{ID: uuid.New().String()})
 		err2.Check(err)
 
 	loop:
@@ -54,9 +54,9 @@ var listenCmd = &cobra.Command{
 					break loop
 				}
 				fmt.Println("listen status:",
-					status.Status.Notification.ProtocolType, "|",
-					status.Status.Notification.TypeID, "|",
-					status.Status.Notification.ProtocolID)
+					status.Notification.ProtocolType, "|",
+					status.Notification.TypeID, "|",
+					status.Notification.ProtocolID)
 			case <-intCh:
 				cancel()
 				fmt.Println("interrupted by user, cancel() called")
