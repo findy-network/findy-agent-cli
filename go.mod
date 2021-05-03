@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/findy-network/findy-agent-auth v0.1.4-0.20210421160857-fa97baa3b52a
-	github.com/findy-network/findy-common-go v0.1.4-0.20210428082552-973c31e8acbc
+	github.com/findy-network/findy-common-go v0.1.5-0.20210503115234-1fd6c53a5c3f
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/google/uuid v1.2.0
 	github.com/lainio/err2 v0.6.1
@@ -13,5 +13,3 @@ require (
 	github.com/spf13/viper v1.7.1
 	google.golang.org/grpc v1.36.0
 )
-
-replace github.com/findy-network/findy-common-go => ../findy-common-go
