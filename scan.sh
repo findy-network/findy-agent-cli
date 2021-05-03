@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# We don't want to check error return values here.
+# We don't want to check error return values by our self here.
 set -e
 
 tmpfile=$(mktemp /tmp/findy-scan.XXXXXX)

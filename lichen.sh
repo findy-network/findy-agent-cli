@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # NOTE!! Never ever use this if youn want to check the error codes by yourself
+#    set -e
 # as we want to do here:
-#set -e
 
 if ! command -v lichen &> /dev/null
 then
@@ -20,8 +20,8 @@ rm "$1"
 
 if [ $result -gt 0 ]
 then
-	echo "Licenssing error"
+	echo "Licensing error"
 	exit 1
 fi
-echo "Licenssing OK"
+echo "Licensing OK"
 
