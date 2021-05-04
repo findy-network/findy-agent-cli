@@ -40,7 +40,7 @@ var pingCmd = &cobra.Command{
 		// #nosec
 		id := rand.Int31n(max-min+1) + min
 
-		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
+		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
 		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
