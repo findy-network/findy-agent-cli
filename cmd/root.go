@@ -57,12 +57,17 @@ func ServiceAddr() string {
 	return rootFlags.ServiceAddr
 }
 
+func TLSPath() string {
+	return rootFlags.TLSPath
+}
+
 // RootFlags are the common flags
 type RootFlags struct {
 	cfgFile     string
 	dryRun      bool
 	logging     string
 	ServiceAddr string
+	TLSPath     string
 }
 
 // ClientFlags agent flags
@@ -75,10 +80,11 @@ type ClientFlags struct {
 var rootFlags = RootFlags{}
 
 var rootEnvs = map[string]string{
-	"config":  "CONFIG",
-	"logging": "LOGGING",
-	"dry-run": "DRY_RUN",
-	"server":  "SERVER",
+	"config":   "CONFIG",
+	"logging":  "LOGGING",
+	"dry-run":  "DRY_RUN",
+	"server":   "SERVER",
+	"tls-path": "TLS_PATH",
 }
 
 func init() {
@@ -95,12 +101,15 @@ func init() {
 		FlagInfo("logging startup arguments", "", rootEnvs["logging"]))
 	flags.StringVar(&rootFlags.ServiceAddr, "server", "localhost:50051",
 		FlagInfo("gRPC server addr:port", "", rootEnvs["server"]))
+	flags.StringVar(&rootFlags.TLSPath, "tls-path", "",
+		FlagInfo("TLS cert path", "", rootEnvs["tls-path"]))
 	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false,
 		FlagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
 
 	err2.Check(viper.BindPFlag("logging", flags.Lookup("logging")))
 	err2.Check(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
 	err2.Check(viper.BindPFlag("server", flags.Lookup("server")))
+	err2.Check(viper.BindPFlag("tls-path", flags.Lookup("tls-path")))
 
 	BindEnvs(rootEnvs, "")
 
