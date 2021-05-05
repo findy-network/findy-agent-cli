@@ -36,7 +36,7 @@ var createSchemaCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
+		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
 		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 

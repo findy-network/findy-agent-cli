@@ -30,7 +30,7 @@ var listenCmd = &cobra.Command{
 		}
 		c.SilenceUsage = true
 
-		baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
+		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
 		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
@@ -42,8 +42,8 @@ var listenCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		ch, err := conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()})
-		err2.Check(err)
+		ch := conn.ListenAndRetry(ctx,
+			&agency.ClientID{ID: uuid.New().String()})
 
 	loop:
 		for {

@@ -39,7 +39,7 @@ func init() {
 func Logging(w io.Writer) (err error) {
 	defer err2.Return(&err)
 
-	baseCfg := client.BuildConnBase("", cmd.ServiceAddr(), nil)
+	baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
 	conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
