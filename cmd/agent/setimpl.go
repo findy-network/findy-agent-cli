@@ -11,17 +11,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var setImplEndpDoc = `The command sets a service implementation for the cloud agent.
+var enterModeDoc = `The command sets a running mode of the cloud agent.
 
-The Service implementation ID stands for the protocol which is used for the
-communication between cloud agent and its controller. Because we are in the
-middle of the transition to gRPC API we still has to use this to allow previous
-API users to work.`
+The running mode stands for the protocol which is used for the communication
+between cloud agent and its controller. Because we are still in the middle of
+the transition to gRPC API we has to support some of the legacy modes.
 
-var setImplEndpCmd = &cobra.Command{
-	Use:   "set-impl-id",
-	Short: "Set impl ID type cloud agent controller (sa_grpc)",
-	Long:  setImplEndpDoc,
+Note, default mode is GRPC.
+`
+
+var enterModeCmd = &cobra.Command{
+	Use:   "mode-cmd",
+	Short: "Enters the communication mode between CA and its controller",
+	Long:  enterModeDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
@@ -29,6 +31,7 @@ var setImplEndpCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
+			fmt.Printf("read: %v\n", read)
 			return nil
 		}
 		c.SilenceUsage = true
@@ -41,25 +44,42 @@ var setImplEndpCmd = &cobra.Command{
 		defer cancel() // for server side stops, for proper cleanup
 
 		agent := agency.NewAgentServiceClient(conn)
-		r, err := agent.SetImplId(ctx, &agency.SAImplementation{
-			ID: implID, Persistent: persistent})
-		err2.Check(err)
-		fmt.Println("implementation ID set to:", r.ID)
+		mode := agency.ModeCmd_AcceptModeCmd_GRPC_CONTROL
+		if auto {
+			mode = agency.ModeCmd_AcceptModeCmd_AUTO_ACCEPT
+		}
+		r, err := agent.Enter(ctx, &agency.ModeCmd{
+			TypeID:  agency.ModeCmd_ACCEPT_MODE,
+			IsInput: !read,
+			ControlCmd: &agency.ModeCmd_AcceptMode{
+				AcceptMode: &agency.ModeCmd_AcceptModeCmd{
+					Mode: mode,
+				},
+			},
+		})
+		mode = r.GetAcceptMode().Mode
+		fmt.Print("Current mode:", mode)
+		if mode == agency.ModeCmd_AcceptModeCmd_DEFAULT {
+			fmt.Println(" default mode is:",
+				agency.ModeCmd_AcceptModeCmd_GRPC_CONTROL)
+		} else {
+			fmt.Println()
+		}
 
 		return nil
 	},
 }
 
-var implID string
-var persistent bool
+var auto bool
+var read bool
 
 func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
-	setImplEndpCmd.Flags().StringVarP(&implID, "id", "i", "grpc", "controller implementation ID")
-	setImplEndpCmd.Flags().BoolVarP(&persistent, "persistent", "p", true, "tells to write implementation ID to CA's wallet")
-	setImplEndpCmd.MarkFlagRequired("id")
-	setImplEndpCmd.MarkFlagRequired("persistent")
-	AgentCmd.AddCommand(setImplEndpCmd)
+	enterModeCmd.Flags().BoolVarP(&auto, "auto", "a", false,
+		"set controller communication mode to auto")
+	enterModeCmd.Flags().BoolVarP(&read, "read", "r", false,
+		"tells to read communication mode from CA")
+	AgentCmd.AddCommand(enterModeCmd)
 }
