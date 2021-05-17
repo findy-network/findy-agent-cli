@@ -67,7 +67,7 @@ deps:
 	go get -t ./...
 
 scan:
-	@./scan.sh
+	@./scan.sh $(ARGS)
 
 build:
 	go build ./...
