@@ -75,6 +75,11 @@ build:
 cli:
 	go build -o $(GOPATH)/bin/cli
 
+misspell:
+	@go get github.com/client9/misspell 
+	@find . -name '*.md' -o -name '*.go' -o -name '*.puml' | xargs \
+		misspell -error -locale GB
+
 vet:
 	go vet ./...
 
