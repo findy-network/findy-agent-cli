@@ -8,8 +8,8 @@ findy.json
 exports/
 .idea
 tmp/
-scripts/client?00/
-scripts/op/
+scripts/test/client?00/
+scripts/test/op/
 Session.vim
 
 # Binaries for programs and plugins
