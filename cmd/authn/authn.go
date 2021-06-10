@@ -86,7 +86,7 @@ var authnCmd = authn.Cmd{
 	UserName: "",
 	Url:      "http://localhost:8090",
 	AAGUID:   "12c85a48-4baf-47bd-b51f-f192871a1511",
-	Key:      "15308490f1e4026284594dd08d31291bc8ef2aeac730d0daf6ff87bb92d4336c",
+	Key:      "",
 	Counter:  0,
 	Token:    "",
 }

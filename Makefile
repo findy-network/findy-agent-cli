@@ -1,11 +1,10 @@
 AGENT_PATH=github.com/findy-network/findy-agent
-LEDGER_NAME:=FINDY_FILE_LEDGER
 
-AGENT_BRANCH=$(shell ./branch.sh ../findy-agent/)
-API_BRANCH=$(shell ./branch.sh ../findy-agent-api/)
-AUTH_BRANCH=$(shell ./branch.sh ../findy-agent-auth/)
-GRPC_BRANCH=$(shell ./branch.sh ../findy-common-go/)
-WRAP_BRANCH=$(shell ./branch.sh ../findy-wrapper-go/)
+AGENT_BRANCH=$(shell scripts/branch.sh ../findy-agent/)
+API_BRANCH=$(shell scripts/branch.sh ../findy-agent-api/)
+AUTH_BRANCH=$(shell scripts/branch.sh ../findy-agent-auth/)
+GRPC_BRANCH=$(shell scripts/branch.sh ../findy-common-go/)
+WRAP_BRANCH=$(shell scripts/branch.sh ../findy-wrapper-go/)
 
 drop_wrap:
 	go mod edit -dropreplace github.com/findy-network/findy-wrapper-go
@@ -67,13 +66,18 @@ deps:
 	go get -t ./...
 
 scan:
-	@./scan.sh $(ARGS)
+	@scripts/scan.sh $(ARGS)
 
 build:
 	go build ./...
 
 cli:
 	go build -o $(GOPATH)/bin/cli
+
+misspell:
+	@go get github.com/client9/misspell 
+	@find . -name '*.md' -o -name '*.go' -o -name '*.puml' | xargs \
+		misspell -error -locale GB
 
 vet:
 	go vet ./...

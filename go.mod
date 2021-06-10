@@ -3,8 +3,9 @@ module github.com/findy-network/findy-agent-cli
 go 1.16
 
 require (
-	github.com/findy-network/findy-agent-auth v0.1.4-0.20210421160857-fa97baa3b52a
-	github.com/findy-network/findy-common-go v0.1.7
+	github.com/client9/misspell v0.3.4 // indirect
+	github.com/findy-network/findy-agent-auth v0.1.13
+	github.com/findy-network/findy-common-go v0.1.14
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/google/uuid v1.2.0
 	github.com/lainio/err2 v0.6.1
