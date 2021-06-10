@@ -1,11 +1,18 @@
 name: test
 on: push
-env:
-  GOPRIVATE: "github.com/findy-network/*"
 jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.39
+          args: --timeout=5m
   test:
     runs-on: ubuntu-latest
-    #    container: optechlab/indy-golang:1.16.0
     steps:
       - name: setup
         uses: actions/setup-go@v2
@@ -13,8 +20,6 @@ jobs:
           go-version: 1.16.x
       - name: checkout
         uses: actions/checkout@v2
-      - name: use token
-        run: git config --global url."https://"${{ secrets.https_prefix }}"github.com/".insteadOf "https://github.com/"
       - name: test
         run: make test
       - name: scan
