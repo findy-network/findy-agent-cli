@@ -5,7 +5,7 @@
 
 findy-agent-cli is a command-line tool for
 [Findy Agency](https://github.com/findy-network/findy-agent) Aries protocol
-engine. The tool is a standalone command with minimal dependencies i.e. none.
+engine. The tool is a standalone CLI with minimal dependencies i.e. none.
 The binary includes all that's needed to run it. It provides commands to
 - allocate new cloud agent;
 - authenticate thru WebAuthn by including headless FIDO2 authenticator which can
@@ -21,7 +21,24 @@ The binary includes all that's needed to run it. It provides commands to
 
 ## Installation
 
-TODO: installation script is coming soon.
+For fast installation use the `install.sh` script. For the brave ones:
+
+```shell
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/findy-network/findy-agent-cli/HEAD/install.sh)"
+```
+
+Or just download the script first:
+
+```shell
+curl https://raw.githubusercontent.com/findy-network/findy-agent-cli/HEAD/install.sh
+```
+
+The default installation directory is `./bin`. If you want to set it first run
+the `install.sh` with the `-b` flag. Example for the macOS:
+```shell
+$ ./install.sh -b /usr/local/bin
+```
+Don't forget to set the [auto-completion](#Shell-auto-completion)
 
 ## Building From Source Files
 
@@ -46,13 +63,13 @@ agency -h` or `cli help agency`.
 
 ## Usage
 
-In addition to passing command flags into the command, it is possible to use
-environment variables or configuration files to specify your flag values.
+In addition to passing flags into the command, it is possible to use environment
+variables or configuration files to specify your flag values.
 
 ### Configuration file
 
 In order to use configuration file place your configuration file path to
---config flag.
+`--config` flag.
 
 Example: `findy-agent-cli bot start --config my_config.yaml`
 
