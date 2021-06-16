@@ -62,9 +62,11 @@ func init() {
 
 	flags := acatorCmd.PersistentFlags()
 	flags.StringVarP(&authnCmd.UserName, "user-name", "u", "",
-		"used for registration name")
+		cmd.FlagInfo("used for registration name", "", envs["user-name"]))
 	flags.StringVar(&authnCmd.Url, "url", authnCmd.Url,
-		cmd.FlagInfo("WebAuthn server URL aka origin", "", envs["url"]))
+		cmd.FlagInfo("WebAuthn server connection URL", "", envs["url"]))
+	flags.StringVar(&authnCmd.Origin, "origin", authnCmd.Origin,
+		cmd.FlagInfo("Different Origin to use, see --url", "", envs["origin"]))
 	flags.StringVar(&authnCmd.Key, "key", authnCmd.Key,
 		cmd.FlagInfo("master key for authenticator", "", envs["key"]))
 	flags.StringVar(&authnCmd.AAGUID, "aaguid", authnCmd.AAGUID,
@@ -72,7 +74,6 @@ func init() {
 	flags.Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter,
 		cmd.FlagInfo("authenticator counter", "", envs["counter"]))
 
-	acatorCmd.MarkPersistentFlagRequired("user-name")
 	acatorCmd.MarkPersistentFlagRequired("url")
 	acatorCmd.MarkPersistentFlagRequired("aaguid")
 	acatorCmd.MarkPersistentFlagRequired("counter")
@@ -92,9 +93,11 @@ var authnCmd = authn.Cmd{
 }
 
 var envs = map[string]string{
-	"url":     "URL",
-	"aaguid":  "AAGUID",
-	"key":     "KEY",
-	"counter": "COUNTER",
-	"jwt":     "JWT",
+	"url":       "URL",
+	"aaguid":    "AAGUID",
+	"key":       "KEY",
+	"counter":   "COUNTER",
+	"jwt":       "JWT",
+	"origin":    "ORIGIN",
+	"user-name": "USER",
 }
