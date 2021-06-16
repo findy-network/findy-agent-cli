@@ -147,6 +147,8 @@ github.com/findy-network/findy-agent-auth v0.1.13 h1:uVHFQpA45Ucp8BlQpSJqPTVjY7K
 github.com/findy-network/findy-agent-auth v0.1.13/go.mod h1:a2fWgw2T4jfs7orCf/czNSTDt4KlRy725r1kUuEbc3Y=
 github.com/findy-network/findy-agent-auth v0.1.17-0.20210615130120-063a9b0d5ed2 h1:TnzsHCcsx5D/RiPXpLN3fEUAa3i/oiE1dNsYfXyW9Xg=
 github.com/findy-network/findy-agent-auth v0.1.17-0.20210615130120-063a9b0d5ed2/go.mod h1:/fp9QjVPKro4/mkudF3cmK6bcxi6C66WjHHRcN5hVus=
+github.com/findy-network/findy-agent-auth v0.1.17-0.20210615161750-fcb97b0d5099 h1:2nLrAEvapq4kb/sbJHrLT0LZwirp5Ao5pvWC+j3+yOs=
+github.com/findy-network/findy-agent-auth v0.1.17-0.20210615161750-fcb97b0d5099/go.mod h1:/fp9QjVPKro4/mkudF3cmK6bcxi6C66WjHHRcN5hVus=
 github.com/findy-network/findy-common-go v0.1.7-0.20210527125553-4a46a2db405d/go.mod h1:s+KdUrN3s2+XHZ70x3th0LFpMWX2UBofBprEwG5Rwak=
 github.com/findy-network/findy-common-go v0.1.14 h1:+dLT3WUslUnLclSV7QkwFPrWE1T/pfxrJU540FP39xI=
 github.com/findy-network/findy-common-go v0.1.14/go.mod h1:s+KdUrN3s2+XHZ70x3th0LFpMWX2UBofBprEwG5Rwak=
