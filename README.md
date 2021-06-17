@@ -43,7 +43,7 @@ Don't forget to set the [auto-completion](#Shell-auto-completion)
 ## Running Full Stack Agency
 
 For running quickly a full-stack trial please see the
-[guide](https://raw.githubusercontent.com/findy-network/findy-agent-cli/HEAD/scripts/fullstack/README.md).
+[guide](./scripts/fullstack/README.md).
 It includes all key components of the Findy Agency in docker compose file and
 detailed examples how to use `findy-agent-cli` to setup wallets and cloud
 agents.
