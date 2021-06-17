@@ -40,6 +40,14 @@ $ ./install.sh -b /usr/local/bin
 ```
 Don't forget to set the [auto-completion](#Shell-auto-completion)
 
+## Running Full Stack Agency
+
+For running quickly a full-stack trial please see the
+[guide](https://raw.githubusercontent.com/findy-network/findy-agent-cli/HEAD/scripts/fullstack/README.md).
+It includes all key components of the Findy Agency in docker compose file and
+detailed examples how to use `findy-agent-cli` to setup wallets and cloud
+agents.
+
 ## Building From Source Files
 
 Follow these steps to install CLI tool from the source. Please make sure that Go
@@ -60,6 +68,8 @@ in your $PATH variable.
 
 Examples are now included in the command help which can be activated by `cli
 agency -h` or `cli help agency`.
+
+More examples can be found from `scripts/fullstack/README.md`
 
 ## Usage
 
