@@ -11,7 +11,7 @@ The setup uses agency internal file ledger, intended only for testing during
 development. This setup does not suit for testing inter-agency communication
 even though it is possible to set one up using a common indy-plenum ledger.
 
-## Prerequisities
+## Prerequisites
 
 - [Docker](https://www.docker.com/products/docker-desktop)
 - [findy-agent-installation](https://github.com/findy-network/findy-agent-cli#installation)
@@ -158,16 +158,13 @@ even though it is possible to set one up using a common indy-plenum ledger.
    source alice/login
    echo "Hello Bob! Alice here." | $FCLI bot chat
    ```
-   The Bob's terminal should output Alice's wellcoming messages. To stop Bob's
+   The Bob's terminal should output Alice's welcoming messages. To stop Bob's
    listen command just press C-c.
 
    **TODO: What else we really need for now?**
 
    Should we have issuing example, chat bots, all of them or should we wait for
    the feedback first and bring them if there is demand.
-
-1. Implement an issuer or verifier of your own using our go/js frameworks (TODO:
-   link to samples)
 
 1. [Optional, requires Node.js] Start wallet development environment. On the
    root of this repository, run `npm install` and `npm start`. Wallet
@@ -177,8 +174,8 @@ even though it is possible to set one up using a common indy-plenum ledger.
    **Register Charlie's Web-Wallet**
 
    Follow the guides on [Findy Wallet](http://localhost:3000) and register the
-   first wallet holder by name Alice which make easire to follow these samples.
+   first wallet holder by name Alice which make easier to follow these samples.
    
-   More samples and quides for Findy Web Wallet can be found from
+   More samples and guides for Findy Web Wallet can be found from
    [here](https://github.com/findy-network/findy-wallet-pwa)
 
