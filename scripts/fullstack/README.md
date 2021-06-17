@@ -15,7 +15,6 @@ even though it is possible to set one up using a common indy-plenum ledger.
 
 - [Docker](https://www.docker.com/products/docker-desktop)
 - [findy-agent-installation](https://github.com/findy-network/findy-agent-cli#installation)
-- [Node.js](https://nodejs.org/en/download/) (*optional*)
 
 ## Steps
 
@@ -161,21 +160,6 @@ even though it is possible to set one up using a common indy-plenum ledger.
    The Bob's terminal should output Alice's welcoming messages. To stop Bob's
    listen command just press C-c.
 
-   **TODO: What else we really need for now?**
-
-   Should we have issuing example, chat bots, all of them or should we wait for
-   the feedback first and bring them if there is demand.
-
-1. [Optional, requires Node.js] Start wallet development environment. On the
-   root of this repository, run `npm install` and `npm start`. Wallet
-   application is launched and you can access the service with browser in
-   address http://localhost:3000
-   
-   **Register Charlie's Web-Wallet**
-
-   Follow the guides on [Findy Wallet](http://localhost:3000) and register the
-   first wallet holder by name Alice which make easier to follow these samples.
-   
-   More samples and guides for Findy Web Wallet can be found from
-   [here](https://github.com/findy-network/findy-wallet-pwa)
+   More samples and guides can be found from
+   [Findy Wallet](https://github.com/findy-network/findy-wallet-pwa).
 
