@@ -43,7 +43,7 @@ even though it is possible to set one up using a common indy-plenum ledger.
    step one you can easily play with it from the command line.
 
    To install `findy-agent-cli` execute the following:
-   ```shell
+   ```console
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/findy-network/findy-agent-cli/HEAD/install.sh)"
    ```
    It will install the one binary which is only that's needed in
@@ -53,7 +53,7 @@ even though it is possible to set one up using a common indy-plenum ledger.
 
    To make use of `findy-agent-cli` there is a helper script to setup the CLI
    environment. Enter the following command:
-   ```shell
+   ```console
    source ./setup-cli-env.sh 
    ```
    That will setup all the needed environment variables for CLI configuration
@@ -69,14 +69,14 @@ even though it is possible to set one up using a common indy-plenum ledger.
    founds the existing one* i.e. you have sourced the `use-key.sh` script.
 
    *Tip* Enter following commands:
-   ```shell
+   ```console
    alias cli=findy-agent-cli 
    . <(findy-agent-cli completion bash | sed 's/findy-agent-cli/cli/g')
    ```
 
    You should enter the following after you have installed the working
    `findy-agent-cli`:
-   ```shell
+   ```console
    export FCLI=<your-name-for-binary>
    ```
    That's for the helper scrips used in this directory and referenced here as
@@ -86,7 +86,7 @@ even though it is possible to set one up using a common indy-plenum ledger.
 
    After environment setup you can see what your configuration is by executing
    the following helper script:
-   ```shell
+   ```console
    admin/cli-env
    ```
    It will output all of the `findy-agent-cli` env configurations currently set.
@@ -94,41 +94,41 @@ even though it is possible to set one up using a common indy-plenum ledger.
 
    To register your CLI authenticator for direct communication to Findy Agency
    enter the following commands:
-   ```shell
+   ```console
    source admin/register
    source admin/login
    ```
    Later the login is all what is needed. After successful login you can enter
    commands like:
-   ```shell 
+   ```console
    $FCLI agency count         # get status of the clould agents
    $FCLI agency logging -L=5  # set login level of the core agency 
    ```
 
    **On-board Alice and Bob**
-   ```shell
+   ```console
    source alice/register
    source bob/register
    ```
    You can play each of them by entering for example following:
-   ```shell
+   ```console
    source alice/login
    $FCLI agent ping
    ```
 
    **Alice invites Bob to connect**
 
-   ```shell
+   ```console
    export FCLI_CONN_ID=`alice/invitation | bob/connect`
    ```
    Or on macOS could be convenient to have it in clipboard as well:
-   ```shell
+   ```console
    alice/invitation | bob/connect | pbcopy && export FCLI_CONN_ID=`pbpaste`
    ```
 
    Now you have the connection ID (pairwise ID) in the environment variable and
    you could test that with the commands:
-   ```shell
+   ```console
    source alice/login
    $FCLI connection trustping
    ```
@@ -137,7 +137,7 @@ even though it is possible to set one up using a common indy-plenum ledger.
 
    Before entering previous commands you could open a second terminal window and
    execute following:
-   ```shell
+   ```console
    source ./use-key.sh
    source ./setup-cli-env.sh
    source bob/login
@@ -150,11 +150,11 @@ even though it is possible to set one up using a common indy-plenum ledger.
 
    First in the Bob's terminal stop the previous listening with C-c and enter
    the following:
-   ```shell
+   ```console
    $FCLI bot read
    ```
    Go to the Alice's terminal and enter the commands:
-   ```shell
+   ```console
    source alice/login
    echo "Hello Bob! Alice here." | $FCLI bot chat
    ```
