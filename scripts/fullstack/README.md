@@ -123,7 +123,7 @@ even though it is possible to set one up using a common indy-plenum ledger.
    ```
    Or on macOS could be convenient to have it in clipboard as well:
    ```shell
-   alice/invitation | bob/connect | pbcopy && export FCLI_CONN_ID=pbpaste
+   alice/invitation | bob/connect | pbcopy && export FCLI_CONN_ID=`pbpaste`
    ```
 
    Now you have the connection ID (pairwise ID) in the environment variable and
@@ -147,6 +147,7 @@ even though it is possible to set one up using a common indy-plenum ledger.
    You should now receive a notification of the trustping protocol.
 
    **Alice sends text message to Bob**
+
    First in the Bob's terminal stop the previous listening with C-c and enter
    the following:
    ```shell
@@ -158,7 +159,7 @@ even though it is possible to set one up using a common indy-plenum ledger.
    echo "Hello Bob! Alice here." | $FCLI bot chat
    ```
    The Bob's terminal should output Alice's welcoming messages. To stop Bob's
-   listen command just press C-c.
+   `bot read` command just press C-c.
 
    More samples and guides can be found from
    [Findy Wallet](https://github.com/findy-network/findy-wallet-pwa).
