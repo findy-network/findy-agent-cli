@@ -30,3 +30,7 @@ Dockerrun.aws.json
 s3.config
 
 *cli.code-workspace
+.temp
+.data
+.key-backup
+scripts/fullstack/use-key.sh
