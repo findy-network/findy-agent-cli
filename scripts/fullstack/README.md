@@ -74,6 +74,15 @@ even though it is possible to set one up using a common indy-plenum ledger.
    . <(findy-agent-cli completion bash | sed 's/findy-agent-cli/cli/g')
    ```
 
+   *Tip For Linux only*: 
+
+   - define following aliases and install `xclip` if not
+     already installed:
+     ```sh
+     alias pbcopy="xclip -selection c"
+     alias pbpaste="xclip -selection clipboard -o"
+     ```
+
    You should enter the following after you have installed the working
    `findy-agent-cli`:
    ```console
@@ -105,10 +114,11 @@ even though it is possible to set one up using a common indy-plenum ledger.
    $FCLI agency logging -L=5  # set login level of the core agency 
    ```
 
-   **On-board Alice and Bob**
+   **On-board Alice and Bob and Government**
    ```console
    source alice/register
    source bob/register
+   source government/register
    ```
    You can play each of them by entering for example following:
    ```console
@@ -118,16 +128,13 @@ even though it is possible to set one up using a common indy-plenum ledger.
 
    **Alice invites Bob to connect**
 
-   ```console
-   export FCLI_CONN_ID=`alice/invitation | bob/connect`
-   ```
-   Or on macOS could be convenient to have it in clipboard as well:
+   Enter following commands:
    ```console
    alice/invitation | bob/connect | pbcopy && export FCLI_CONN_ID=`pbpaste`
    ```
 
    Now you have the connection ID (pairwise ID) in the environment variable and
-   you could test that with the commands:
+   in your clipboard. You can test connection with the commands:
    ```console
    source alice/login
    $FCLI connection trustping
@@ -135,16 +142,16 @@ even though it is possible to set one up using a common indy-plenum ledger.
    Which means that Alice's end of the connection calls Aries's trustping
    protocol and Bob's cloud agent responses it.
 
-   Before entering previous commands you could open a second terminal window and
-   execute following:
+   Before entering previous commands you could open *a second terminal window*
+   and execute following:
    ```console
    source ./use-key.sh
    source ./setup-cli-env.sh
    source bob/login
-   export FClI_CONN_ID="<perviously defined conn id here>"
+   export FCLI_CONN_ID="<perviously defined conn id here>"
    $FCLI agent listen
    ```
-   You should now receive a notification of the trustping protocol.
+   You should now start to receive notifications of the Aries protocols.
 
    **Alice sends text message to Bob**
 
@@ -158,9 +165,79 @@ even though it is possible to set one up using a common indy-plenum ledger.
    source alice/login
    echo "Hello Bob! Alice here." | $FCLI bot chat
    ```
-   The Bob's terminal should output Alice's welcoming messages. To stop Bob's
-   `bot read` command just press C-c.
+   The Bob's terminal should output Alice's welcoming messages.
+   
+   Congratulations! You have made this far and successfully run two Aries
+   protocols `trustping` and `basic message`. Next we will cover two most
+   important ones `issue credential` and `present proof`.
 
-   More samples and guides can be found from
+   **Government creates Schema and CredDef**
+
+   First switch Alice's terminal and login as Government.
+   ```console
+   source government/login
+   ```
+   As Government create a new schema and a credential definition.
+   ```console
+   source government/new-schema
+   source government/new-cred-def  # please be patient, this will take time
+   ```
+   **Government invites Bob to connect**
+
+   Before we can issue the newly created credential to Bob we must make a
+   connection between Government and Bob.
+   ```console
+   government/invitation | bob/connect | pbcopy && export FCLI_CONN_ID=`pbpaste`
+   ```
+   Go to back to Bob's terminal and stop `bot read` command with C-c and enter
+   the following:
+   ```console
+   source bob/login
+   export FCLI_CONN_ID=`pbpaste` # make sure you haven't overwritten clipboard
+   $FCLI agent mode-cmd --auto   # this is very important!
+   $FCLI agent listen
+   ```
+   You might wonder what for the command `$FCLI agent mode-cmd --auto` is given.
+   It sets Bob's cloud agent to automatically accept all issued credentials or
+   even automatically make a proof when requested. Normally that would need a
+   permission from the controller, the wallet owner. The auto-mode is especially
+   useful for tests, samples, etc.
+
+   **Government trustpings Bob**
+   
+   Go to Government terminal and enter following to verify newly created DIDComm
+   connection:
+   ```console
+   $FCLI connection trustping
+   ```
+   You should see the notification in Bob's terminal and get OK status here.
+
+   **Government issues credential to Bob**
+
+   Run the following helper script:
+   ```console
+   government/issue-to-bob
+   ```
+   You should get OK indication as a command return and you should see the
+   notification on Bob's terminal that a new credential is received.
+
+   **Government requerst proof from Bob**
+
+   First we must set Government into auto-accept mode because when full proof
+   protocol is running it must verify data when controller is called. By setting
+   the auto-mode the command do it for us:
+   ```console
+   $FCLI agent mode-cmd --auto   # this is very important!
+   ```
+
+   Enter the following to request a proof from Bob:
+   ```console
+   government/proofreq-from-bob
+   ```
+   You should get OK indication as a command return and you should see the
+   notification on Bob's terminal that proof is made.
+
+   Congratulations! Now you have run all the most important DIDComm protocols by
+   your own. More samples and guides can be found from
    [Findy Wallet](https://github.com/findy-network/findy-wallet-pwa).
 
