@@ -10,10 +10,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var reqProofDoc = `Requests a proof from DIDComm's other end agent.
+
+Note! This just a simple command to test newly created credentials and not meant
+to be used in production. For example, it doesn't have proper error handling,
+timeouts, etc.`
+
 var reqProofCmd = &cobra.Command{
 	Use:   "reqproof",
-	Short: "request proof command",
-	Long:  `Requests a proof from DIDComm's other end agent.`,
+	Short: "Request a proof and wait status",
+	Long:  reqProofDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
 		err2.Check(cmd.BindEnvs(envs, ""))
@@ -37,7 +43,7 @@ var reqProofCmd = &cobra.Command{
 		ch, err := client.Pairwise{ID: CmdData.ConnID, Conn: conn}.ReqProof(ctx, attrJSON)
 		err2.Check(err)
 		for status := range ch {
-			fmt.Println("issue status:", status.State, "|", status.Info)
+			fmt.Println("proof request status:", status.State, "|", status.Info)
 		}
 		return nil
 	},
