@@ -1,4 +1,4 @@
 #!/bin/bash
 
-printenv | grep FCLI_$1
+printenv | grep -i FCLI_$1
 
