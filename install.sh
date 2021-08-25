@@ -64,6 +64,7 @@ get_binaries() {
   case "$PLATFORM" in
     darwin/386) BINARIES="findy-agent-cli" ;;
     darwin/amd64) BINARIES="findy-agent-cli" ;;
+    darwin/arm64) BINARIES="findy-agent-cli" ;;
     linux/386) BINARIES="findy-agent-cli" ;;
     linux/amd64) BINARIES="findy-agent-cli" ;;
     windows/386) BINARIES="findy-agent-cli" ;;
@@ -193,6 +194,8 @@ uname_arch() {
     armv5*) arch="armv5" ;;
     armv6*) arch="armv6" ;;
     armv7*) arch="armv7" ;;
+    arm64) arch="arm64" ;;
+    arm) arch="arm64" ;;
   esac
   echo ${arch}
 }
