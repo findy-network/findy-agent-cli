@@ -54,9 +54,10 @@ var listenCmd = &cobra.Command{
 					break loop
 				}
 				fmt.Println("listen status:",
+					status.Status.Notification.ProtocolID, "|",
 					status.Status.Notification.ProtocolType, "|",
 					status.Status.Notification.TypeID, "|",
-					status.Status.Notification.ProtocolID)
+					status.Status.Notification.ConnectionID)
 			case <-intCh:
 				cancel()
 				fmt.Println("interrupted by user, cancel() called")
