@@ -59,7 +59,12 @@ var saListenCmd = &cobra.Command{
 					break loop
 				}
 				status := question.Status
-				fmt.Println("listen status:", status.ClientID, status.Notification.TypeID, status.Notification.ID, status.Notification.ProtocolID)
+				fmt.Println("listen status:\n",
+					"  ClientID:", status.ClientID,
+					"  TypeID:", status.Notification.TypeID,
+					"  Notification.ID:", status.Notification.ID,
+					"  ProtocolID:", status.Notification.ProtocolID,
+				)
 				switch status.Notification.TypeID {
 				case agency.Notification_PROTOCOL_PAUSED:
 					resume(status, true)
@@ -124,7 +129,8 @@ func init() {
 		fmt.Println(err)
 	})
 
-	saListenCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
+	saListenCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true,
+		"used reply ack for all request")
 
 	AgentCmd.AddCommand(saListenCmd)
 }
