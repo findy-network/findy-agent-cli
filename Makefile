@@ -1,5 +1,3 @@
-AGENT_PATH=github.com/findy-network/findy-agent
-
 AGENT_BRANCH=$(shell scripts/branch.sh ../findy-agent/)
 API_BRANCH=$(shell scripts/branch.sh ../findy-agent-api/)
 AUTH_BRANCH=$(shell scripts/branch.sh ../findy-agent-auth/)
@@ -72,7 +70,11 @@ build:
 	go build ./...
 
 cli:
-	go build -o $(GOPATH)/bin/cli
+	$(eval VERSION = $(shell cat ./VERSION))
+	@echo "Installing version $(VERSION)"
+	go build \
+		-ldflags "-X 'github.com/findy-network/findy-agent-cli/utils.Version=$(VERSION)'" \
+		-o $(GOPATH)/bin/cli
 
 misspell:
 	@go get github.com/client9/misspell 
@@ -109,7 +111,7 @@ install:
 	$(eval VERSION = $(shell cat ./VERSION))
 	@echo "Installing version $(VERSION)"
 	go install \
-		-ldflags "-X '$(AGENT_PATH)-cli/utils.Version=$(VERSION)'" \
+		-ldflags "-X 'github.com/findy-network/findy-agent-cli/utils.Version=$(VERSION)'" \
 		./...
 
 # https://goreleaser.com/install/
