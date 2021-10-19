@@ -23,8 +23,6 @@ linters-settings:
       - filepathJoin
   gocyclo:
     min-complexity: 15
-  golint:
-    min-confidence: 0
   gomnd:
     settings:
       mnd:
@@ -60,21 +58,20 @@ linters:
     - gocyclo
     - gofmt
     - goimports
-    - golint
 #    - gomnd
     - goprintffuncname
     - gosec
     - gosimple
     - govet
     - ineffassign
-    - interfacer
+      # - interfacer # archived repo
     #    - lll
     - misspell
     - nakedret
     - noctx
     - nolintlint
+    - revive
     - rowserrcheck
-    - scopelint
     - staticcheck
     - structcheck
     - stylecheck
@@ -90,14 +87,11 @@ issues:
       linters:
         - funlen
     - linters:
-        - gocritic
-      text: "unnecessaryDefer:"
-    - linters:
-        - golint
+        - revive
         - stylecheck
       text: "should not use dot imports"
 run:
 service:
-  golangci-lint-version: 1.39.x # use the fixed version to not introduce new linters unexpectedly
+  golangci-lint-version: 1.42.x # use the fixed version to not introduce new linters unexpectedly
   prepare:
     - echo "here I can run custom commands, but no preparation needed for this repo"
