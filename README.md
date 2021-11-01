@@ -1,12 +1,12 @@
 # findy-agent-cli
 
-![lint](https://github.com/findy-network/findy-agent-cli/workflows/golangci-lint/badge.svg?branch=dev)
-![test](https://github.com/findy-network/findy-agent-cli/workflows/test/badge.svg?branch=dev)
+[![test](https://github.com/findy-network/findy-agent-cli/actions/workflows/test.yml/badge.svg?branch=dev)](https://github.com/findy-network/findy-agent-cli/actions/workflows/test.yml)
 
 findy-agent-cli is a command-line tool for
 [Findy Agency](https://github.com/findy-network/findy-agent) Aries protocol
 engine. The tool is a standalone CLI with minimal dependencies i.e. none.
 The binary includes all that's needed to run it. It provides commands to
+
 - allocate new cloud agent;
 - authenticate thru WebAuthn by including headless FIDO2 authenticator which can
   be easily used from other processes thru JSON interface as well;
@@ -35,9 +35,11 @@ curl https://raw.githubusercontent.com/findy-network/findy-agent-cli/HEAD/instal
 
 The default installation directory is `./bin`. If you want to set it first run
 the `install.sh` with the `-b` flag. Example for the macOS:
+
 ```shell
 $ ./install.sh -b /usr/local/bin
 ```
+
 Don't forget to set the [auto-completion](#Shell-auto-completion)
 
 ## Running Full Stack Agency
@@ -54,20 +56,18 @@ Follow these steps to install CLI tool from the source. Please make sure that Go
 and git are both installed and working properly. You should have `$GOPATH/bin/`
 in your $PATH variable.
 
-*Note!* Go modules must be on.
+_Note!_ Go modules must be on.
 
 1. Clone [findy-agent-cli](https://github.com/findy-network/findy-agent-cli)
 2. Install binary: `make install` or `make deps cli`
-3. Binary will in `$GOPATH/bin/` by name `findy-agent-cli` or if you used `make
-   deps cli` by name `cli`
+3. Binary will in `$GOPATH/bin/` by name `findy-agent-cli` or if you used `make deps cli` by name `cli`
 4. To activate auto-completion run: `. sa-compl.sh` without arguments if you
    used `make deps cli` and use `. sa-compl.sh findy-agent-cli findy-agent-cli`
    if you used the first option.
 
 ## CLI usage examples
 
-Examples are now included in the command help which can be activated by `cli
-agency -h` or `cli help agency`.
+Examples are now included in the command help which can be activated by `cli agency -h` or `cli help agency`.
 
 More examples can be found from `scripts/fullstack/README.md`
 
@@ -97,6 +97,7 @@ the context you are in.
 You can pass flag values using environment variables.
 
 The example of typical and minimal settings for usage of the tool:
+
 ```
 export FCLI_SERVER="host.domain.net:50051"
 export FCLI_URL="https://host.domain.net"
