@@ -63,6 +63,8 @@ func init() {
 	flags := acatorCmd.PersistentFlags()
 	flags.StringVarP(&authnCmd.UserName, "user-name", "u", "",
 		cmd.FlagInfo("used for registration name", "", envs["user-name"]))
+	flags.StringVarP(&authnCmd.PublicDIDSeed, "seed", "", "",
+		cmd.FlagInfo("public DID seed for registration", "", envs["seed"]))
 	flags.StringVar(&authnCmd.Url, "url", authnCmd.Url,
 		cmd.FlagInfo("WebAuthn server connection URL", "", envs["url"]))
 	flags.StringVar(&authnCmd.Origin, "origin", authnCmd.Origin,
@@ -83,13 +85,14 @@ func init() {
 }
 
 var authnCmd = authn.Cmd{
-	SubCmd:   "",
-	UserName: "",
-	Url:      "http://localhost:8090",
-	AAGUID:   "12c85a48-4baf-47bd-b51f-f192871a1511",
-	Key:      "",
-	Counter:  0,
-	Token:    "",
+	SubCmd:        "",
+	UserName:      "",
+	PublicDIDSeed: "",
+	Url:           "http://localhost:8090",
+	AAGUID:        "12c85a48-4baf-47bd-b51f-f192871a1511",
+	Key:           "",
+	Counter:       0,
+	Token:         "",
 }
 
 var envs = map[string]string{
@@ -100,4 +103,5 @@ var envs = map[string]string{
 	"jwt":       "JWT",
 	"origin":    "ORIGIN",
 	"user-name": "USER",
+	"seed":      "SEED",
 }
