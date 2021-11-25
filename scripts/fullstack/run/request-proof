@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cli=${FCLI:-findy-agent-cli}
+
+cred_id="$FCLI_CRED_DEF_ID"
+
+attrs=`printf \
+	'[{"Name": "name", "CredDefId": "%s" }, 
+	{"Name": "gender", "CredDefId": "%s" }, 
+	{"Name": "tel", "CredDefId":  "%s" }, 
+	{"Name": "email", "CredDefId":  "%s" }]' $cred_id $cred_id $cred_id $cred_id`
+
+$cli connection reqproof --attrs "$attrs"

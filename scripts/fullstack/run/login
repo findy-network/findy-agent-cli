@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cli=${FCLI:-findy-agent-cli}
+name=$(basename $(dirname "$BASH_SOURCE"))
+
+export FCLI_USER="$name"
+export FCLI_JWT=`$cli authn login`
+

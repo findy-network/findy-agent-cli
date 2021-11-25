@@ -1,0 +1,14 @@
+#!/bin/bash
+
+name=$(basename $(dirname "$BASH_SOURCE"))
+
+cli=${FCLI:-findy-agent-cli}
+jwt=${FCLI_JWT:-$($cli authn login -u "$name")}
+
+echo -n "$jwt"
+
+export FCLI_JWT="$jwt"
+
+unset cli
+unset jwt
+

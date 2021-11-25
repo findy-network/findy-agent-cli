@@ -1,0 +1,18 @@
+#!/bin/bash
+
+name=$(basename $(dirname "$BASH_SOURCE"))
+
+cli=${FCLI:-findy-agent-cli}
+jwt=${FCLI_JWT:-$($cli authn login -u "$name")}
+
+export FCLI_JWT="$jwt"
+export FCLI_CONN_ID=`uuidgen`
+
+$cli agent invitation --jwt "$jwt" \
+	--label "$name" \
+	--conn-id "$FCLI_CONN_ID" \
+	$@
+
+unset cli
+unset jwt
+
