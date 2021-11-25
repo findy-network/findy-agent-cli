@@ -2,7 +2,6 @@ package connection
 
 import (
 	"context"
-	"errors"
 	"fmt"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
@@ -38,10 +37,7 @@ var pingCmd = &cobra.Command{
 		ch, err := client.Pairwise{ID: CmdData.ConnID, Conn: conn}.Ping(ctx)
 		err2.Check(err)
 		for status := range ch {
-			fmt.Println("ping status:", status.State, "|", status.Info)
-			if !client.OkStatus(status) {
-				panic(errors.New("error in panic"))
-			}
+			fmt.Println("ping status:", status.State)
 		}
 		return nil
 	},

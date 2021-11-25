@@ -45,22 +45,27 @@ var listenCmd = &cobra.Command{
 		ch := conn.ListenStatusAndRetry(ctx,
 			&agency.ClientID{ID: uuid.New().String()})
 
+		titleOn := false
 	loop:
 		for {
 			select {
 			case status, ok := <-ch:
 				if !ok {
-					fmt.Println("closed from server")
 					break loop
 				}
-				fmt.Println("listen status:",
+				if !titleOn {
+					titleOn = true
+					fmt.Println("ProtocolID | ProtocolType | TypeID | ConnectionID")
+					fmt.Println("-------------------------------------------------")
+				}
+				fmt.Println(
 					status.Notification.ProtocolID, "|",
 					status.Notification.ProtocolType, "|",
 					status.Notification.TypeID, "|",
-					status.Notification.ConnectionID)
+					status.Notification.ConnectionID,
+				)
 			case <-intCh:
 				cancel()
-				fmt.Println("interrupted by user, cancel() called")
 			}
 		}
 

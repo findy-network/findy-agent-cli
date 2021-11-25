@@ -55,7 +55,6 @@ var saListenCmd = &cobra.Command{
 			select {
 			case question, ok := <-ch:
 				if !ok {
-					fmt.Println("closed from server")
 					break loop
 				}
 				status := question.Status
@@ -81,7 +80,6 @@ var saListenCmd = &cobra.Command{
 				}
 			case <-intCh:
 				cancel()
-				fmt.Println("interrupted by user, cancel() called")
 			}
 		}
 

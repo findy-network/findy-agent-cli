@@ -18,11 +18,11 @@ var connectDoc = `Builds a new DIDComm connection to another agent. The other ag
 is specified by an invitation. The invitation can be entered in three ways:
 
 1. As a flag string (--invitation)
-   $> find-agent-cli jwt connect --invitation "{inv...}"
+   $> find-agent-cli agent connect --invitation "{inv...}"
 2. As a file name including the invitation
-   $> find-agent-cli jwt connect invitation.json
+   $> find-agent-cli agent connect invitation.json
 3. Thru the pipe when the file name is "-":
-   $> echo {invitation} | find-agent-cli jwt connect -`
+   $> echo {invitation} | find-agent-cli agent connect -`
 
 var connectCmd = &cobra.Command{
 	Use:   "connect",
@@ -44,7 +44,8 @@ var connectCmd = &cobra.Command{
 				invitationJSON = tryReadInvitation(inJSON)
 			}
 		} else if invitationJSON == "" {
-			fmt.Println("CMD connect {invitationJSON|-}")
+			fmt.Fprintln(os.Stderr,
+				"Usage: findy-agent-cli agent connect {invitationJSON|-}")
 			return fmt.Errorf("invitation missing")
 		}
 
