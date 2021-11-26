@@ -2,6 +2,8 @@ use-key.sh
 cfg.yaml
 
 # Test & playground files
+*op.sh
+
 op*/
 test*/
 my*/
