@@ -24,6 +24,7 @@ var issueCmd = &cobra.Command{
 		defer err2.Annotate("issuing error", &err)
 
 		if cmd.DryRun() {
+			PrintCmdData()
 			return nil
 		}
 		c.SilenceUsage = true

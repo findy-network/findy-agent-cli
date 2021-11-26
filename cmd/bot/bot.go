@@ -6,6 +6,7 @@ import (
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v3"
 )
 
 var botDoc = `Bot is a family of commands to manage chat bots and clients.
@@ -30,6 +31,11 @@ var CmdData = struct {
 	ConnID string
 	JWT    string
 }{}
+
+func PrintCmdData() {
+	cb := err2.Bytes.Try(yaml.Marshal(CmdData))
+	fmt.Println(string(cb))
+}
 
 func init() {
 	defer err2.Catch(func(err error) {

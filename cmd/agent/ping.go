@@ -50,7 +50,7 @@ var pingCmd = &cobra.Command{
 
 		agent := agency.NewAgentServiceClient(conn)
 		r, err := agent.Ping(ctx, &agency.PingMsg{
-			ID: id,
+			ID:             id,
 			PingController: andController,
 		})
 		err2.Check(err)

@@ -6,7 +6,6 @@ import (
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
-	"github.com/findy-network/findy-common-go/dto"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
@@ -30,7 +29,7 @@ var statusCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
-			fmt.Println(dto.ToJSON(CmdData))
+			PrintCmdData()
 			return nil
 		}
 		c.SilenceUsage = true

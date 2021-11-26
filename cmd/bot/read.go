@@ -33,6 +33,7 @@ var readCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
+			PrintCmdData()
 			return nil
 		}
 		c.SilenceUsage = true
