@@ -10,7 +10,6 @@ jwt=$($jwt_place)
 
 if [[ "$jwt" != "" ]]; then
 	echo "Login OK"
-	export FCLI_JWT="$jwt"
 else
 	echo "Login error"
 fi
