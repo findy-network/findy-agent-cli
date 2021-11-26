@@ -3,6 +3,9 @@
 cli=${FCLI:-findy-agent-cli}
 
 $cli connection issue --attrs \
-	    '[{"Name": "name", "Value": "Bob"}, {"Name": "gender", "Value": "man"}, {"Name": "tel", "Value": "39483493"}, {"Name": "email", "Value": "bob@email.com"}]'
+   '[{"Name": "name", "Value": "$1"},
+   {"Name": "gender", "Value": "human"},
+   {"Name": "tel", "Value": "39483493"}, 
+   {"Name": "email", "Value": "$1@email.com"}]'
     
 

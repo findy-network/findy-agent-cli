@@ -1,18 +1,25 @@
 #!/bin/bash
 
-name=$(basename $(dirname "$BASH_SOURCE"))
+location=$(dirname "$BASH_SOURCE")
+name=$(basename "$location")
+[[ "$name" = "." ]] && name=$(basename "$PWD")
+jwt_place="$location"/jwt
 
 cli=${FCLI:-findy-agent-cli}
-jwt=${FCLI_JWT:-$($cli authn login -u "$name")}
+jwt=$($jwt_place)
 
-export FCLI_JWT="$jwt"
-export FCLI_CONN_ID=`uuidgen`
+conn_id=`uuidgen`
 
 $cli agent invitation --jwt "$jwt" \
 	--label "$name" \
-	--conn-id "$FCLI_CONN_ID" \
+	--conn-id "$conn_id" \
 	$@
 
-unset cli
-unset jwt
+conn_location="$location"/"$conn_id"
+mkdir -p "$conn_location"
+
+cat > "$conn_location"/cfg.yaml <<EOF
+jwt: "$jwt"
+conn_id: "$conn_id"
+EOF
 

@@ -1,8 +1,17 @@
 #!/bin/bash
 
-cli=${FCLI:-findy-agent-cli}
-name=$(basename $(dirname "$BASH_SOURCE"))
+location=$(dirname "$BASH_SOURCE")
+name=$(basename "$location")
+[[ "$name" = "." ]] && name=$(basename "$PWD")
+jwt_place="$location"/jwt
 
-export FCLI_USER="$name"
-export FCLI_JWT=`$cli authn login`
+cli=${FCLI:-findy-agent-cli}
+jwt=$($jwt_place)
+
+if [[ "$jwt" != "" ]]; then
+	echo "Login OK"
+	export FCLI_JWT="$jwt"
+else
+	echo "Login error"
+fi
 
