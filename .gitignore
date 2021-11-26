@@ -34,3 +34,10 @@ s3.config
 .data
 .key-backup
 scripts/fullstack/use-key.sh
+
+# Test run files
+fullstack/op*/
+fullstack/test*/
+fullstack/my*/
+fullstack/new*/
+fullstack/*/token
