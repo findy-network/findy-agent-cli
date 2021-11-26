@@ -28,6 +28,7 @@ var pingCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
+			fmt.Println("jwt:", CmdData.JWT)
 			return nil
 		}
 		c.SilenceUsage = true
@@ -49,7 +50,9 @@ var pingCmd = &cobra.Command{
 
 		agent := agency.NewAgentServiceClient(conn)
 		r, err := agent.Ping(ctx, &agency.PingMsg{
-			ID: id, PingController: andController})
+			ID: id,
+			PingController: andController,
+		})
 		err2.Check(err)
 
 		if id == r.ID {
