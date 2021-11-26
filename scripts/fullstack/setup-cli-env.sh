@@ -3,6 +3,10 @@
 cli=${FCLI:-findy-agent-cli}
 . ../sa-compl.sh "$cli" "$cli"
 
+if [ -f ./use-key.sh ]; then
+	. ./use-key.sh
+fi
+
 if [ -z "$FCLI_KEY" ]; then
 	export FCLI_KEY=`$cli new-key`
 	printf "export FCLI_KEY=%s" $FCLI_KEY > use-key.sh
