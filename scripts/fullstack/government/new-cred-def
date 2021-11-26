@@ -1,6 +1,1 @@
-#!/bin/bash
-
-cli=${FCLI:-findy-agent-cli}
-
-export FCLI_CRED_DEF_ID=`$cli agent create-cred-def -t TAG -i "$FCLI_SCHEMA_ID"`
-
+../run/new-cred-def

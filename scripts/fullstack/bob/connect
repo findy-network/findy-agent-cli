@@ -1,6 +1,1 @@
-#!/bin/bash
-
-cli=${FCLI:-findy-agent-cli}
-
-$cli agent connect --jwt `$cli authn login -u bob` -
-
+../run/connect

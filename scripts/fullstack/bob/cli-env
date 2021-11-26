@@ -1,4 +1,1 @@
-#!/bin/bash
-
-printenv | grep FCLI_$1
-
+../run/cli-env
