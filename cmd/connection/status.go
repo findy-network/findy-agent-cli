@@ -2,6 +2,7 @@ package connection
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
@@ -49,7 +50,10 @@ var statusCmd = &cobra.Command{
 		})
 		err2.Check(err)
 
-		fmt.Println("result:", statusResult.StatusJSON, statusResult.State.ProtocolID.TypeID)
+		bStatus, err := json.Marshal(statusResult.GetStatus())
+		err2.Check(err)
+
+		fmt.Println("result:", string(bStatus), statusResult.State.ProtocolID.TypeID)
 		return nil
 	},
 }
