@@ -20,6 +20,6 @@ mkdir -p "$conn_location"
 
 cat > "$conn_location"/cfg.yaml <<EOF
 jwt: "$jwt"
-conn_id: "$conn_id"
+conn-id: "$conn_id"
 EOF
 

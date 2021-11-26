@@ -3,6 +3,5 @@
 cli=${FCLI:-findy-agent-cli}
 name=$(basename $(dirname "$BASH_SOURCE"))
 
-export FCLI_USER="$name"
-$cli authn register
+$cli authn register -u "$name"
 
