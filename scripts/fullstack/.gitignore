@@ -1,0 +1,11 @@
+use-key.sh
+cfg.yaml
+
+# Test & playground files
+op*/
+test*/
+my*/
+new*/
+
+token
+
