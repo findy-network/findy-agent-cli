@@ -254,3 +254,28 @@ even though it is possible to set one up using a common indy-plenum ledger.
    $FCLI agency logging -L=5  # set login level of the core agency 
    ```
 
+# Problem Solving Dev and Demo Environment
+
+## CLI FIDO2 Authenticator and Origin
+
+The command-line FIDO2 is a tricky one especially when working with
+non-production environment where TLS termination and origin can be set
+differently. If you are switching you CLI usage between public cloud agency
+installation and your local installation, you have to be extra careful with our
+configurations and environment variables. The following is from the local setup:
+
+```sh
+# FIDO2 server `findy-agent-auth` address
+export FCLI_URL=http://localhost:8088
+# Set the origin according to where our Web Wallet is hosted **important**
+export FCLI_ORIGIN=http://localhost:3000
+```
+
+When a public cloud uses a reverse proxy and a load balancer you don't need to
+set `FCLI_ORIGIN` or more importantly you **must not set it**.
+
+## Authenticator's Master Key
+
+If you continue working with existing Findy agency installation you must be
+careful your CLI authenticator's master key. For that look for `use-key.sh`
+file.
