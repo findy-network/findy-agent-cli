@@ -14,7 +14,13 @@ if [ -z "$FCLI_KEY" ]; then
 fi
 export FCLI_CONFIG=./cfg.yaml
 export FCLI_TLS_PATH="$PWD/config/cert"
+
+# FIDO2 server `findy-agent-auth` address
 export FCLI_URL=http://localhost:8088
-export FCLI_SERVER=localhost:50052
+# Set the origin according to where our Web Wallet is hosted **important**
 export FCLI_ORIGIN=http://localhost:3000
+
+# Core agency's gRPC address
+export FCLI_SERVER=localhost:50052
+
 export FCLI=$cli
