@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
@@ -14,6 +15,8 @@ import (
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
+
+const pingTimeout = time.Second * 4
 
 var listenCmd = &cobra.Command{
 	Use:   "listen",
@@ -33,6 +36,18 @@ var listenCmd = &cobra.Command{
 		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
 		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
+
+		// first let's ping our agent to get proper error message for
+		// JWT authentication and we are not hurry
+		timeout, timeoutCancel := context.WithTimeout(
+			context.Background(), pingTimeout)
+		defer timeoutCancel()
+
+		agent := agency.NewAgentServiceClient(conn)
+		err2.Empty.Try(agent.Ping(timeout, &agency.PingMsg{
+			ID:             1000,
+			PingController: andController,
+		}))
 
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel() // for server side stops, for proper cleanup
