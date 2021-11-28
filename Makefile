@@ -70,7 +70,7 @@ build:
 	go build ./...
 
 cli:
-	$(eval VERSION = $(shell cat ./VERSION))
+	$(eval VERSION = $(shell cat ./VERSION) $(shell date))
 	@echo "Installing version $(VERSION)"
 	go build \
 		-ldflags "-X 'github.com/findy-network/findy-agent-cli/utils.Version=$(VERSION)'" \
@@ -108,7 +108,7 @@ test_cov:
 check: check_fmt vet shadow
 
 install:
-	$(eval VERSION = $(shell cat ./VERSION))
+	$(eval VERSION = $(shell cat ./VERSION) $(shell date))
 	@echo "Installing version $(VERSION)"
 	go install \
 		-ldflags "-X 'github.com/findy-network/findy-agent-cli/utils.Version=$(VERSION)'" \
