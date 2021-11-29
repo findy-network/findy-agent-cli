@@ -6,16 +6,19 @@ import (
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
-	"github.com/findy-network/findy-common-go/dto"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
 
+var unpauseDoc = `Resumes a protocol with given ACK/NACK.
+
+Protocol is defined by protocol ID and protocol type: issuing or proofing`
+
 var unpauseCmd = &cobra.Command{
 	Use:   "resume",
 	Short: "Resume protocol",
-	Long:  `Resumes a protocol with given ACK/NACK.`,
+	Long:  unpauseDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
@@ -23,7 +26,7 @@ var unpauseCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
-			fmt.Println(dto.ToJSON(CmdData))
+			PrintCmdData()
 			return nil
 		}
 		c.SilenceUsage = true
@@ -40,9 +43,15 @@ var unpauseCmd = &cobra.Command{
 		if !ACK {
 			stateAck = agency.ProtocolState_NACK
 		}
+
+		protocolTypeID := agency.Protocol_PRESENT_PROOF
+		if !isProof {
+			protocolTypeID = agency.Protocol_ISSUE_CREDENTIAL
+		}
+
 		unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
 			ProtocolID: &agency.ProtocolID{
-				TypeID: agency.Protocol_PRESENT_PROOF,
+				TypeID: protocolTypeID,
 				Role:   agency.Protocol_RESUMER,
 				ID:     MyProtocolID,
 			},
@@ -58,6 +67,7 @@ var unpauseCmd = &cobra.Command{
 var (
 	MyProtocolID string
 	ACK          bool
+	isProof      bool
 )
 
 func init() {
@@ -67,6 +77,7 @@ func init() {
 
 	unpauseCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
 	unpauseCmd.Flags().BoolVarP(&ACK, "ack", "a", true, "how to proceed with the protocol")
+	unpauseCmd.Flags().BoolVarP(&isProof, "proof", "p", false, "are we resuming issuing or proof")
 
 	ConnectionCmd.AddCommand(unpauseCmd)
 }

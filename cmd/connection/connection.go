@@ -6,6 +6,7 @@ import (
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
+	"github.com/ghodss/yaml"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -29,6 +30,11 @@ var CmdData = struct {
 	ConnID string
 	JWT    string
 }{}
+
+func PrintCmdData() {
+	cb := err2.Bytes.Try(yaml.Marshal(CmdData))
+	fmt.Println(string(cb))
+}
 
 var conn client.Conn
 

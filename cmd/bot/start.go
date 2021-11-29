@@ -41,6 +41,7 @@ var startCmd = &cobra.Command{
 		}
 
 		if cmd.DryRun() {
+			PrintCmdData()
 			return nil
 		}
 		c.SilenceUsage = true

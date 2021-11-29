@@ -1,0 +1,26 @@
+#!/bin/bash
+
+cli=${FCLI:-findy-agent-cli}
+
+location=$(dirname "$BASH_SOURCE")
+name=$(basename "$location")
+[[ "$name" = "." ]] && name=$(basename "$PWD")
+token_place="$location"/token
+
+if [[ -f "$token_place" && $(cat "$token_place") != "" ]]; then
+	jwt=$(cat "$token_place")
+else
+	jwt=$($cli authn login -u "$name")
+fi
+
+echo -n "$jwt" > "$token_place"
+
+conn_location="$location"/"$conn_id"
+mkdir -p "$conn_location"
+
+cat > "$location"/cfg.yaml <<EOF
+jwt: "$jwt"
+EOF
+
+echo "$jwt"
+

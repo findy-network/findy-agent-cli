@@ -1,0 +1,16 @@
+#!/bin/bash
+
+location=$(dirname "$BASH_SOURCE")
+name=$(basename "$location")
+[[ "$name" = "." ]] && name=$(basename "$PWD")
+jwt_place="$location"/jwt
+
+cli=${FCLI:-findy-agent-cli}
+jwt=$($jwt_place)
+
+if [[ "$jwt" != "" ]]; then
+	echo "Login OK"
+else
+	echo "Login error"
+fi
+

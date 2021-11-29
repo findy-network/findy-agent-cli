@@ -3,8 +3,6 @@ package agent
 import (
 	"context"
 	"fmt"
-	"math/rand"
-	"time"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
@@ -28,17 +26,10 @@ var pingCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
+			fmt.Println("jwt:", CmdData.JWT)
 			return nil
 		}
 		c.SilenceUsage = true
-
-		// high security is not the point here, but help debugging with ID
-		// that's why the security linter is suppressed for this
-		rand.Seed(time.Now().UnixNano())
-		const min = 10
-		const max = 30
-		// #nosec
-		id := rand.Int31n(max-min+1) + min
 
 		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
 		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
@@ -48,16 +39,12 @@ var pingCmd = &cobra.Command{
 		defer cancel()
 
 		agent := agency.NewAgentServiceClient(conn)
-		r, err := agent.Ping(ctx, &agency.PingMsg{
-			ID: id, PingController: andController})
+		r, err := agent.Enter(ctx, &agency.ModeCmd{
+			TypeID: agency.ModeCmd_NONE,
+		})
 		err2.Check(err)
 
-		if id == r.ID {
-			fmt.Println("ping OK")
-		} else {
-			fmt.Println("wrong ping ID from agency")
-			fmt.Println("got:", r.ID, "has:", id)
-		}
+		fmt.Println("Agent registered by name:", r.Info)
 		return nil
 	},
 }

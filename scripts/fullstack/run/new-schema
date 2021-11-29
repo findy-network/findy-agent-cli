@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cli=${FCLI:-findy-agent-cli}
+
+export FCLI_SCHEMA_ID=`$cli agent create-schema -a new-id -v 1.0 name gender tel email`
+

@@ -39,6 +39,18 @@ var saListenCmd = &cobra.Command{
 		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
+		// first let's ping our agent to get proper error message for
+		// JWT authentication and we are not hurry
+		timeout, timeoutCancel := context.WithTimeout(
+			context.Background(), pingTimeout)
+		defer timeoutCancel()
+
+		agent := agency.NewAgentServiceClient(conn)
+		err2.Empty.Try(agent.Ping(timeout, &agency.PingMsg{
+			ID:             1000,
+			PingController: andController,
+		}))
+
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel() // for server side stops, for proper cleanup
 
@@ -55,7 +67,6 @@ var saListenCmd = &cobra.Command{
 			select {
 			case question, ok := <-ch:
 				if !ok {
-					fmt.Println("closed from server")
 					break loop
 				}
 				status := question.Status
@@ -81,7 +92,6 @@ var saListenCmd = &cobra.Command{
 				}
 			case <-intCh:
 				cancel()
-				fmt.Println("interrupted by user, cancel() called")
 			}
 		}
 

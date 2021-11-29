@@ -33,4 +33,3 @@ s3.config
 .temp
 .data
 .key-backup
-scripts/fullstack/use-key.sh

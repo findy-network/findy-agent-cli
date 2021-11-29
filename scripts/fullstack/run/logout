@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cli=${FCLI:-findy-agent-cli}
+
+location=$(dirname "$BASH_SOURCE")
+name=$(basename "$location")
+[[ "$name" = "." ]] && name=$(basename "$PWD")
+token_place="$location"/token
+cfg_place="$location"/cfg.yaml
+
+if [ -f "$token_place" ]; then
+	rm "$token_place"
+	rm "$cfg_place"
+	echo "Logout ok"
+fi

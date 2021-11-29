@@ -2,12 +2,12 @@ package connection
 
 import (
 	"context"
-	"errors"
 	"fmt"
+	"os"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
-	"github.com/findy-network/findy-common-go/dto"
+	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -23,7 +23,7 @@ var pingCmd = &cobra.Command{
 		defer err2.Return(&err)
 
 		if cmd.DryRun() {
-			fmt.Println(dto.ToJSON(CmdData))
+			PrintCmdData()
 			return nil
 		}
 		c.SilenceUsage = true
@@ -37,13 +37,21 @@ var pingCmd = &cobra.Command{
 
 		ch, err := client.Pairwise{ID: CmdData.ConnID, Conn: conn}.Ping(ctx)
 		err2.Check(err)
+
+		okOutput := false
 		for status := range ch {
-			fmt.Println("ping status:", status.State, "|", status.Info)
-			if !client.OkStatus(status) {
-				panic(errors.New("error in panic"))
+			if status.State == agency.ProtocolState_ERR {
+				fmt.Fprintln(os.Stderr, "protocol error:", status.GetInfo())
+				err = fmt.Errorf("protocol error: %s", status.GetInfo())
+			} else {
+				okOutput = true
+				fmt.Println("ping status:", status.State)
 			}
 		}
-		return nil
+		if !okOutput {
+			err = fmt.Errorf("no response")
+		}
+		return err
 	},
 }
 
