@@ -7,16 +7,21 @@ jwt_place="$location"/jwt
 
 cli=${FCLI:-findy-agent-cli}
 jwt=$($jwt_place)
+
+if [[ ! -z $1 ]]; then
+	invitation=$(cat "$1")
+fi
 invitation=${@:-$(cat)}
 
 # conn_id=$(echo $invitation | jq -r '."@id"')
 
-export conn_id=$($cli agent connect --jwt "$jwt" --invitation "$invitation")
+conn_id=$($cli agent connect --jwt "$jwt" --invitation "$invitation")
 
 echo $conn_id
 
 conn_location="$location"/"$conn_id"
 mkdir -p "$conn_location"
+echo -n "$invitation" > "$conn_location"/invitation
 
 cat > "$conn_location"/cfg.yaml <<EOF
 jwt: "$jwt"
