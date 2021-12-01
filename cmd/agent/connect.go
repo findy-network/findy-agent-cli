@@ -2,14 +2,18 @@ package agent
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
+	"github.com/findy-network/findy-common-go/std/didexchange/invitation"
+	"github.com/golang/glog"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
@@ -32,25 +36,29 @@ var connectCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Annotate("connect cmd", &err)
 
 		c.SilenceUsage = true
 		if len(args) > 0 {
 			if args[0] == "-" {
-				invitationJSON = tryReadInvitation(os.Stdin)
+				invitationStr = tryReadInvitation(os.Stdin)
 			} else {
 				inJSON := err2.File.Try(os.Open(args[0]))
 				defer inJSON.Close()
-				invitationJSON = tryReadInvitation(inJSON)
+				invitationStr = tryReadInvitation(inJSON)
 			}
-		} else if invitationJSON == "" {
+		} else if invitationStr == "" {
 			fmt.Fprintln(os.Stderr,
 				"Usage: findy-agent-cli agent connect {invitationJSON|-}")
 			return fmt.Errorf("invitation missing")
 		}
 
+		glog.V(1).Infof("'%s'", invitationStr)
+		invitationStr = strings.TrimSuffix(invitationStr, "\n")
+		glog.V(1).Infof("'%s'", invitationStr)
+
 		if cmd.DryRun() {
-			fmt.Println(invitationJSON)
+			tryPrintInvitation(invitationStr)
 			return nil
 		}
 
@@ -65,8 +73,9 @@ var connectCmd = &cobra.Command{
 			Conn:  conn,
 			Label: ourLabel,
 		}
-		connID, ch, err := pw.Connection(ctx, invitationJSON)
+		connID, ch, err := pw.Connection(ctx, invitationStr)
 		err2.Check(err)
+
 		for status := range ch {
 			if status.State == agency.ProtocolState_OK {
 				fmt.Println(connID)
@@ -79,8 +88,8 @@ var connectCmd = &cobra.Command{
 }
 
 var (
-	invitationJSON string
-	ourLabel       string
+	invitationStr string
+	ourLabel      string
 )
 
 func init() {
@@ -88,7 +97,7 @@ func init() {
 		fmt.Println(err)
 	})
 
-	connectCmd.Flags().StringVar(&invitationJSON, "invitation", "", "invitation json")
+	connectCmd.Flags().StringVar(&invitationStr, "invitation", "", "invitation json")
 	connectCmd.Flags().StringVar(&ourLabel, "label", "", "our Aries connection Label ")
 
 	AgentCmd.AddCommand(connectCmd)
@@ -98,4 +107,15 @@ func init() {
 func tryReadInvitation(r io.Reader) string {
 	d := err2.Bytes.Try(ioutil.ReadAll(r))
 	return string(d)
+}
+
+func tryPrintInvitation(s string) {
+	var inv invitation.Invitation
+
+	s = strings.TrimSuffix(s, "\n")
+	inv, err := invitation.Translate(s)
+	err2.Check(err)
+
+	b := err2.Bytes.Try(json.MarshalIndent(inv, "", " "))
+	fmt.Println(string(b))
 }

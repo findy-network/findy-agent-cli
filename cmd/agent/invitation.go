@@ -52,19 +52,29 @@ var invitationCmd = &cobra.Command{
 			Label: ourLabel,
 		})
 		err2.Check(err)
-		fmt.Println(r.JSON)
+
+		if urlFormat {
+			fmt.Print(r.URL)
+		} else {
+			fmt.Println(r.JSON)
+		}
 
 		return nil
 	},
 }
 
-var connID string
+var (
+	connID    string
+	urlFormat bool
+)
 
 func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
 
+	invitationCmd.Flags().BoolVarP(&urlFormat,
+		"url", "u", false, "if set returns URL formatted invitation")
 	invitationCmd.Flags().StringVar(&ourLabel,
 		"label", "", "our Aries connection Label ")
 	invitationCmd.Flags().StringVarP(&connID, "conn-id", "c", "",

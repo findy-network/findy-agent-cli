@@ -10,13 +10,12 @@ jwt=$($jwt_place)
 
 conn_id=`uuidgen`
 
-$cli agent invitation --jwt "$jwt" \
-	--label "$name" \
-	--conn-id "$conn_id" \
-	$@
-
 conn_location="$location"/"$conn_id"
 mkdir -p "$conn_location"
+
+$cli agent invitation --jwt "$jwt" \
+	--label "$name" \
+	--conn-id "$conn_id" | tee "$conn_location"/invitation
 
 cat > "$conn_location"/cfg.yaml <<EOF
 jwt: "$jwt"
