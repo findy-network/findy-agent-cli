@@ -11,12 +11,16 @@ import (
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
+	"github.com/golang/glog"
 	"github.com/google/uuid"
 	"github.com/lainio/err2"
 	"github.com/spf13/cobra"
 )
 
-const pingTimeout = time.Second * 4
+const (
+	pingTimeout     = time.Second * 4
+	stressTestTimer = 1 * time.Millisecond
+)
 
 var listenCmd = &cobra.Command{
 	Use:   "listen",
@@ -34,7 +38,12 @@ var listenCmd = &cobra.Command{
 		c.SilenceUsage = true
 
 		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
-		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
+
+		var msleep func(d time.Duration)
+		if stressTest {
+			msleep = mySleep
+		}
+		conn := client.TryAuthOpenWithSleep(CmdData.JWT, baseCfg, msleep)
 		defer conn.Close()
 
 		// first let's ping our agent to get proper error message for
@@ -88,10 +97,19 @@ var listenCmd = &cobra.Command{
 	},
 }
 
+func mySleep(d time.Duration) {
+	time.Sleep(stressTestTimer)
+	glog.V(3).Infof("our own short %v sleep", stressTestTimer)
+}
+
+var stressTest bool
+
 func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
 
+	listenCmd.Flags().BoolVarP(&stressTest, "stress", "t", false,
+		"stress mode = immediate connection retry")
 	AgentCmd.AddCommand(listenCmd)
 }
