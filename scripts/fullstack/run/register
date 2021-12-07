@@ -1,7 +1,9 @@
 #!/bin/bash
 
 cli=${FCLI:-findy-agent-cli}
-name=$(basename $(dirname "$BASH_SOURCE"))
+location=$(dirname "$BASH_SOURCE")
+name=$(basename "$location")
+[[ "$name" = "." ]] && name=$(basename "$PWD")
 
 $cli authn register -u "$name"
 
