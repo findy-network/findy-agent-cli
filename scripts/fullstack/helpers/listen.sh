@@ -7,10 +7,10 @@ fi
 
 set -e
 
-for i in {1..109} 
+for i in {110..199} 
 do
 	echo "Starting to background: ""$i"
-	./kick-listen.sh "$1"-"$i"
+	helpers/kick-listen.sh "$1"-"$i"
 #	sleep 0.9
 done
 
