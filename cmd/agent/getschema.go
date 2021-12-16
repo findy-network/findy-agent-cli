@@ -43,7 +43,7 @@ var getSchemaCmd = &cobra.Command{
 
 		agent := agency.NewAgentServiceClient(conn)
 
-		for left := poolTimeout - wait; left >= 0; left -= wait {
+		for left := pollTimeout - wait; left >= 0; left -= wait {
 			r, err := agent.GetSchema(ctx, &agency.Schema{
 				ID: schemaID,
 			})
@@ -56,7 +56,7 @@ var getSchemaCmd = &cobra.Command{
 
 			// if wait time is 0 we don't poll, but run once
 			if wait == 0 {
-				break
+				return err
 			}
 
 			time.Sleep(wait)
@@ -70,7 +70,7 @@ var (
 	schemaID string
 
 	wait        time.Duration
-	poolTimeout time.Duration
+	pollTimeout time.Duration
 )
 
 func init() {
@@ -82,8 +82,8 @@ func init() {
 	flags.StringVarP(&schemaID, "schema-id", "i", "",
 		cmd.FlagInfo("schema ID", "", getSchemaEnvs["schema-id"]))
 
-	flags.DurationVarP(&wait, "wait", "w", time.Second, "sleep between polls, 0 == no pool")
-	flags.DurationVar(&poolTimeout, "timeout", 10*time.Second, "how long to poll until give up")
+	flags.DurationVarP(&wait, "wait", "w", time.Second, "sleep between polls, 0 == no poll")
+	flags.DurationVar(&pollTimeout, "timeout", 10*time.Second, "how long to poll until give up")
 
 	getSchemaCmd.MarkFlagRequired("schema-id")
 	AgentCmd.AddCommand(getSchemaCmd)
@@ -91,4 +91,5 @@ func init() {
 
 var getSchemaEnvs = map[string]string{
 	"schema-id": "SCHEMA_ID",
+	"id":        "SCHEMA_ID",
 }

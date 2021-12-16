@@ -20,7 +20,9 @@ var createCredDefCmd = &cobra.Command{
 	Short: "Creates a new creddef",
 	Long:  createCredDefDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
-		return cmd.BindEnvs(envs, "")
+		defer err2.Return(&err)
+		err2.Check(cmd.BindEnvs(envs, ""))
+		return cmd.BindEnvs(getSchemaEnvs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -54,7 +56,8 @@ func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
-	createCredDefCmd.Flags().StringVarP(&schemaID, "id", "i", "", "schema ID of the creaddef")
+	createCredDefCmd.Flags().StringVarP(&schemaID, "id", "i", "",
+		cmd.FlagInfo("Schema ID", "", getSchemaEnvs["id"]))
 	createCredDefCmd.Flags().StringVarP(&tag, "tag", "t", "", "tag of the creddef")
 	createCredDefCmd.MarkFlagRequired("id")
 	createCredDefCmd.MarkFlagRequired("tag")
