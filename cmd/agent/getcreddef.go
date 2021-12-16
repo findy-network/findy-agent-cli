@@ -43,7 +43,7 @@ var getCredDefCmd = &cobra.Command{
 
 		agent := agency.NewAgentServiceClient(conn)
 
-		for left := poolTimeout - wait; left >= 0; left -= wait {
+		for left := pollTimeout - wait; left >= 0; left -= wait {
 			r, err := agent.GetCredDef(ctx, &agency.CredDef{
 				ID: CredDefID,
 			})
@@ -56,7 +56,7 @@ var getCredDefCmd = &cobra.Command{
 
 			// if wait time is 0 we don't poll, but run once
 			if wait == 0 {
-				break
+				return err
 			}
 
 			time.Sleep(wait)
@@ -79,8 +79,8 @@ func init() {
 	flags.StringVarP(&CredDefID, "id", "i", "",
 		cmd.FlagInfo("credDef ID", "", credDefEnvs["id"]))
 
-	flags.DurationVarP(&wait, "wait", "w", time.Second, "sleep between polls, 0 == no pool")
-	flags.DurationVar(&poolTimeout, "timeout", 10*time.Second, "how long to poll until give up")
+	flags.DurationVarP(&wait, "wait", "w", time.Second, "sleep between polls, 0 == no poll")
+	flags.DurationVar(&pollTimeout, "timeout", 10*time.Second, "how long to poll until give up")
 
 	getCredDefCmd.MarkFlagRequired("id")
 
