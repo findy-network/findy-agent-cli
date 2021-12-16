@@ -3,6 +3,7 @@ package agent
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/findy-network/findy-common-go/agency/client"
@@ -20,7 +21,9 @@ var getSchemaCmd = &cobra.Command{
 	Short: "Gets schema data",
 	Long:  getSchemaDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
-		return cmd.BindEnvs(envs, "")
+		defer err2.Return(&err)
+		err2.Check(cmd.BindEnvs(envs, ""))
+		return cmd.BindEnvs(getSchemaEnvs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
@@ -39,12 +42,25 @@ var getSchemaCmd = &cobra.Command{
 		defer cancel()
 
 		agent := agency.NewAgentServiceClient(conn)
-		r, err := agent.GetSchema(ctx, &agency.Schema{
-			ID: schemaID,
-		})
-		err2.Check(err)
-		// plain output for script-friendlyness of the command
-		fmt.Println(r.Data)
+
+		for left := poolTimeout - wait; left >= 0; left -= wait {
+			r, err := agent.GetSchema(ctx, &agency.Schema{
+				ID: schemaID,
+			})
+
+			if err == nil {
+				// plain output for script-friendlyness of the command
+				fmt.Println(r.Data)
+				return nil
+			}
+
+			// if wait time is 0 we don't poll, but run once
+			if wait == 0 {
+				break
+			}
+
+			time.Sleep(wait)
+		}
 
 		return nil
 	},
@@ -52,13 +68,27 @@ var getSchemaCmd = &cobra.Command{
 
 var (
 	schemaID string
+
+	wait        time.Duration
+	poolTimeout time.Duration
 )
 
 func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
-	getSchemaCmd.Flags().StringVarP(&schemaID, "schema-id", "i", "", "schema ID")
+
+	flags := getSchemaCmd.Flags()
+	flags.StringVarP(&schemaID, "schema-id", "i", "",
+		cmd.FlagInfo("schema ID", "", getSchemaEnvs["schema-id"]))
+
+	flags.DurationVarP(&wait, "wait", "w", time.Second, "sleep between polls, 0 == no pool")
+	flags.DurationVar(&poolTimeout, "timeout", 10*time.Second, "how long to poll until give up")
+
 	getSchemaCmd.MarkFlagRequired("schema-id")
 	AgentCmd.AddCommand(getSchemaCmd)
+}
+
+var getSchemaEnvs = map[string]string{
+	"schema-id": "SCHEMA_ID",
 }
