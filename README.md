@@ -2,6 +2,22 @@
 
 [![test](https://github.com/findy-network/findy-agent-cli/actions/workflows/test.yml/badge.svg?branch=dev)](https://github.com/findy-network/findy-agent-cli/actions/workflows/test.yml)
 
+## Getting Started
+
+Findy Agency is a collection of services ([Core](https://github.com/findy-network/findy-agent),
+[Auth](https://github.com/findy-network/findy-agent-auth),
+[Vault](https://github.com/findy-network/findy-agent-vault) and
+[Web Wallet](https://github.com/findy-network/findy-wallet-pwa)) that provide
+full SSI agency along with a web wallet for individuals.
+To start experimenting with Findy Agency we recommend you to start with
+[the documentation](https://findy-network.github.io/) and
+[set up the agency to your localhost environment](https://github.com/findy-network/findy-wallet-pwa/tree/dev/tools/env#agency-setup-for-local-development).
+
+- [Documentation](https://findy-network.github.io/)
+- [Instructions for starting agency in Docker containers](https://github.com/findy-network/findy-wallet-pwa/tree/dev/tools/env#agency-setup-for-local-development)
+
+## Project
+
 findy-agent-cli is a command-line tool for
 [Findy Agency](https://github.com/findy-network/findy-agent) Aries protocol
 engine. The tool is a standalone CLI with minimal dependencies i.e. none.
@@ -37,7 +53,7 @@ The default installation directory is `./bin`. If you want to set it first run
 the `install.sh` with the `-b` flag. Example for the macOS:
 
 ```shell
-$ ./install.sh -b /usr/local/bin
+./install.sh -b /usr/local/bin
 ```
 
 Don't forget to set the [auto-completion](#Shell-auto-completion)
@@ -133,8 +149,8 @@ There is `sa-compl.sh` helper script to allow easily take use of auto-completion
 at the run-time even with complex aliases like this:
 
 ```shell script
-$ alias your_alias='go run .'
-$ . ./sh-compl.sh "go run ." your_alias
+alias your_alias='go run .'
+. ./sh-compl.sh "go run ." your_alias
 ```
 
 If you are using `make cli` to build dev-time version of the command to your
