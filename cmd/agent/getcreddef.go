@@ -12,6 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+//#nosec G101
 var getCredDefDoc = `Gets cred def data from the cloud agent.
 Usage:
 	.. get-cred-def --id YOUR_CRED_DEF_ID`

@@ -9,7 +9,7 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
-          version: v1.39
+          version: v1.45
           args: --timeout=5m
   test:
     runs-on: ubuntu-latest
@@ -24,3 +24,31 @@ jobs:
         run: make test
       - name: scan
         run: make scan
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16.x
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: set up agency
+        run: |
+          cd scripts/fullstack
+          docker-compose up -d
+      - name: install
+        run: |
+          make install
+          ~/go/bin/findy-agent-cli --version
+      - name: test
+        run: | # TODO: move to script file and create extensive e2e tests
+          cd ./scripts/fullstack
+          source ./setup-cli-env.sh 
+          ./make-agent.sh acme
+          ./make-agent.sh faber
+          conn_id=$(acme/invitation | faber/connect)
+          cd acme/$conn_id
+          $FCLI connection trustping
+        env:
+          FCLI: "/home/runner/go/bin/findy-agent-cli"

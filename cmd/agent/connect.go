@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -105,7 +104,7 @@ func init() {
 
 // readInvitation function reads invitation json, parses it & stores it to connectionCmd.Invitation pointer
 func tryReadInvitation(r io.Reader) string {
-	d := err2.Bytes.Try(ioutil.ReadAll(r))
+	d := err2.Bytes.Try(io.ReadAll(r))
 	return string(d)
 }
 
