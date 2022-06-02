@@ -12,6 +12,7 @@ import (
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/google/uuid"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -59,8 +60,7 @@ var saListenCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		ch, err := conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()})
-		err2.Check(err)
+		ch := try.To1(conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()}))
 
 	loop:
 		for {
@@ -108,7 +108,7 @@ func reply(status *agency.AgentStatus, ack bool) {
 		Ack:      ack,
 		Info:     "cmd salisten says hello!",
 	})
-	err2.Check(err)
+	try.To(err)
 	fmt.Printf("Sending the answer (%s) send to client:%s\n", status.Notification.ID, cid.ID)
 }
 
@@ -119,15 +119,14 @@ func resume(status *agency.AgentStatus, ack bool) {
 	if !ack {
 		stateAck = agency.ProtocolState_NACK
 	}
-	unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
+	unpauseResult := try.To1(didComm.Resume(ctx, &agency.ProtocolState{
 		ProtocolID: &agency.ProtocolID{
 			TypeID: agency.Protocol_PRESENT_PROOF,
 			Role:   agency.Protocol_RESUMER,
 			ID:     status.Notification.ProtocolID,
 		},
 		State: stateAck,
-	})
-	err2.Check(err)
+	}))
 	fmt.Println("result:", unpauseResult.String())
 }
 

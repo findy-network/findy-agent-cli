@@ -9,6 +9,7 @@ import (
 	"github.com/findy-network/findy-agent-auth/acator/authn"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -42,9 +43,7 @@ var acatorCmd = &cobra.Command{
 		execCmd := authnCmd.TryReadJSON(inJSON)
 
 		if !cmd.DryRun() {
-			var r authn.Result
-			r, err = execCmd.Exec(os.Stdout)
-			err2.Check(err)
+			r := try.To1(execCmd.Exec(os.Stdout))
 			fmt.Println(r.String())
 		} else {
 			b, _ := json.MarshalIndent(execCmd, "", "  ")

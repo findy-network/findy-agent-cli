@@ -11,6 +11,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client/chat"
 	"github.com/findy-network/findy-common-go/agency/fsm"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -30,14 +31,12 @@ var startCmd = &cobra.Command{
 
 		var md fsm.MachineData
 		if len(args) == 0 || (len(args) > 0 && args[0] == "-") {
-			md, err = chat.LoadFSMMachineData(fType, os.Stdin)
-			err2.Check(err)
+			md = try.To1(chat.LoadFSMMachineData(fType, os.Stdin))
 		} else {
 			fsmFile := args[0]
 			f := err2.File.Try(os.Open(fsmFile))
 			defer f.Close()
-			md, err = chat.LoadFSMMachineData(fsmFile, f)
-			err2.Check(err)
+			md = try.To1(chat.LoadFSMMachineData(fsmFile, f))
 		}
 
 		if cmd.DryRun() {

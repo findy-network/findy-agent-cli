@@ -7,6 +7,7 @@ import (
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -27,11 +28,10 @@ var loginCmd = &cobra.Command{
 		myCmd := authnCmd
 		myCmd.SubCmd = c.Name()
 
-		err2.Check(myCmd.Validate())
+		try.To(myCmd.Validate())
 		if !cmd.DryRun() {
 			c.SilenceUsage = true
-			r, err := myCmd.Exec(os.Stdout)
-			err2.Check(err)
+			r := try.To1(myCmd.Exec(os.Stdout))
 			fmt.Println(r.Token)
 		} else {
 			b, _ := json.MarshalIndent(myCmd, "", "  ")

@@ -9,6 +9,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -24,7 +25,7 @@ var reqProofCmd = &cobra.Command{
 	Long:  reqProofDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
-		err2.Check(cmd.BindEnvs(envs, ""))
+		try.To(cmd.BindEnvs(envs, ""))
 		return cmd.BindEnvs(issueEnvs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
@@ -43,8 +44,7 @@ var reqProofCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		ch, err := client.Pairwise{ID: CmdData.ConnID, Conn: conn}.ReqProof(ctx, attrJSON)
-		err2.Check(err)
+		ch := try.To1(client.Pairwise{ID: CmdData.ConnID, Conn: conn}.ReqProof(ctx, attrJSON))
 		okOutput := false
 		for status := range ch {
 			if status.State == agency.ProtocolState_ERR {

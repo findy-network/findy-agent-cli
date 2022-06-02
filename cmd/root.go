@@ -8,6 +8,7 @@ import (
 
 	"github.com/findy-network/findy-agent-cli/utils"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -106,10 +107,10 @@ func init() {
 	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false,
 		FlagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
 
-	err2.Check(viper.BindPFlag("logging", flags.Lookup("logging")))
-	err2.Check(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
-	err2.Check(viper.BindPFlag("server", flags.Lookup("server")))
-	err2.Check(viper.BindPFlag("tls-path", flags.Lookup("tls-path")))
+	try.To(viper.BindPFlag("logging", flags.Lookup("logging")))
+	try.To(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
+	try.To(viper.BindPFlag("server", flags.Lookup("server")))
+	try.To(viper.BindPFlag("tls-path", flags.Lookup("tls-path")))
 
 	BindEnvs(rootEnvs, "")
 
@@ -150,7 +151,7 @@ func BindEnvs(envMap map[string]string, cmdName string) (err error) {
 	defer err2.Return(&err)
 	for flagKey, envName := range envMap {
 		finalEnvName := getEnvName(cmdName, envName)
-		err2.Check(viper.BindEnv(flagKey, finalEnvName))
+		try.To(viper.BindEnv(flagKey, finalEnvName))
 	}
 	return nil
 }

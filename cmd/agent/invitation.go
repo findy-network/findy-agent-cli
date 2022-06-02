@@ -8,6 +8,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -47,11 +48,10 @@ var invitationCmd = &cobra.Command{
 		defer cancel()
 
 		agent := agency.NewAgentServiceClient(conn)
-		r, err := agent.CreateInvitation(ctx, &agency.InvitationBase{
+		r := try.To1(agent.CreateInvitation(ctx, &agency.InvitationBase{
 			ID:    connID,
 			Label: ourLabel,
-		})
-		err2.Check(err)
+		}))
 
 		if urlFormat {
 			fmt.Print(r.URL)

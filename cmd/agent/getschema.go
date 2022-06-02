@@ -9,6 +9,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -22,7 +23,7 @@ var getSchemaCmd = &cobra.Command{
 	Long:  getSchemaDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
-		err2.Check(cmd.BindEnvs(envs, ""))
+		try.To(cmd.BindEnvs(envs, ""))
 		return cmd.BindEnvs(getSchemaEnvs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
