@@ -241,12 +241,13 @@ github.com/fatih/color v1.9.0/go.mod h1:eQcE1qtQxscV5RaZvpXrrb8Drkc3/DdQ+uUYCNjL
 github.com/fatih/color v1.13.0 h1:8LOYc1KYPPmyKMuN8QV2DNRWNbLo6LZ0iLs8+mlH53w=
 github.com/findy-network/findy-agent-auth v0.1.29 h1:A7/pB50e6XbvA1zJKqsj/685Q+q7J7UXET/XUVPXQG4=
 github.com/findy-network/findy-agent-auth v0.1.29/go.mod h1:e533frluID+ecXOJCph5UqY1tETIgWXRKGleXZjV4bw=
-github.com/findy-network/findy-common-go v0.1.34 h1:bklEivuCvhMD/8YmOWwaX+lmdJqnechEfZ3iaH3jMPs=
-github.com/findy-network/findy-common-go v0.1.34/go.mod h1:9Rw8SvU9Xb6SsyyQ68xmadKoVufWRlfCCfzq0HlGSQU=
+github.com/findy-network/findy-common-go v0.1.36 h1:GyXC8vgDwnnPCm26OgbpGS+PFGalHewLxgsKn6tCjRE=
+github.com/findy-network/findy-common-go v0.1.36/go.mod h1:/Or95FuGmrJN/VrgLB5INEJ9g5CsALaK+/xpAioqpDM=
 github.com/flynn/go-shlex v0.0.0-20150515145356-3f9db97f8568/go.mod h1:xEzjJPgXI435gkrCt3MPfRiAkVrwSbHsst4LCFVfpJc=
 github.com/form3tech-oss/jwt-go v3.2.2+incompatible/go.mod h1:pbq4aXjuKjdthFRnoDwaVPLA+WlJuPGy+QneDUgJi2k=
-github.com/form3tech-oss/jwt-go v3.2.3+incompatible h1:7ZaBxOI7TMoYBfyA3cQHErNNyAWIKUMIwqxEtgHOs5c=
 github.com/form3tech-oss/jwt-go v3.2.3+incompatible/go.mod h1:pbq4aXjuKjdthFRnoDwaVPLA+WlJuPGy+QneDUgJi2k=
+github.com/form3tech-oss/jwt-go v3.2.5+incompatible h1:/l4kBbb4/vGSsdtB5nUe8L7B9mImVMaBPw9L/0TBHU8=
+github.com/form3tech-oss/jwt-go v3.2.5+incompatible/go.mod h1:pbq4aXjuKjdthFRnoDwaVPLA+WlJuPGy+QneDUgJi2k=
 github.com/fortytw2/leaktest v1.2.0/go.mod h1:jDsjWgpAGjm2CA7WthBh/CdZYEPF31XHquHwclZch5g=
 github.com/fortytw2/leaktest v1.3.0/go.mod h1:jDsjWgpAGjm2CA7WthBh/CdZYEPF31XHquHwclZch5g=
 github.com/franela/goblin v0.0.0-20200105215937-c9ffbefa60db/go.mod h1:7dvUGVsVBjqR7JHJk0brhHOZYGmfBYOrK0ZhYMEtBr4=
