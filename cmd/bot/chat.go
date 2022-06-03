@@ -10,6 +10,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/golang/glog"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -39,17 +40,16 @@ var chatCmd = &cobra.Command{
 		scanner := bufio.NewScanner(os.Stdin)
 
 		for scanner.Scan() {
-			r, err := client.Pairwise{
+			r := try.To1(client.Pairwise{
 				ID:   CmdData.ConnID,
 				Conn: conn,
-			}.BasicMessage(ctx, scanner.Text())
-			err2.Check(err)
+			}.BasicMessage(ctx, scanner.Text()))
 
 			for status := range r {
 				glog.V(2).Infoln("message status:", status.State, "|", status.Info)
 			}
 		}
-		err2.Check(scanner.Err())
+		try.To(scanner.Err())
 
 		return nil
 	},

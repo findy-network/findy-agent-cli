@@ -9,6 +9,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -23,7 +24,7 @@ var getCredDefCmd = &cobra.Command{
 	Long:  getCredDefDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Return(&err)
-		err2.Check(cmd.BindEnvs(envs, ""))
+		try.To(cmd.BindEnvs(envs, ""))
 		return cmd.BindEnvs(credDefEnvs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {

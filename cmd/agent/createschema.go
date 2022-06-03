@@ -8,6 +8,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -44,12 +45,11 @@ var createSchemaCmd = &cobra.Command{
 		defer cancel() // for server side stops, for proper cleanup
 
 		agent := agency.NewAgentServiceClient(conn)
-		r, err := agent.CreateSchema(ctx, &agency.SchemaCreate{
+		r := try.To1(agent.CreateSchema(ctx, &agency.SchemaCreate{
 			Name:       name,
 			Version:    version,
 			Attributes: attrs,
-		})
-		err2.Check(err)
+		}))
 		fmt.Println(r.ID) // plain output for pipes
 
 		return nil

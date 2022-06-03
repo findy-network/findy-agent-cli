@@ -8,6 +8,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -39,10 +40,9 @@ var pingCmd = &cobra.Command{
 		defer cancel()
 
 		agent := agency.NewAgentServiceClient(conn)
-		r, err := agent.Enter(ctx, &agency.ModeCmd{
+		r := try.To1(agent.Enter(ctx, &agency.ModeCmd{
 			TypeID: agency.ModeCmd_NONE,
-		})
-		err2.Check(err)
+		}))
 
 		fmt.Println("Agent registered by name:", r.Info)
 		return nil
