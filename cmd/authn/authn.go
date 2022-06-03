@@ -37,7 +37,7 @@ var acatorCmd = &cobra.Command{
 
 		inJSON := os.Stdin
 		if args[0] != "-" {
-			inJSON = err2.File.Try(os.Open(args[0]))
+			inJSON = try.To1(os.Open(args[0]))
 			defer inJSON.Close()
 		}
 		execCmd := authnCmd.TryReadJSON(inJSON)

@@ -47,7 +47,7 @@ var saListenCmd = &cobra.Command{
 		defer timeoutCancel()
 
 		agent := agency.NewAgentServiceClient(conn)
-		err2.Empty.Try(agent.Ping(timeout, &agency.PingMsg{
+		try.To1(agent.Ping(timeout, &agency.PingMsg{
 			ID:             1000,
 			PingController: andController,
 		}))
@@ -102,13 +102,12 @@ var saListenCmd = &cobra.Command{
 func reply(status *agency.AgentStatus, ack bool) {
 	ctx := context.Background()
 	c := agency.NewAgentServiceClient(conn)
-	cid, err := c.Give(ctx, &agency.Answer{
+	cid := try.To1(c.Give(ctx, &agency.Answer{
 		ID:       status.Notification.ID,
 		ClientID: status.ClientID,
 		Ack:      ack,
 		Info:     "cmd salisten says hello!",
-	})
-	try.To(err)
+	}))
 	fmt.Printf("Sending the answer (%s) send to client:%s\n", status.Notification.ID, cid.ID)
 }
 

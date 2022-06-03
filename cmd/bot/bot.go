@@ -5,6 +5,7 @@ import (
 
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )
@@ -33,7 +34,7 @@ var CmdData = struct {
 }{}
 
 func PrintCmdData() {
-	cb := err2.Bytes.Try(yaml.Marshal(CmdData))
+	cb := try.To1(yaml.Marshal(CmdData))
 	fmt.Println(string(cb))
 }
 

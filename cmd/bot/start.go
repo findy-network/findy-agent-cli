@@ -34,7 +34,7 @@ var startCmd = &cobra.Command{
 			md = try.To1(chat.LoadFSMMachineData(fType, os.Stdin))
 		} else {
 			fsmFile := args[0]
-			f := err2.File.Try(os.Open(fsmFile))
+			f := try.To1(os.Open(fsmFile))
 			defer f.Close()
 			md = try.To1(chat.LoadFSMMachineData(fsmFile, f))
 		}

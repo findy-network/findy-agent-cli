@@ -43,7 +43,7 @@ var connectCmd = &cobra.Command{
 			if args[0] == "-" {
 				invitationStr = tryReadInvitation(os.Stdin)
 			} else {
-				inJSON := err2.File.Try(os.Open(args[0]))
+				inJSON := try.To1(os.Open(args[0]))
 				defer inJSON.Close()
 				invitationStr = tryReadInvitation(inJSON)
 			}
@@ -104,7 +104,7 @@ func init() {
 
 // readInvitation function reads invitation json, parses it & stores it to connectionCmd.Invitation pointer
 func tryReadInvitation(r io.Reader) string {
-	d := err2.Bytes.Try(io.ReadAll(r))
+	d := try.To1(io.ReadAll(r))
 	return string(d)
 }
 
@@ -112,6 +112,6 @@ func tryPrintInvitation(s string) {
 	s = strings.TrimSuffix(s, "\n")
 	inv := try.To1(invitation.Translate(s))
 
-	b := err2.Bytes.Try(json.MarshalIndent(inv, "", " "))
+	b := try.To1(json.MarshalIndent(inv, "", " "))
 	fmt.Println(string(b))
 }
