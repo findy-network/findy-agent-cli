@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/findy-network/findy-agent-auth v0.1.30
-	github.com/findy-network/findy-common-go v0.1.36
+	github.com/findy-network/findy-common-go v0.1.39
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.0.0
 	github.com/google/uuid v1.3.0
