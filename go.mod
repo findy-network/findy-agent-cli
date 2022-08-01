@@ -9,7 +9,7 @@ require (
 	github.com/golang/glog v1.0.0
 	github.com/google/uuid v1.3.0
 	github.com/lainio/err2 v0.8.7
-	github.com/spf13/cobra v1.4.0
+	github.com/spf13/cobra v1.5.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.12.0
 	google.golang.org/grpc v1.47.0
