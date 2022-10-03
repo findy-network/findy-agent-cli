@@ -268,8 +268,8 @@ github.com/fatih/color v1.9.0/go.mod h1:eQcE1qtQxscV5RaZvpXrrb8Drkc3/DdQ+uUYCNjL
 github.com/fatih/color v1.13.0 h1:8LOYc1KYPPmyKMuN8QV2DNRWNbLo6LZ0iLs8+mlH53w=
 github.com/findy-network/findy-agent-auth v0.1.34 h1:ozSyTfWXNDcikx67ePIf5kWrPSFKrAaQEQd65RateIY=
 github.com/findy-network/findy-agent-auth v0.1.34/go.mod h1:sgwPHKumCBpagD70KKBeafCVA7Lf11T3CLO+zv2Riv0=
-github.com/findy-network/findy-common-go v0.1.42 h1:igEk7bfmkmcWCIMzQNWQcpS63D7TOroxoUNhn/tcsVU=
-github.com/findy-network/findy-common-go v0.1.42/go.mod h1:nuHxuvSIdXj5nbOJwutsOvI9Px42pZAN5bZoexD89OM=
+github.com/findy-network/findy-common-go v0.1.43 h1:oK+aXge1L9FespJONMe1bSo3X6ge4uLeR9xyc6p/cJU=
+github.com/findy-network/findy-common-go v0.1.43/go.mod h1:HG8SyodFsbR3oQGEGjf2LT2IbclM11VkhvWW0CzaW3k=
 github.com/flynn/go-shlex v0.0.0-20150515145356-3f9db97f8568/go.mod h1:xEzjJPgXI435gkrCt3MPfRiAkVrwSbHsst4LCFVfpJc=
 github.com/form3tech-oss/jwt-go v3.2.2+incompatible/go.mod h1:pbq4aXjuKjdthFRnoDwaVPLA+WlJuPGy+QneDUgJi2k=
 github.com/form3tech-oss/jwt-go v3.2.3+incompatible/go.mod h1:pbq4aXjuKjdthFRnoDwaVPLA+WlJuPGy+QneDUgJi2k=
