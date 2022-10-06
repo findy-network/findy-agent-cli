@@ -24,7 +24,7 @@ var issueCmd = &cobra.Command{
 		return cmd.BindEnvs(issueEnvs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Annotate("issuing error", &err)
+		defer err2.Returnf(&err, "issuing error")
 
 		if cmd.DryRun() {
 			PrintCmdData()
