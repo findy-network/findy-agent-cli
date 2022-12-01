@@ -8,7 +8,7 @@ require (
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.0.0
 	github.com/google/uuid v1.3.0
-	github.com/lainio/err2 v0.8.11
+	github.com/lainio/err2 v0.8.12
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.13.0
