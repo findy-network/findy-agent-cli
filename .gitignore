@@ -33,3 +33,4 @@ s3.config
 .temp
 .data
 .key-backup
+dist/
