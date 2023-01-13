@@ -4,6 +4,9 @@ cfg.yaml
 # Test & playground files
 *op.sh
 
+# these are playgrounds 
+play/
+
 op*/
 test*/
 my*/
