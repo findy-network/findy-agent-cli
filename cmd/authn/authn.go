@@ -83,24 +83,26 @@ func init() {
 	cmd.RootCmd().AddCommand(acatorCmd)
 }
 
-var authnCmd = authn.Cmd{
-	SubCmd:        "",
-	UserName:      "",
-	PublicDIDSeed: "",
-	Url:           "http://localhost:8090",
-	AAGUID:        "12c85a48-4baf-47bd-b51f-f192871a1511",
-	Key:           "",
-	Counter:       0,
-	Token:         "",
-}
+var (
+	authnCmd = authn.Cmd{
+		SubCmd:        "",
+		UserName:      "",
+		PublicDIDSeed: "",
+		Url:           "http://localhost:8090",
+		AAGUID:        "12c85a48-4baf-47bd-b51f-f192871a1511",
+		Key:           "",
+		Counter:       0,
+		Token:         "",
+	}
 
-var envs = map[string]string{
-	"url":       "URL",
-	"aaguid":    "AAGUID",
-	"key":       "KEY",
-	"counter":   "COUNTER",
-	"jwt":       "JWT",
-	"origin":    "ORIGIN",
-	"user-name": "USER",
-	"seed":      "SEED",
-}
+	envs = map[string]string{
+		"url":       "URL",
+		"aaguid":    "AAGUID",
+		"key":       "KEY",
+		"counter":   "COUNTER",
+		"jwt":       "JWT",
+		"origin":    "ORIGIN",
+		"user-name": "USER",
+		"seed":      "SEED",
+	}
+)
