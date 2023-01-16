@@ -31,7 +31,7 @@ var listenCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			return nil

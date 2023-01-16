@@ -22,12 +22,12 @@ var getSchemaCmd = &cobra.Command{
 	Short: "Gets schema data",
 	Long:  getSchemaDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 		try.To(cmd.BindEnvs(envs, ""))
 		return cmd.BindEnvs(getSchemaEnvs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			fmt.Printf("schemaID: %s\n", schemaID)

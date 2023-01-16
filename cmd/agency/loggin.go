@@ -19,7 +19,7 @@ var loggingCmd = &cobra.Command{
 	Short: "Manage logging level of the agency",
 	Long:  ``,
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 		if !cmd.DryRun() {
 			c.SilenceUsage = true
 			try.To(Logging(os.Stdout))
@@ -38,7 +38,7 @@ func init() {
 }
 
 func Logging(w io.Writer) (err error) {
-	defer err2.Return(&err)
+	defer err2.Handle(&err)
 
 	baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
 	conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
