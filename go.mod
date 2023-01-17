@@ -3,7 +3,7 @@ module github.com/findy-network/findy-agent-cli
 go 1.18
 
 require (
-	github.com/findy-network/findy-agent-auth v0.1.37
+	github.com/findy-network/findy-agent-auth v0.1.41-0.20230117104826-f2018caa0bb8
 	github.com/findy-network/findy-common-go v0.2.0
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.0.0
@@ -35,6 +35,7 @@ require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/duo-labs/webauthn v0.0.0-20220330035159-03696f3d4499 // indirect
+	github.com/duo-labs/webauthn.io v0.0.0-20200929144140-c031a3e0f95d // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/envoyproxy/go-control-plane v0.10.2-0.20220325020618-49ff273808a1 // indirect
 	github.com/envoyproxy/protoc-gen-validate v0.6.7 // indirect
@@ -52,6 +53,9 @@ require (
 	github.com/google/btree v1.0.1 // indirect
 	github.com/google/certificate-transparency-go v1.1.3 // indirect
 	github.com/google/trillian v1.4.1 // indirect
+	github.com/gorilla/mux v1.8.0 // indirect
+	github.com/gorilla/securecookie v1.1.1 // indirect
+	github.com/gorilla/sessions v1.2.1 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 // indirect
@@ -85,6 +89,7 @@ require (
 	github.com/prometheus/common v0.34.0 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
+	github.com/rs/cors v1.8.2 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/soheilhy/cmux v0.1.5 // indirect
