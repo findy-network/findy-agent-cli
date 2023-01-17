@@ -22,7 +22,7 @@ var chatCmd = &cobra.Command{
 	Short: "chat client to send basic messages",
 	Long:  chatDoc,
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			PrintCmdData()

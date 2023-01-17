@@ -24,7 +24,7 @@ var addCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		myCmd := authnCmd
 		myCmd.SubCmd = "register" // register is the right command w/ --jwt

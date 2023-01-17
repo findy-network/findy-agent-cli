@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/findy-network/findy-agent-auth/acator/enclave"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/lainio/err2"
 	"github.com/lainio/err2/try"
@@ -23,10 +24,13 @@ var registerCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		myCmd := authnCmd
 		myCmd.SubCmd = c.Name()
+
+		// we want to use our enclave here just for testing architecture
+		myCmd.SecEnclave = enclave.New(myCmd.Key)
 
 		try.To(myCmd.Validate())
 		if !cmd.DryRun() {
