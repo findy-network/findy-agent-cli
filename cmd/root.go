@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/findy-network/findy-agent-cli/utils"
+	"github.com/golang/glog"
 	"github.com/lainio/err2"
 	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
@@ -84,7 +85,7 @@ var rootFlags = RootFlags{}
 
 var rootEnvs = map[string]string{
 	"config":   "CONFIG",
-	"logging":  "LOGGING",
+	"logging":  "CLI_LOGGING",
 	"dry-run":  "DRY_RUN",
 	"server":   "SERVER",
 	"tls-path": "TLS_PATH",
@@ -142,7 +143,7 @@ func readConfigFile() {
 		viper.SetConfigFile(rootFlags.cfgFile)
 		// If a config file is found, read it in.
 		if err := viper.ReadInConfig(); err == nil && printInfo {
-			fmt.Println("Using config file:", viper.ConfigFileUsed())
+			glog.V(3).Infoln("Using config file:", viper.ConfigFileUsed())
 		}
 	}
 }
