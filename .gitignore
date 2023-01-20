@@ -11,6 +11,7 @@ tmp/
 scripts/test/client?00/
 scripts/test/op/
 Session.vim
+todo.md
 
 # Binaries for programs and plugins
 *.exe
