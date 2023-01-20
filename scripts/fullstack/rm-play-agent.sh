@@ -6,5 +6,11 @@ if [[ -z "$1" ]]; then
 fi
 
 agent_dir="./play/$1/"
+wallet_dir="$HOME/.indy_client/wallet/$1/"
+worker_dir="$HOME/.indy_client/worker/$1_worker/"
 
-rm -vr "$agent_dir"
+echo "$agent_dir" "$wallet_dir" "$worker_dir"
+echo -----------------------------------------
+
+rm -r "$agent_dir" "$wallet_dir" "$worker_dir"
+
