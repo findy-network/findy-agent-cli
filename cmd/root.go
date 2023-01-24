@@ -26,6 +26,9 @@ var rootCmd = &cobra.Command{
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		utils.ParseLoggingArgs(rootFlags.logging)
 		handleViperFlags(cmd)
+		if rootFlags.errorTrace {
+			err2.SetErrorTracer(os.Stderr)
+		}
 	},
 }
 
@@ -72,6 +75,7 @@ type RootFlags struct {
 	logging     string
 	ServiceAddr string
 	TLSPath     string
+	errorTrace  bool
 }
 
 // ClientFlags agent flags
@@ -84,11 +88,12 @@ type ClientFlags struct {
 var rootFlags = RootFlags{}
 
 var rootEnvs = map[string]string{
-	"config":   "CONFIG",
-	"logging":  "CLI_LOGGING",
-	"dry-run":  "DRY_RUN",
-	"server":   "SERVER",
-	"tls-path": "TLS_PATH",
+	"config":      "CONFIG",
+	"logging":     "CLI_LOGGING",
+	"dry-run":     "DRY_RUN",
+	"server":      "SERVER",
+	"tls-path":    "TLS_PATH",
+	"error-trace": "ERROR_TRACE",
 }
 
 func init() {
@@ -109,6 +114,8 @@ func init() {
 		FlagInfo("TLS cert path", "", rootEnvs["tls-path"]))
 	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false,
 		FlagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
+	flags.BoolVar(&rootFlags.errorTrace, "error-trace", false,
+		FlagInfo("show stack traces for errors", "", rootEnvs["error-trace"]))
 
 	try.To(viper.BindPFlag("logging", flags.Lookup("logging")))
 	try.To(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
