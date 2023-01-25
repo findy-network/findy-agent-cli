@@ -8,6 +8,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -48,7 +49,7 @@ var enterModeCmd = &cobra.Command{
 		if auto {
 			mode = agency.ModeCmd_AcceptModeCmd_AUTO_ACCEPT
 		}
-		r, err := agent.Enter(ctx, &agency.ModeCmd{
+		r := try.To1(agent.Enter(ctx, &agency.ModeCmd{
 			TypeID:  agency.ModeCmd_ACCEPT_MODE,
 			IsInput: !read,
 			ControlCmd: &agency.ModeCmd_AcceptMode{
@@ -56,7 +57,7 @@ var enterModeCmd = &cobra.Command{
 					Mode: mode,
 				},
 			},
-		})
+		}))
 		mode = r.GetAcceptMode().Mode
 		fmt.Print("Current mode:", mode)
 		if mode == agency.ModeCmd_AcceptModeCmd_DEFAULT {

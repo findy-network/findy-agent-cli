@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [[ -z "$1" ]]; then
 	echo 'usage: $0 <agent-name>'
 	exit 1

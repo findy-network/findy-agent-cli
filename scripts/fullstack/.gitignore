@@ -1,5 +1,6 @@
 use-key.sh
 cfg.yaml
+completion.sh
 
 # Test & playground files
 *op.sh
