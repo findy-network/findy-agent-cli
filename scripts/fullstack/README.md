@@ -283,8 +283,8 @@ file.
 ## Helper Scripts And Execution Environment
 
 Don't use `--logging` argument or more precisely don't use its env version
-(FCLI_CLI_LOGGIG) or config file version. The scripts aren't optimised to handle
-different streams for err and std. However, if its mandatory for your use case,
+(FCLI_CLI_LOGGING) or config file version. The scripts aren't optimised to handle
+different streams for err and std. However, if it's mandatory for your use case,
 read `glog` documentation how to use files for logs.
 
 The helper scripts should be used only as an examples. They don't support all
