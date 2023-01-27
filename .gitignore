@@ -11,6 +11,7 @@ tmp/
 scripts/test/client?00/
 scripts/test/op/
 Session.vim
+todo.md
 
 # Binaries for programs and plugins
 *.exe
@@ -33,3 +34,4 @@ s3.config
 .temp
 .data
 .key-backup
+dist/

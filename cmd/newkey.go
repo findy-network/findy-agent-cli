@@ -17,7 +17,7 @@ var newKeyCmd = &cobra.Command{
 	Short: "Create a new key for the authenticator",
 	Long:  newKeyDoc,
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		key := make([]byte, 32)
 		try.To1(rand.Read(key))

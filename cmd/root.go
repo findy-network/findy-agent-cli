@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/findy-network/findy-agent-cli/utils"
+	"github.com/golang/glog"
 	"github.com/lainio/err2"
 	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
@@ -25,6 +26,9 @@ var rootCmd = &cobra.Command{
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		utils.ParseLoggingArgs(rootFlags.logging)
 		handleViperFlags(cmd)
+		if rootFlags.errorTrace {
+			err2.SetErrorTracer(os.Stderr)
+		}
 	},
 }
 
@@ -71,6 +75,7 @@ type RootFlags struct {
 	logging     string
 	ServiceAddr string
 	TLSPath     string
+	errorTrace  bool
 }
 
 // ClientFlags agent flags
@@ -83,11 +88,12 @@ type ClientFlags struct {
 var rootFlags = RootFlags{}
 
 var rootEnvs = map[string]string{
-	"config":   "CONFIG",
-	"logging":  "LOGGING",
-	"dry-run":  "DRY_RUN",
-	"server":   "SERVER",
-	"tls-path": "TLS_PATH",
+	"config":      "CONFIG",
+	"logging":     "CLI_LOGGING",
+	"dry-run":     "DRY_RUN",
+	"server":      "SERVER",
+	"tls-path":    "TLS_PATH",
+	"error-trace": "ERROR_TRACE",
 }
 
 func init() {
@@ -108,6 +114,8 @@ func init() {
 		FlagInfo("TLS cert path", "", rootEnvs["tls-path"]))
 	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false,
 		FlagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
+	flags.BoolVar(&rootFlags.errorTrace, "error-trace", false,
+		FlagInfo("show stack traces for errors", "", rootEnvs["error-trace"]))
 
 	try.To(viper.BindPFlag("logging", flags.Lookup("logging")))
 	try.To(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
@@ -142,7 +150,7 @@ func readConfigFile() {
 		viper.SetConfigFile(rootFlags.cfgFile)
 		// If a config file is found, read it in.
 		if err := viper.ReadInConfig(); err == nil && printInfo {
-			fmt.Println("Using config file:", viper.ConfigFileUsed())
+			glog.V(3).Infoln("Using config file:", viper.ConfigFileUsed())
 		}
 	}
 }
@@ -150,7 +158,7 @@ func readConfigFile() {
 // BindEnvs calls viper.BindEnv with envMap and cmdName which can be empty if
 // flag is general.
 func BindEnvs(envMap map[string]string, cmdName string) (err error) {
-	defer err2.Return(&err)
+	defer err2.Handle(&err)
 	for flagKey, envName := range envMap {
 		finalEnvName := getEnvName(cmdName, envName)
 		try.To(viper.BindEnv(flagKey, finalEnvName))

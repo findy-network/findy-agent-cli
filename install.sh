@@ -67,6 +67,7 @@ get_binaries() {
     darwin/arm64) BINARIES="findy-agent-cli" ;;
     linux/386) BINARIES="findy-agent-cli" ;;
     linux/amd64) BINARIES="findy-agent-cli" ;;
+    linux/arm64) BINARIES="findy-agent-cli" ;;
     windows/386) BINARIES="findy-agent-cli" ;;
     windows/amd64) BINARIES="findy-agent-cli" ;;
     *)

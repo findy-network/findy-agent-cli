@@ -31,7 +31,7 @@ var readCmd = &cobra.Command{
 	Short: "read basic message stream and reply protocol ctrl questions",
 	Long:  readDoc,
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			PrintCmdData()

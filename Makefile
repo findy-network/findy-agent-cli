@@ -125,3 +125,6 @@ install:
 test_release:
 	goreleaser --snapshot --skip-publish --rm-dist
 
+release:
+	gh workflow run do-release.yml
+

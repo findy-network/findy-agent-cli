@@ -21,12 +21,12 @@ var createCredDefCmd = &cobra.Command{
 	Short: "Creates a new creddef",
 	Long:  createCredDefDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 		try.To(cmd.BindEnvs(envs, ""))
 		return cmd.BindEnvs(getSchemaEnvs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			fmt.Printf("schema ID: %s, tag: %s\n", schemaID, tag)

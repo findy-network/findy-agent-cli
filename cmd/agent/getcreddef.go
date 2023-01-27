@@ -23,12 +23,12 @@ var getCredDefCmd = &cobra.Command{
 	Short: "Gets cred def data",
 	Long:  getCredDefDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 		try.To(cmd.BindEnvs(envs, ""))
 		return cmd.BindEnvs(credDefEnvs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			fmt.Printf("CredDefID: %s\n", CredDefID)

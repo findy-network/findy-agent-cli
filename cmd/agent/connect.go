@@ -36,7 +36,7 @@ var connectCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Returnf(&err, "connect cmd")
+		defer err2.Handle(&err, "connect cmd")
 
 		c.SilenceUsage = true
 		if len(args) > 0 {
