@@ -14,15 +14,20 @@ import (
 
 var umlCmdDoc = `The command umls a multi-tenant chat bot service.
 
+	findy-agent-cli bot uml <filename.yaml/json|->
+
+If - is given instead of the FSM declaration file, it will be read from stdio.
+
 The chat bot can serve what ever purpose it is programmed. The programming is
 done thru state machines. The machines can be declared either YAML or JSON. The
-specification for the state machine language can be found from
+specification for the state machine language can be found from:
   [todo URL here when spec is ready]`
 
 var umlCmd = &cobra.Command{
 	Use:   "uml",
 	Short: "uml a chat bot from state machine file",
 	Long:  umlCmdDoc,
+	Args:  cobra.ExactArgs(1),
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
 
