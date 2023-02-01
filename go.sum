@@ -287,8 +287,6 @@ github.com/fatih/color v1.9.0/go.mod h1:eQcE1qtQxscV5RaZvpXrrb8Drkc3/DdQ+uUYCNjL
 github.com/fatih/color v1.13.0 h1:8LOYc1KYPPmyKMuN8QV2DNRWNbLo6LZ0iLs8+mlH53w=
 github.com/findy-network/findy-agent-auth v0.1.41 h1:/oxtL9dc3F0czW7U3QyIRy/MxKsnl4ocH+03p9dTX7c=
 github.com/findy-network/findy-agent-auth v0.1.41/go.mod h1:G64IGzr0+Mnxh+hfglbObWQfP/S7ShTSyF7RLJsj4ek=
-github.com/findy-network/findy-common-go v0.2.4 h1:y1ELsWZE/xRtvfcGexT0LVFyU7zopKXmyt4THJ9e/4U=
-github.com/findy-network/findy-common-go v0.2.4/go.mod h1:8fozjbHawWeumLPOzukeCZ9dyeWFqsfR/ButwTI964A=
 github.com/findy-network/findy-common-go v0.2.5-0.20230130080853-441c09c38748 h1:dydQ6kaFZepAXcpJ6wUoMCS1yYLyWeMnaSmEDMdBEi8=
 github.com/findy-network/findy-common-go v0.2.5-0.20230130080853-441c09c38748/go.mod h1:8fozjbHawWeumLPOzukeCZ9dyeWFqsfR/ButwTI964A=
 github.com/flynn/go-shlex v0.0.0-20150515145356-3f9db97f8568/go.mod h1:xEzjJPgXI435gkrCt3MPfRiAkVrwSbHsst4LCFVfpJc=
@@ -1644,8 +1642,8 @@ google.golang.org/grpc v1.42.0/go.mod h1:k+4IHHFw41K8+bbowsex27ge2rCb65oeWqe4jJ5
 google.golang.org/grpc v1.44.0/go.mod h1:k+4IHHFw41K8+bbowsex27ge2rCb65oeWqe4jJ590SU=
 google.golang.org/grpc v1.45.0/go.mod h1:lN7owxKUQEqMfSyQikvvk5tf/6zMPsrK+ONuO11+0rQ=
 google.golang.org/grpc v1.46.0/go.mod h1:vN9eftEi1UMyUsIF80+uQXhHjbXYbm0uXoFCACuMGWk=
-google.golang.org/grpc v1.52.0 h1:kd48UiU7EHsV4rnLyOJRuP/Il/UHE7gdDAQ+SZI7nZk=
-google.golang.org/grpc v1.52.0/go.mod h1:pu6fVzoFb+NBYNAvQL08ic+lvB2IojljRYuun5vorUY=
+google.golang.org/grpc v1.52.3 h1:pf7sOysg4LdgBqduXveGKrcEwbStiK2rtfghdzlUYDQ=
+google.golang.org/grpc v1.52.3/go.mod h1:pu6fVzoFb+NBYNAvQL08ic+lvB2IojljRYuun5vorUY=
 google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.1.0/go.mod h1:6Kw0yEErY5E/yWrBtf03jp27GLLJujG4z/JK95pnjjw=
 google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0/go.mod h1:DNq5QpG7LJqD2AamLZ7zvKE0DEpVl2BSEVjFycAAjRY=
 google.golang.org/protobuf v0.0.0-20200109180630-ec00e32a8dfd/go.mod h1:DFci5gLYBciE7Vtevhsrf46CRTquxDuWsQurQQe4oz8=
