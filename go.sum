@@ -285,10 +285,8 @@ github.com/etcd-io/gofail v0.0.0-20190801230047-ad7f989257ca/go.mod h1:49H/RkXP8
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/fatih/color v1.9.0/go.mod h1:eQcE1qtQxscV5RaZvpXrrb8Drkc3/DdQ+uUYCNjL+zU=
 github.com/fatih/color v1.13.0 h1:8LOYc1KYPPmyKMuN8QV2DNRWNbLo6LZ0iLs8+mlH53w=
-github.com/findy-network/findy-agent-auth v0.1.41 h1:/oxtL9dc3F0czW7U3QyIRy/MxKsnl4ocH+03p9dTX7c=
-github.com/findy-network/findy-agent-auth v0.1.41/go.mod h1:G64IGzr0+Mnxh+hfglbObWQfP/S7ShTSyF7RLJsj4ek=
-github.com/findy-network/findy-common-go v0.2.4 h1:y1ELsWZE/xRtvfcGexT0LVFyU7zopKXmyt4THJ9e/4U=
-github.com/findy-network/findy-common-go v0.2.4/go.mod h1:8fozjbHawWeumLPOzukeCZ9dyeWFqsfR/ButwTI964A=
+github.com/findy-network/findy-agent-auth v0.1.42 h1:2WZkmpA5lPmG/WoHGEv5YMxoWawFLjgyGOcg/pe63ck=
+github.com/findy-network/findy-agent-auth v0.1.42/go.mod h1:ORHkNoNy0QO7oGHqRRkh6hXiTKDP8n/tyuSCW4KrlwM=
 github.com/findy-network/findy-common-go v0.2.5-0.20230130080853-441c09c38748 h1:dydQ6kaFZepAXcpJ6wUoMCS1yYLyWeMnaSmEDMdBEi8=
 github.com/findy-network/findy-common-go v0.2.5-0.20230130080853-441c09c38748/go.mod h1:8fozjbHawWeumLPOzukeCZ9dyeWFqsfR/ButwTI964A=
 github.com/flynn/go-shlex v0.0.0-20150515145356-3f9db97f8568/go.mod h1:xEzjJPgXI435gkrCt3MPfRiAkVrwSbHsst4LCFVfpJc=
