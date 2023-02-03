@@ -13,6 +13,7 @@ import (
 	"github.com/golang/glog"
 	"github.com/google/uuid"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 )
@@ -30,7 +31,7 @@ var readCmd = &cobra.Command{
 	Short: "read basic message stream and reply protocol ctrl questions",
 	Long:  readDoc,
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			PrintCmdData()
@@ -50,8 +51,7 @@ var readCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		ch, err := conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()})
-		err2.Check(err)
+		ch := try.To1(conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()}))
 
 	loop:
 		for {
@@ -105,13 +105,12 @@ func handleBM(conn client.Conn, status *agency.AgentStatus, _ bool) {
 	if status.Notification.ProtocolType == agency.Protocol_BASIC_MESSAGE {
 		ctx := context.Background()
 		didComm := agency.NewProtocolServiceClient(conn)
-		statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
+		statusResult := try.To1(didComm.Status(ctx, &agency.ProtocolID{
 			TypeID:           status.Notification.ProtocolType,
 			Role:             agency.Protocol_ADDRESSEE,
 			ID:               status.Notification.ProtocolID,
 			NotificationTime: status.Notification.Timestamp,
-		})
-		err2.Check(err)
+		}))
 		if statusResult.GetBasicMessage().SentByMe {
 			glog.V(1).Infoln("-- ours, no reply")
 			return
@@ -123,39 +122,36 @@ func handleBM(conn client.Conn, status *agency.AgentStatus, _ bool) {
 func reply(cc grpc.ClientConnInterface, status *agency.AgentStatus, ack bool) {
 	ctx := context.Background()
 	c := agency.NewAgentServiceClient(cc)
-	cid, err := c.Give(ctx, &agency.Answer{
+	cid := try.To1(c.Give(ctx, &agency.Answer{
 		ID:       status.Notification.ID,
 		ClientID: status.ClientID,
 		Ack:      ack,
 		Info:     "testing says hello!",
-	})
-	err2.Check(err)
+	}))
 	glog.Infof("Sending the answer (%s) send to client:%s\n", status.Notification.ID, cid.ID)
 }
 
 func resume(cc grpc.ClientConnInterface, status *agency.AgentStatus, ack bool) {
 	ctx := context.Background()
 	didComm := agency.NewProtocolServiceClient(cc)
-	statusResult, err := didComm.Status(ctx, &agency.ProtocolID{
+	statusResult := try.To1(didComm.Status(ctx, &agency.ProtocolID{
 		TypeID:           status.Notification.ProtocolType,
 		ID:               status.Notification.ProtocolID,
 		NotificationTime: status.Notification.Timestamp,
-	})
-	err2.Check(err)
+	}))
 	fmt.Println("** protocol state:", statusResult.State.State)
 
 	stateAck := agency.ProtocolState_ACK
 	if !ack {
 		stateAck = agency.ProtocolState_NACK
 	}
-	unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
+	unpauseResult := try.To1(didComm.Resume(ctx, &agency.ProtocolState{
 		ProtocolID: &agency.ProtocolID{
 			TypeID: status.Notification.ProtocolType,
 			Role:   agency.Protocol_RESUMER,
 			ID:     status.Notification.ProtocolID,
 		},
 		State: stateAck,
-	})
-	err2.Check(err)
+	}))
 	glog.Infoln("result:", unpauseResult.String())
 }

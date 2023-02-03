@@ -12,6 +12,7 @@ import (
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/google/uuid"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +29,7 @@ var saListenCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			return nil
@@ -46,7 +47,7 @@ var saListenCmd = &cobra.Command{
 		defer timeoutCancel()
 
 		agent := agency.NewAgentServiceClient(conn)
-		err2.Empty.Try(agent.Ping(timeout, &agency.PingMsg{
+		try.To1(agent.Ping(timeout, &agency.PingMsg{
 			ID:             1000,
 			PingController: andController,
 		}))
@@ -59,8 +60,7 @@ var saListenCmd = &cobra.Command{
 		signal.Notify(intCh, syscall.SIGTERM)
 		signal.Notify(intCh, syscall.SIGINT)
 
-		ch, err := conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()})
-		err2.Check(err)
+		ch := try.To1(conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()}))
 
 	loop:
 		for {
@@ -102,13 +102,12 @@ var saListenCmd = &cobra.Command{
 func reply(status *agency.AgentStatus, ack bool) {
 	ctx := context.Background()
 	c := agency.NewAgentServiceClient(conn)
-	cid, err := c.Give(ctx, &agency.Answer{
+	cid := try.To1(c.Give(ctx, &agency.Answer{
 		ID:       status.Notification.ID,
 		ClientID: status.ClientID,
 		Ack:      ack,
 		Info:     "cmd salisten says hello!",
-	})
-	err2.Check(err)
+	}))
 	fmt.Printf("Sending the answer (%s) send to client:%s\n", status.Notification.ID, cid.ID)
 }
 
@@ -119,15 +118,14 @@ func resume(status *agency.AgentStatus, ack bool) {
 	if !ack {
 		stateAck = agency.ProtocolState_NACK
 	}
-	unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
+	unpauseResult := try.To1(didComm.Resume(ctx, &agency.ProtocolState{
 		ProtocolID: &agency.ProtocolID{
 			TypeID: agency.Protocol_PRESENT_PROOF,
 			Role:   agency.Protocol_RESUMER,
 			ID:     status.Notification.ProtocolID,
 		},
 		State: stateAck,
-	})
-	err2.Check(err)
+	}))
 	fmt.Println("result:", unpauseResult.String())
 }
 

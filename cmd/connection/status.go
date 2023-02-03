@@ -9,6 +9,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +28,7 @@ var statusCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			PrintCmdData()
@@ -48,10 +49,9 @@ var statusCmd = &cobra.Command{
 			Role:   agency.Protocol_RESUMER,
 			ID:     MyProtocolID,
 		})
-		err2.Check(err)
+		try.To(err)
 
-		bStatus, err := json.Marshal(statusResult.GetStatus())
-		err2.Check(err)
+		bStatus := try.To1(json.Marshal(statusResult.GetStatus()))
 
 		fmt.Println("result:", string(bStatus), statusResult.State.ProtocolID.TypeID)
 		return nil

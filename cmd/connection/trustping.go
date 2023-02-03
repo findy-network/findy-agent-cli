@@ -9,6 +9,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +21,7 @@ var pingCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			PrintCmdData()
@@ -35,8 +36,7 @@ var pingCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		ch, err := client.Pairwise{ID: CmdData.ConnID, Conn: conn}.Ping(ctx)
-		err2.Check(err)
+		ch := try.To1(client.Pairwise{ID: CmdData.ConnID, Conn: conn}.Ping(ctx))
 
 		okOutput := false
 		for status := range ch {

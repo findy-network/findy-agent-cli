@@ -1,14 +1,21 @@
 use-key.sh
 cfg.yaml
+completion.sh
 
 # Test & playground files
 *op.sh
 
-op*
+# these are playgrounds 
+play/
+
+op*/
 test*/
 my*/
 new*/
 tmp*/
+bob/
+alice/
+setup-cli-env-local.sh
 
 token
 

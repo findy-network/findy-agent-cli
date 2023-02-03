@@ -8,6 +8,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -23,7 +24,7 @@ var unpauseCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			PrintCmdData()
@@ -49,15 +50,14 @@ var unpauseCmd = &cobra.Command{
 			protocolTypeID = agency.Protocol_ISSUE_CREDENTIAL
 		}
 
-		unpauseResult, err := didComm.Resume(ctx, &agency.ProtocolState{
+		unpauseResult := try.To1(didComm.Resume(ctx, &agency.ProtocolState{
 			ProtocolID: &agency.ProtocolID{
 				TypeID: protocolTypeID,
 				Role:   agency.Protocol_RESUMER,
 				ID:     MyProtocolID,
 			},
 			State: stateAck,
-		})
-		err2.Check(err)
+		}))
 
 		fmt.Println("result:", unpauseResult.String())
 		return nil

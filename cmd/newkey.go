@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -16,10 +17,10 @@ var newKeyCmd = &cobra.Command{
 	Short: "Create a new key for the authenticator",
 	Long:  newKeyDoc,
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		key := make([]byte, 32)
-		err2.Try(rand.Read(key))
+		try.To1(rand.Read(key))
 		fmt.Println(hex.EncodeToString(key))
 
 		return nil

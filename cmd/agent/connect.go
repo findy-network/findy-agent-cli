@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -15,6 +14,7 @@ import (
 	"github.com/findy-network/findy-common-go/std/didexchange/invitation"
 	"github.com/golang/glog"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -36,14 +36,14 @@ var connectCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Annotate("connect cmd", &err)
+		defer err2.Handle(&err, "connect cmd")
 
 		c.SilenceUsage = true
 		if len(args) > 0 {
 			if args[0] == "-" {
 				invitationStr = tryReadInvitation(os.Stdin)
 			} else {
-				inJSON := err2.File.Try(os.Open(args[0]))
+				inJSON := try.To1(os.Open(args[0]))
 				defer inJSON.Close()
 				invitationStr = tryReadInvitation(inJSON)
 			}
@@ -73,14 +73,13 @@ var connectCmd = &cobra.Command{
 			Conn:  conn,
 			Label: ourLabel,
 		}
-		connID, ch, err := pw.Connection(ctx, invitationStr)
-		err2.Check(err)
+		connID, ch := try.To2(pw.Connection(ctx, invitationStr))
 
 		for status := range ch {
 			if status.State == agency.ProtocolState_OK {
 				fmt.Println(connID)
 			} else if status.State == agency.ProtocolState_ERR {
-				err2.Try(fmt.Fprintln(os.Stderr, "server error:", status.Info))
+				try.To1(fmt.Fprintln(os.Stderr, "server error:", status.Info))
 			}
 		}
 		return nil
@@ -105,17 +104,14 @@ func init() {
 
 // readInvitation function reads invitation json, parses it & stores it to connectionCmd.Invitation pointer
 func tryReadInvitation(r io.Reader) string {
-	d := err2.Bytes.Try(ioutil.ReadAll(r))
+	d := try.To1(io.ReadAll(r))
 	return string(d)
 }
 
 func tryPrintInvitation(s string) {
-	var inv invitation.Invitation
-
 	s = strings.TrimSuffix(s, "\n")
-	inv, err := invitation.Translate(s)
-	err2.Check(err)
+	inv := try.To1(invitation.Translate(s))
 
-	b := err2.Bytes.Try(json.MarshalIndent(inv, "", " "))
+	b := try.To1(json.MarshalIndent(inv, "", " "))
 	fmt.Println(string(b))
 }

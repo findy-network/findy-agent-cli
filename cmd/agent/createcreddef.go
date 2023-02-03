@@ -8,6 +8,7 @@ import (
 	"github.com/findy-network/findy-common-go/agency/client"
 	agency "github.com/findy-network/findy-common-go/grpc/agency/v1"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -20,10 +21,12 @@ var createCredDefCmd = &cobra.Command{
 	Short: "Creates a new creddef",
 	Long:  createCredDefDoc,
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
-		return cmd.BindEnvs(envs, "")
+		defer err2.Handle(&err)
+		try.To(cmd.BindEnvs(envs, ""))
+		return cmd.BindEnvs(getSchemaEnvs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			fmt.Printf("schema ID: %s, tag: %s\n", schemaID, tag)
@@ -39,9 +42,8 @@ var createCredDefCmd = &cobra.Command{
 		defer cancel() // for server side stops, for proper cleanup
 
 		agent := agency.NewAgentServiceClient(conn)
-		r, err := agent.CreateCredDef(ctx, &agency.CredDefCreate{
-			SchemaID: schemaID, Tag: tag})
-		err2.Check(err)
+		r := try.To1(agent.CreateCredDef(ctx, &agency.CredDefCreate{
+			SchemaID: schemaID, Tag: tag}))
 		fmt.Println(r.ID) // plain output for pipes
 
 		return nil
@@ -54,7 +56,8 @@ func init() {
 	defer err2.Catch(func(err error) {
 		fmt.Println(err)
 	})
-	createCredDefCmd.Flags().StringVarP(&schemaID, "id", "i", "", "schema ID of the creaddef")
+	createCredDefCmd.Flags().StringVarP(&schemaID, "id", "i", "",
+		cmd.FlagInfo("Schema ID", "", getSchemaEnvs["id"]))
 	createCredDefCmd.Flags().StringVarP(&tag, "tag", "t", "", "tag of the creddef")
 	createCredDefCmd.MarkFlagRequired("id")
 	createCredDefCmd.MarkFlagRequired("tag")

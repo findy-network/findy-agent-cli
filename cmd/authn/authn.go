@@ -9,6 +9,7 @@ import (
 	"github.com/findy-network/findy-agent-auth/acator/authn"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -26,7 +27,7 @@ var acatorCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if len(args) == 0 {
 			return errors.New("input missing")
@@ -36,15 +37,13 @@ var acatorCmd = &cobra.Command{
 
 		inJSON := os.Stdin
 		if args[0] != "-" {
-			inJSON = err2.File.Try(os.Open(args[0]))
+			inJSON = try.To1(os.Open(args[0]))
 			defer inJSON.Close()
 		}
 		execCmd := authnCmd.TryReadJSON(inJSON)
 
 		if !cmd.DryRun() {
-			var r authn.Result
-			r, err = execCmd.Exec(os.Stdout)
-			err2.Check(err)
+			r := try.To1(execCmd.Exec(os.Stdout))
 			fmt.Println(r.String())
 		} else {
 			b, _ := json.MarshalIndent(execCmd, "", "  ")
@@ -84,24 +83,26 @@ func init() {
 	cmd.RootCmd().AddCommand(acatorCmd)
 }
 
-var authnCmd = authn.Cmd{
-	SubCmd:        "",
-	UserName:      "",
-	PublicDIDSeed: "",
-	Url:           "http://localhost:8090",
-	AAGUID:        "12c85a48-4baf-47bd-b51f-f192871a1511",
-	Key:           "",
-	Counter:       0,
-	Token:         "",
-}
+var (
+	authnCmd = authn.Cmd{
+		SubCmd:        "",
+		UserName:      "",
+		PublicDIDSeed: "",
+		Url:           "http://localhost:8090",
+		AAGUID:        "12c85a48-4baf-47bd-b51f-f192871a1511",
+		Key:           "",
+		Counter:       0,
+		Token:         "",
+	}
 
-var envs = map[string]string{
-	"url":       "URL",
-	"aaguid":    "AAGUID",
-	"key":       "KEY",
-	"counter":   "COUNTER",
-	"jwt":       "JWT",
-	"origin":    "ORIGIN",
-	"user-name": "USER",
-	"seed":      "SEED",
-}
+	envs = map[string]string{
+		"url":       "URL",
+		"aaguid":    "AAGUID",
+		"key":       "KEY",
+		"counter":   "COUNTER",
+		"jwt":       "JWT",
+		"origin":    "ORIGIN",
+		"user-name": "USER",
+		"seed":      "SEED",
+	}
+)

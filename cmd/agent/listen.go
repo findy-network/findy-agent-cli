@@ -14,6 +14,7 @@ import (
 	"github.com/golang/glog"
 	"github.com/google/uuid"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +31,7 @@ var listenCmd = &cobra.Command{
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Return(&err)
+		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			return nil
@@ -53,7 +54,7 @@ var listenCmd = &cobra.Command{
 		defer timeoutCancel()
 
 		agent := agency.NewAgentServiceClient(conn)
-		err2.Empty.Try(agent.Ping(timeout, &agency.PingMsg{
+		try.To1(agent.Ping(timeout, &agency.PingMsg{
 			ID:             1000,
 			PingController: andController,
 		}))
