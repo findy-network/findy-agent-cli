@@ -2,7 +2,6 @@ package authn
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"os"
 
@@ -23,15 +22,12 @@ var acatorCmd = &cobra.Command{
 	Use:   "authn",
 	Short: "WebAuthn commands",
 	Long:  acatorDoc,
+	Args:  cobra.ExactArgs(1),
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
-
-		if len(args) == 0 {
-			return errors.New("input missing")
-		}
 
 		c.SilenceUsage = true
 
