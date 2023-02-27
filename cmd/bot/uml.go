@@ -32,7 +32,7 @@ var umlCmd = &cobra.Command{
 		defer err2.Handle(&err)
 
 		var md fsm.MachineData
-		if len(args) == 0 || (len(args) > 0 && args[0] == "-") {
+		if args[0] == "-" {
 			md = try.To1(chat.LoadFSMMachineData(fType, os.Stdin))
 		} else {
 			fsmFile := args[0]
