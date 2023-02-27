@@ -20,15 +20,13 @@ var createSchemaCmd = &cobra.Command{
 	Use:   "create-schema",
 	Short: "Creates a new schema",
 	Long:  createSchemaDoc,
+	Args:  cobra.MinimumNArgs(1),
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
 
-		if len(args) == 0 {
-			return fmt.Errorf("missing attributes")
-		}
 		attrs := args
 		if cmd.DryRun() {
 			fmt.Printf("name: %s, version: %s, attributes:\n", name, version)
