@@ -18,14 +18,6 @@ states:
         protocol: basic_message
         rule: INPUT_EQUAL
     - sends:
-      - no_status: true
-        protocol: basic_message
-        rule: INPUT
-      target: IDLE
-      trigger:
-        protocol: basic_message
-        rule: INPUT
-    - sends:
       - data: Going to end.
         no_status: true
         protocol: basic_message
@@ -34,18 +26,28 @@ states:
         protocol: basic_message
         rule: INPUT_EQUAL
       target: TERMINATE
+    - sends:
+      - no_status: true
+        protocol: basic_message
+        rule: INPUT
+      target: IDLE
+      trigger:
+        protocol: basic_message
+        rule: INPUT
   INITIAL:
     transitions:
-    - sends:
+    - trigger:
+        protocol: connection
+      sends:
       - data: |-
+          -------
           Hello New Connection! I'm echo bot.
-          Say: run, and I ll start.
-          Say: stop, and I ll terminate.
+          Say: run, and I'll start.
+          Say: reset, and I'll go to beginning.
+          Say: stop, and I'll terminate.
         no_status: true
         protocol: basic_message
       target: INITIAL
-      trigger:
-        protocol: connection
     - sends:
       - data: Going to end.
         no_status: true
@@ -66,9 +68,11 @@ states:
         rule: INPUT_EQUAL
     - sends:
       - data: |-
+          ---------------------
           Hello! I'm echo bot.
           Say: run, and I'start.
-          Say: stop, and I'll go beginning.
+          Say: reset, and I'll go beginning.
+          Say: stop, and I'll go end and terminate FSM.
         no_status: true
         protocol: basic_message
       target: INITIAL
