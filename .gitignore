@@ -33,5 +33,6 @@ s3.config
 *cli.code-workspace
 .temp
 .data
+.temp
 .key-backup
 dist/

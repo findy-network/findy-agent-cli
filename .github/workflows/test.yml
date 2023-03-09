@@ -27,7 +27,7 @@ jobs:
         with:
           files: ./coverage.txt
       - name: scan
-        run: make scan
+        run: make scan | grep "Licensing OK"
   e2e:
     runs-on: ubuntu-latest
     steps:
