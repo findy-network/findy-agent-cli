@@ -4,6 +4,8 @@ AUTH_BRANCH=$(shell scripts/branch.sh ../findy-agent-auth/)
 GRPC_BRANCH=$(shell scripts/branch.sh ../findy-common-go/)
 WRAP_BRANCH=$(shell scripts/branch.sh ../findy-wrapper-go/)
 
+SCAN_SCRIPT_URL="https://raw.githubusercontent.com/findy-network/setup-go-action/master/scanner/cp_scan.sh"
+
 drop_wrap:
 	go mod edit -dropreplace github.com/findy-network/findy-wrapper-go
 
@@ -64,7 +66,10 @@ deps:
 	go get -t ./...
 
 scan:
-	@scripts/scan.sh $(ARGS)
+	@curl -s $(SCAN_SCRIPT_URL) | bash
+
+scan_and_report:
+	@curl -s $(SCAN_SCRIPT_URL) | bash -s v > licenses.txt
 
 build:
 	go build ./...
