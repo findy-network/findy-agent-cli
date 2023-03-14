@@ -1,58 +1,57 @@
 name: test
 on: push
 jobs:
-  lint:
-    name: lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2
-        with:
-          version: v1.51.1
-          args: --timeout=5m
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: setup
-        uses: actions/setup-go@v3
+      - name: setup go and lint
+        uses: findy-network/setup-go-action@master
         with:
-          go-version: 1.20.x
-      - name: checkout
-        uses: actions/checkout@v3
-      - name: test and measure coverage
+          linter-config-path: .golangci.yml
+      - name: test
         run: make test_cov_out
-      - name: upload coverage
-        uses: codecov/codecov-action@v2
+      - name: store coverage file
+        uses: actions/upload-artifact@v3
         with:
-          files: ./coverage.txt
-      - name: scan
-        run: make scan | grep "Licensing OK"
+          name: ${{ github.sha }}-coverage.txt
+          path: ./coverage.txt
+          retention-days: 1
+
   e2e:
     runs-on: ubuntu-latest
     steps:
-      - name: setup
-        uses: actions/setup-go@v3
+      - name: test e2e flow
+        uses: findy-network/e2e-test-action@master
         with:
-          go-version: 1.20.x
+          service: "cli"
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: './go.mod'
+      - name: convert coverage to txt
+        run: go tool covdata textfmt -i=coverage -o coverage-e2e.txt
+      - name: store coverage file
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.sha }}-coverage-e2e.txt
+          path: ./coverage-e2e.txt
+          retention-days: 1
+
+  upload-coverage:
+    runs-on: ubuntu-latest
+    needs: [test, e2e]
+    steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: set up agency
-        run: |
-          cd scripts/fullstack
-          docker-compose up -d
-      - name: install
-        run: |
-          make install
-          ~/go/bin/findy-agent-cli --version
-      - name: test
-        run: | # TODO: move to script file and create extensive e2e tests
-          cd ./scripts/fullstack
-          source ./setup-cli-env.sh 
-          ./make-agent.sh acme
-          ./make-agent.sh faber
-          conn_id=$(acme/invitation | faber/connect)
-          cd acme/$conn_id
-          $FCLI connection trustping
-        env:
-          FCLI: "/home/runner/go/bin/findy-agent-cli"
+      - name: download coverage file
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.sha }}-coverage.txt
+      - name: download coverage file
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.sha }}-coverage-e2e.txt
+      - name: upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.txt,./coverage-e2e.txt
+          fail_ci_if_error: true
