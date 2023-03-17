@@ -29,10 +29,10 @@ parse_args() {
   BINDIR=${BINDIR:-./bin}
   while getopts "b:dh?x" arg; do
     case "$arg" in
-      b) BINDIR="$OPTARG" ;;
-      d) log_set_priority 10 ;;
-      h | \?) usage "$0" ;;
-      x) set -x ;;
+    b) BINDIR="$OPTARG" ;;
+    d) log_set_priority 10 ;;
+    h | \?) usage "$0" ;;
+    x) set -x ;;
     esac
   done
   shift $((OPTIND - 1))
@@ -48,7 +48,7 @@ execute() {
   http_download "${tmpdir}/${TARBALL}" "${TARBALL_URL}"
   http_download "${tmpdir}/${CHECKSUM}" "${CHECKSUM_URL}"
   hash_sha256_verify "${tmpdir}/${TARBALL}" "${tmpdir}/${CHECKSUM}"
-  srcdir="${tmpdir}"
+  srcdir="${tmpdir}/findy-agent-cli"
   (cd "${tmpdir}" && untar "${TARBALL}")
   test ! -d "${BINDIR}" && install -d "${BINDIR}"
   for binexe in $BINARIES; do
@@ -62,18 +62,18 @@ execute() {
 }
 get_binaries() {
   case "$PLATFORM" in
-    darwin/386) BINARIES="findy-agent-cli" ;;
-    darwin/amd64) BINARIES="findy-agent-cli" ;;
-    darwin/arm64) BINARIES="findy-agent-cli" ;;
-    linux/386) BINARIES="findy-agent-cli" ;;
-    linux/amd64) BINARIES="findy-agent-cli" ;;
-    linux/arm64) BINARIES="findy-agent-cli" ;;
-    windows/386) BINARIES="findy-agent-cli" ;;
-    windows/amd64) BINARIES="findy-agent-cli" ;;
-    *)
-      log_crit "platform $PLATFORM is not supported.  Make sure this script is up-to-date and file request at https://github.com/${PREFIX}/issues/new"
-      exit 1
-      ;;
+  darwin/386) BINARIES="findy-agent-cli" ;;
+  darwin/amd64) BINARIES="findy-agent-cli" ;;
+  darwin/arm64) BINARIES="findy-agent-cli" ;;
+  linux/386) BINARIES="findy-agent-cli" ;;
+  linux/amd64) BINARIES="findy-agent-cli" ;;
+  linux/arm64) BINARIES="findy-agent-cli" ;;
+  windows/386) BINARIES="findy-agent-cli" ;;
+  windows/amd64) BINARIES="findy-agent-cli" ;;
+  *)
+    log_crit "platform $PLATFORM is not supported.  Make sure this script is up-to-date and file request at https://github.com/${PREFIX}/issues/new"
+    exit 1
+    ;;
   esac
 }
 tag_to_version() {
@@ -98,22 +98,22 @@ adjust_format() {
 adjust_os() {
   # adjust archive name based on OS
   case ${OS} in
-    386) OS=i386 ;;
-    amd64) OS=x86_64 ;;
-    darwin) OS=Darwin ;;
-    linux) OS=Linux ;;
-    windows) OS=Windows ;;
+  386) OS=i386 ;;
+  amd64) OS=x86_64 ;;
+  darwin) OS=Darwin ;;
+  linux) OS=Linux ;;
+  windows) OS=Windows ;;
   esac
   true
 }
 adjust_arch() {
   # adjust archive name based on ARCH
   case ${ARCH} in
-    386) ARCH=i386 ;;
-    amd64) ARCH=x86_64 ;;
-    darwin) ARCH=Darwin ;;
-    linux) ARCH=Linux ;;
-    windows) ARCH=Windows ;;
+  386) ARCH=i386 ;;
+  amd64) ARCH=x86_64 ;;
+  darwin) ARCH=Darwin ;;
+  linux) ARCH=Linux ;;
+  windows) ARCH=Windows ;;
   esac
   true
 }
@@ -148,15 +148,15 @@ log_priority() {
 }
 log_tag() {
   case $1 in
-    0) echo "emerg" ;;
-    1) echo "alert" ;;
-    2) echo "crit" ;;
-    3) echo "err" ;;
-    4) echo "warning" ;;
-    5) echo "notice" ;;
-    6) echo "info" ;;
-    7) echo "debug" ;;
-    *) echo "$1" ;;
+  0) echo "emerg" ;;
+  1) echo "alert" ;;
+  2) echo "crit" ;;
+  3) echo "err" ;;
+  4) echo "warning" ;;
+  5) echo "notice" ;;
+  6) echo "info" ;;
+  7) echo "debug" ;;
+  *) echo "$1" ;;
   esac
 }
 log_debug() {
@@ -178,42 +178,42 @@ log_crit() {
 uname_os() {
   os=$(uname -s | tr '[:upper:]' '[:lower:]')
   case "$os" in
-    cygwin_nt*) os="windows" ;;
-    mingw*) os="windows" ;;
-    msys_nt*) os="windows" ;;
+  cygwin_nt*) os="windows" ;;
+  mingw*) os="windows" ;;
+  msys_nt*) os="windows" ;;
   esac
   echo "$os"
 }
 uname_arch() {
   arch=$(uname -m)
   case $arch in
-    x86_64) arch="amd64" ;;
-    x86) arch="386" ;;
-    i686) arch="386" ;;
-    i386) arch="386" ;;
-    aarch64) arch="arm64" ;;
-    armv5*) arch="armv5" ;;
-    armv6*) arch="armv6" ;;
-    armv7*) arch="armv7" ;;
-    arm64) arch="arm64" ;;
-    arm) arch="arm64" ;;
+  x86_64) arch="amd64" ;;
+  x86) arch="386" ;;
+  i686) arch="386" ;;
+  i386) arch="386" ;;
+  aarch64) arch="arm64" ;;
+  armv5*) arch="armv5" ;;
+  armv6*) arch="armv6" ;;
+  armv7*) arch="armv7" ;;
+  arm64) arch="arm64" ;;
+  arm) arch="arm64" ;;
   esac
   echo ${arch}
 }
 uname_os_check() {
   os=$(uname_os)
   case "$os" in
-    darwin) return 0 ;;
-    dragonfly) return 0 ;;
-    freebsd) return 0 ;;
-    linux) return 0 ;;
-    android) return 0 ;;
-    nacl) return 0 ;;
-    netbsd) return 0 ;;
-    openbsd) return 0 ;;
-    plan9) return 0 ;;
-    solaris) return 0 ;;
-    windows) return 0 ;;
+  darwin) return 0 ;;
+  dragonfly) return 0 ;;
+  freebsd) return 0 ;;
+  linux) return 0 ;;
+  android) return 0 ;;
+  nacl) return 0 ;;
+  netbsd) return 0 ;;
+  openbsd) return 0 ;;
+  plan9) return 0 ;;
+  solaris) return 0 ;;
+  windows) return 0 ;;
   esac
   log_crit "uname_os_check '$(uname -s)' got converted to '$os' which is not a GOOS value. Please file bug at https://github.com/client9/shlib"
   return 1
@@ -221,20 +221,20 @@ uname_os_check() {
 uname_arch_check() {
   arch=$(uname_arch)
   case "$arch" in
-    386) return 0 ;;
-    amd64) return 0 ;;
-    arm64) return 0 ;;
-    armv5) return 0 ;;
-    armv6) return 0 ;;
-    armv7) return 0 ;;
-    ppc64) return 0 ;;
-    ppc64le) return 0 ;;
-    mips) return 0 ;;
-    mipsle) return 0 ;;
-    mips64) return 0 ;;
-    mips64le) return 0 ;;
-    s390x) return 0 ;;
-    amd64p32) return 0 ;;
+  386) return 0 ;;
+  amd64) return 0 ;;
+  arm64) return 0 ;;
+  armv5) return 0 ;;
+  armv6) return 0 ;;
+  armv7) return 0 ;;
+  ppc64) return 0 ;;
+  ppc64le) return 0 ;;
+  mips) return 0 ;;
+  mipsle) return 0 ;;
+  mips64) return 0 ;;
+  mips64le) return 0 ;;
+  s390x) return 0 ;;
+  amd64p32) return 0 ;;
   esac
   log_crit "uname_arch_check '$(uname -m)' got converted to '$arch' which is not a GOARCH value.  Please file bug report at https://github.com/client9/shlib"
   return 1
@@ -242,13 +242,13 @@ uname_arch_check() {
 untar() {
   tarball=$1
   case "${tarball}" in
-    *.tar.gz | *.tgz) tar --no-same-owner -xzf "${tarball}" ;;
-    *.tar) tar --no-same-owner -xf "${tarball}" ;;
-    *.zip) unzip "${tarball}" ;;
-    *)
-      log_err "untar unknown archive format for ${tarball}"
-      return 1
-      ;;
+  *.tar.gz | *.tgz) tar --no-same-owner -xzf "${tarball}" ;;
+  *.tar) tar --no-same-owner -xf "${tarball}" ;;
+  *.zip) unzip "${tarball}" ;;
+  *)
+    log_err "untar unknown archive format for ${tarball}"
+    return 1
+    ;;
   esac
 }
 http_download_curl() {
@@ -361,7 +361,7 @@ PREFIX="$OWNER/$REPO"
 
 # use in logging routines
 log_prefix() {
-	echo "$PREFIX"
+  echo "$PREFIX"
 }
 PLATFORM="${OS}/${ARCH}"
 GITHUB_DOWNLOAD=https://github.com/${OWNER}/${REPO}/releases/download
@@ -383,11 +383,10 @@ adjust_arch
 
 log_info "found version: ${VERSION} for ${TAG}/${OS}/${ARCH}"
 
-NAME=${PROJECT_NAME}_${VERSION}_${OS}_${ARCH}
+NAME=${PROJECT_NAME}_${OS}_${ARCH}
 TARBALL=${NAME}.${FORMAT}
 TARBALL_URL=${GITHUB_DOWNLOAD}/${TAG}/${TARBALL}
 CHECKSUM=checksums.txt
 CHECKSUM_URL=${GITHUB_DOWNLOAD}/${TAG}/${CHECKSUM}
-
 
 execute
