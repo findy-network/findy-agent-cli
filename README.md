@@ -1,6 +1,7 @@
 # findy-agent-cli
 
 [![test](https://github.com/findy-network/findy-agent-cli/actions/workflows/test.yml/badge.svg?branch=dev)](https://github.com/findy-network/findy-agent-cli/actions/workflows/test.yml)
+[![codecov](https://codecov.io/github/findy-network/findy-agent-cli/branch/dev/graph/badge.svg?token=ILLXRTH8PS)](https://codecov.io/github/findy-network/findy-agent-cli)
 
 ## Getting Started
 
@@ -56,7 +57,7 @@ the `install.sh` with the `-b` flag. Example for the macOS:
 ./install.sh -b /usr/local/bin
 ```
 
-Don't forget to set the [auto-completion](#Shell-auto-completion)
+Don't forget to set the [auto-completion](#shell-auto-completion)
 
 ## Running Full Stack Agency
 
