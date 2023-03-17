@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/findy-network/findy-agent-auth v0.1.50
-	github.com/findy-network/findy-common-go v0.2.12
+	github.com/findy-network/findy-common-go v0.2.13
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.1.0
 	github.com/google/uuid v1.3.0
@@ -53,7 +53,7 @@ require (
 	github.com/google/certificate-transparency-go v1.1.3 // indirect
 	github.com/google/trillian v1.4.1 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
-	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
+	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.3 // indirect
