@@ -4,15 +4,8 @@ on:
     tags:
       - "*"
 jobs:
-  e2e:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-      - name: test
-        run: echo "implement e2e tests"
+
   goreleaser:
-    needs: e2e
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -26,14 +19,23 @@ jobs:
         with:
           go-version-file: './go.mod'
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v4
         with:
           version: latest
           args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  merge:
+
+  test-release:
     needs: goreleaser
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: ./install.sh ${{ github.ref_name }}
+      - run: ./bin/findy-agent-cli --version
+
+  merge:
+    needs: test-release
     runs-on: ubuntu-latest
     steps:
       - name: checkout
