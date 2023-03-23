@@ -17,41 +17,41 @@ jobs:
           path: ./coverage.txt
           retention-days: 1
 
-e2e:
-  runs-on: ubuntu-latest
-  steps:
-    - name: test e2e flow
-      uses: findy-network/e2e-test-action@master
-      with:
-        service: "cli"
-    - uses: actions/setup-go@v3
-      with:
-        go-version-file: './go.mod'
-    - name: convert coverage to txt
-      run: go tool covdata textfmt -i=coverage -o coverage-e2e.txt
-    - name: store coverage file
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ github.sha }}-coverage-e2e.txt
-        path: ./coverage-e2e.txt
-        retention-days: 1
-
-upload-coverage:
-  runs-on: ubuntu-latest
-  needs: [test, e2e]
-  steps:
-    - name: checkout
-      uses: actions/checkout@v3
-    - name: download coverage file
-      uses: actions/download-artifact@v3
-      with:
-        name: ${{ github.sha }}-coverage.txt
-    - name: download coverage file
-      uses: actions/download-artifact@v3
-      with:
-        name: ${{ github.sha }}-coverage-e2e.txt
-    - name: upload coverage
-      uses: codecov/codecov-action@v3
-      with:
-        files: ./coverage.txt,./coverage-e2e.txt
-        fail_ci_if_error: true
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test e2e flow
+        uses: findy-network/e2e-test-action@master
+        with:
+          service: "cli"
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: './go.mod'
+      - name: convert coverage to txt
+        run: go tool covdata textfmt -i=coverage -o coverage-e2e.txt
+      - name: store coverage file
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.sha }}-coverage-e2e.txt
+          path: ./coverage-e2e.txt
+          retention-days: 1
+  
+  upload-coverage:
+    runs-on: ubuntu-latest
+    needs: [test, e2e]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: download coverage file
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.sha }}-coverage.txt
+      - name: download coverage file
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.sha }}-coverage-e2e.txt
+      - name: upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.txt,./coverage-e2e.txt
+          fail_ci_if_error: true
