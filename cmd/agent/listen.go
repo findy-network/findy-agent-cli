@@ -98,7 +98,7 @@ var listenCmd = &cobra.Command{
 	},
 }
 
-func mySleep(d time.Duration) {
+func mySleep(_ time.Duration) {
 	time.Sleep(stressTestTimer)
 	glog.V(3).Infof("our own short %v sleep", stressTestTimer)
 }
