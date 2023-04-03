@@ -3,7 +3,7 @@ module github.com/findy-network/findy-agent-cli
 go 1.20
 
 require (
-	github.com/findy-network/findy-agent-auth v0.1.50-0.20230321170801-be0fdf0502db
+	github.com/findy-network/findy-agent-auth v0.2.1-0.20230403124733-ecef61a8235a
 	github.com/findy-network/findy-common-go v0.2.16-0.20230403120246-4fd0f7348baa
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.1.1
@@ -30,6 +30,9 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-tpm v0.3.3 // indirect
+	github.com/gorilla/mux v1.8.0 // indirect
+	github.com/gorilla/securecookie v1.1.1 // indirect
+	github.com/gorilla/sessions v1.2.1 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hyperledger/aries-framework-go v0.1.8 // indirect
@@ -47,6 +50,7 @@ require (
 	github.com/piprate/json-gold v0.4.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/pquerna/cachecontrol v0.1.0 // indirect
+	github.com/rs/cors v1.8.3 // indirect
 	github.com/spf13/afero v1.9.3 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
@@ -58,6 +62,7 @@ require (
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
+	go.etcd.io/bbolt v1.3.7 // indirect
 	golang.org/x/crypto v0.6.0 // indirect
 	golang.org/x/exp v0.0.0-20230105202349-8879d0199aa3 // indirect
 	golang.org/x/net v0.8.0 // indirect
