@@ -1,6 +1,23 @@
 #!/bin/bash
 
-cli=${FCLI:-findy-agent-cli}
+if [[ $_ == $0 ]]; then
+    printf "Usage:\tsource ""$0"
+    printf " [attr_1 attr_2 ... attr_n]\n\n"
 
-export FCLI_SCHEMA_ID=`$cli agent create-schema -a new-id -v 1.0 name gender tel email`
+    printf "Default attrs: name gender tel email\n"
+    exit 1
+fi
+
+cli=${FCLI:-findy-agent-cli}
+schema_name=`cli agent ping | sed -E 's/(^.*)(: )(.*$)/\3/g'`
+schema_name="$schema_name""'s_schema"
+echo "$schema_name"
+version=`date +%s`
+echo "$version"
+
+if [[ "$1" == "" ]]; then
+	export FCLI_SCHEMA_ID=`$cli agent create-schema -a "$schema_name" -v "$version" name gender tel email`
+else
+	export FCLI_SCHEMA_ID=`$cli agent create-schema -a "$schema_name" -v "$version" $@`
+fi
 
