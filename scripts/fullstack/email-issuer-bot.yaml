@@ -2,7 +2,6 @@ initial:
   sends:
   - data: Hello!
     protocol: basic_message
-    rule: ""
   target: IDLE
 name: email issuer machine
 states:
@@ -14,11 +13,9 @@ states:
           Hello! I'm a email issuer.
           Please enter your email address.
         protocol: basic_message
-        rule: ""
       target: WAITING_EMAIL_ADDRESS
       trigger:
         protocol: basic_message
-        rule: ""
   WAITING_EMAIL_ADDRESS:
     transitions:
     - sends:
@@ -45,7 +42,6 @@ states:
     - sends:
       - data: Please enter your email address.
         protocol: basic_message
-        rule: ""
       target: WAITING_EMAIL_ADDRESS
       trigger:
         data: reset
