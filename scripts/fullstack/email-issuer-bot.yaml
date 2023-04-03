@@ -1,0 +1,96 @@
+initial:
+  sends:
+  - data: Hello!
+    protocol: basic_message
+    rule: ""
+  target: IDLE
+name: email issuer machine
+states:
+  IDLE:
+    transitions:
+    - sends:
+      - data: |2-
+
+          Hello! I'm a email issuer.
+          Please enter your email address.
+        protocol: basic_message
+        rule: ""
+      target: WAITING_EMAIL_ADDRESS
+      trigger:
+        protocol: basic_message
+        rule: ""
+  WAITING_EMAIL_ADDRESS:
+    transitions:
+    - sends:
+      - data: |-
+          Thank you! I sent your pin code to {{.EMAIL}}.
+          Please enter it here and I'll send your email credential.
+          Say "reset" if you want to start over.
+        protocol: basic_message
+        rule: FORMAT_MEM
+      - data: |-
+          {"from":"chatbot@our.address.net",
+          "subject":"Your PIN for email issuer chat bot",
+          "to":"{{.EMAIL}}",
+          "body":"Thank you! This is your pin code:\n{{.PIN}}\nPlease enter it back to me, the chat bot, and I'll give your credential."}
+        protocol: email
+        rule: GEN_PIN
+      target: WAITING_EMAIL_PIN
+      trigger:
+        data: EMAIL
+        protocol: basic_message
+        rule: INPUT_SAVE
+  WAITING_EMAIL_PIN:
+    transitions:
+    - sends:
+      - data: Please enter your email address.
+        protocol: basic_message
+        rule: ""
+      target: WAITING_EMAIL_ADDRESS
+      trigger:
+        data: reset
+        protocol: basic_message
+        rule: INPUT_EQUAL
+    - sends:
+      - data: |-
+          Incorrect PIN code. Please check your emails for:
+          {{.EMAIL}}
+        protocol: basic_message
+        rule: FORMAT_MEM
+      target: WAITING_EMAIL_PIN
+      trigger:
+        data: PIN
+        protocol: basic_message
+        rule: INPUT_VALIDATE_NOT_EQUAL
+    - sends:
+      - data: |-
+          Thank you! Issuing an email credential for address:
+          {{.EMAIL}}
+          Please follow your wallet app's instructions
+        protocol: basic_message
+        rule: FORMAT_MEM
+      - data: '[{"name":"email","value":"{{.EMAIL}}"}]'
+        event_data:
+          issuing:
+            AttrsJSON: '[{"name":"email","value":"{{.EMAIL}}"}]'
+            CredDefID: 2K74emXCd9H8FV54MbVYjD:3:CL:13:TAG
+        protocol: issue_cred
+        no_status: false # Very important! TODO: set as default!
+        rule: FORMAT_MEM
+      target: WAITING_ISSUING_STATUS
+      trigger:
+        data: PIN
+        protocol: basic_message
+        rule: INPUT_VALIDATE_EQUAL
+  WAITING_ISSUING_STATUS:
+    transitions:
+    - sends:
+      - data: |-
+          Thank you {{.EMAIL}}!
+          We are ready now. Bye bye!
+        protocol: basic_message
+        rule: FORMAT_MEM
+      target: IDLE
+      trigger:
+        protocol: issue_cred
+        rule: OUR_STATUS
