@@ -10,8 +10,9 @@ jwt=$($jwt_place)
 
 if [[ ! -z $1 ]]; then
 	invitation=$(cat "$1")
+else
+	invitation=${@:-$(cat)}
 fi
-invitation=${@:-$(cat)}
 
 # conn_id=$(echo $invitation | jq -r '."@id"')
 

@@ -4,6 +4,7 @@ completion.sh
 
 # Test & playground files
 *op.sh
+op*.sh
 *hack*.sh
 
 # these are playgrounds 

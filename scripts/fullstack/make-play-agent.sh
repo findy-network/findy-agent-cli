@@ -3,15 +3,17 @@
 set -e
 
 if [[ -z "$1" ]]; then
-	echo 'usage: $0 <agent-name>'
+	echo 'usage: $0 <agent-name1> <agent-name2> ...'
 	exit 1
 fi
 
-agent_dir="./play/$1/"
+for a in "$@"; do
+	agent_dir="./play/$a/"
 
-mkdir -p "$agent_dir"
-pushd "$agent_dir" > /dev/null
-ln -s ../../run/* .
-popd > /dev/null
+	mkdir -p "$agent_dir"
+	pushd "$agent_dir" > /dev/null
+	ln -s ../../run/* .
+	popd > /dev/null
 
-"$agent_dir"register && "$agent_dir"login
+	"$agent_dir"register && "$agent_dir"login
+done
