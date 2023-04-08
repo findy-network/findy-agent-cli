@@ -1,0 +1,1 @@
+/home/parallels/host/go/src/github.com/findy-network/findy-agent-cli/scripts/fullstack/setup-cli-env-local.sh
