@@ -16,8 +16,8 @@ version=`date +%s`
 echo "$version"
 
 if [[ "$1" == "" ]]; then
-	export FCLI_SCHEMA_ID=`$cli agent create-schema -a "$schema_name" -v "$version" name gender tel email`
+	export FCLI_SCHEMA_ID=`$cli agent create-schema --name "$schema_name" --schema-ver "$version" name gender tel email`
 else
-	export FCLI_SCHEMA_ID=`$cli agent create-schema -a "$schema_name" -v "$version" $@`
+	export FCLI_SCHEMA_ID=`$cli agent create-schema --name "$schema_name" --schema-ver "$version" $@`
 fi
 

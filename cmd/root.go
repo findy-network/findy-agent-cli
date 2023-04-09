@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	goflag "flag"
 	"fmt"
 	"log"
 	"os"
@@ -19,15 +20,27 @@ const envPrefix = "FCLI"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Version: utils.Version,
-	Use:     "findy-agent-cli",
-	Short:   "Findy agent cli tool",
-	Long:    `Findy agent cli tool`,
-	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		utils.ParseLoggingArgs(rootFlags.logging)
+	Use:   "findy-agent-cli",
+	Short: "Findy agent cli tool",
+	Long:  `Findy agent cli tool`,
+	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		defer err2.Handle(&err)
+
+		if rootFlags.version {
+			return nil
+		}
+		goflag.Parse()
+		try.To(goflag.Set("logtostderr", "true"))
 		handleViperFlags(cmd)
 		if rootFlags.errorTrace {
 			err2.SetErrorTracer(os.Stderr)
+		}
+		return nil
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		if rootFlags.version {
+			fmt.Println(utils.Version)
+			return
 		}
 	},
 }
@@ -76,6 +89,7 @@ type RootFlags struct {
 	ServiceAddr string
 	TLSPath     string
 	errorTrace  bool
+	version     bool
 }
 
 // ClientFlags agent flags
@@ -117,6 +131,9 @@ func init() {
 	flags.BoolVar(&rootFlags.errorTrace, "error-trace", false,
 		FlagInfo("show stack traces for errors", "", rootEnvs["error-trace"]))
 
+	flags.BoolVarP(&rootFlags.version, "version", "V", false,
+		"print the version info")
+
 	try.To(viper.BindPFlag("logging", flags.Lookup("logging")))
 	try.To(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
 	try.To(viper.BindPFlag("server", flags.Lookup("server")))
@@ -124,6 +141,7 @@ func init() {
 
 	BindEnvs(rootEnvs, "")
 
+	pflag.CommandLine.AddGoFlagSet(goflag.CommandLine)
 }
 
 func initConfig() {
