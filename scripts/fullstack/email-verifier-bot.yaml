@@ -18,7 +18,7 @@ states:
       trigger:
         protocol: connection
     - sends:
-      - data: '[{"name":"email","credDefId":"2K74emXCd9H8FV54MbVYjD:3:CL:13:TAG"}]'
+      - data: '[{"name":"email","credDefId":"${FCLI_CRED_DEF_ID}"}]'
         protocol: present_proof
       target: WAITING_EMAIL_PROOF_QA
       trigger:
@@ -38,7 +38,7 @@ states:
         protocol: answer
       target: INITIAL
       trigger:
-        data: '[{"name":"email","credDefId":"2K74emXCd9H8FV54MbVYjD:3:CL:13:TAG"}]'
+        data: '[{"name":"email","credDefId":"${FCLI_CRED_DEF_ID}"}]'
         protocol: present_proof
         rule: NOT_ACCEPT_VALUES
         type_id: ANSWER_NEEDED_PROOF_VERIFY
@@ -47,7 +47,7 @@ states:
         protocol: answer
       target: WAITING2_EMAIL_PROOF
       trigger:
-        data: '[{"name":"email","credDefId":"2K74emXCd9H8FV54MbVYjD:3:CL:13:TAG"}]'
+        data: '[{"name":"email","credDefId":"${FCLI_CRED_DEF_ID}"}]'
         protocol: present_proof
         rule: ACCEPT_AND_INPUT_VALUES
         type_id: ANSWER_NEEDED_PROOF_VERIFY

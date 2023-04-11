@@ -69,7 +69,7 @@ states:
         event_data:
           issuing:
             AttrsJSON: '[{"name":"email","value":"{{.EMAIL}}"}]'
-            CredDefID: 2K74emXCd9H8FV54MbVYjD:3:CL:13:TAG
+            CredDefID: ${FCLI_CRED_DEF_ID}
         protocol: issue_cred
         no_status: false # Very important! TODO: set as default!
         rule: FORMAT_MEM
