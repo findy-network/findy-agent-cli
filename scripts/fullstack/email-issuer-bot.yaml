@@ -71,7 +71,7 @@ states:
             AttrsJSON: '[{"name":"email","value":"{{.EMAIL}}"}]'
             CredDefID: ${FCLI_CRED_DEF_ID}
         protocol: issue_cred
-        no_status: false # Very important! TODO: set as default!
+        no_status: false # NOTE. Set correctly by FSM engine. Remove the line!
         rule: FORMAT_MEM
       target: WAITING_ISSUING_STATUS
       trigger:
