@@ -64,7 +64,7 @@ func init() {
 		fmt.Println(err)
 	})
 	createSchemaCmd.Flags().StringVarP(&name, "name", "a", "", "schema name")
-	createSchemaCmd.Flags().StringVarP(&version, "version", "v", "", "schema version")
+	createSchemaCmd.Flags().StringVar(&version, "version", "", "schema version")
 	createSchemaCmd.MarkFlagRequired("name")
 	createSchemaCmd.MarkFlagRequired("version")
 	AgentCmd.AddCommand(createSchemaCmd)

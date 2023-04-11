@@ -10,14 +10,14 @@ fi
 
 cli=${FCLI:-findy-agent-cli}
 schema_name=`cli agent ping | sed -E 's/(^.*)(: )(.*$)/\3/g'`
-schema_name="$schema_name""'s_schema"
+schema_name="$schema_name""_s_schema"
 echo "$schema_name"
 version=`date +%s`
 echo "$version"
 
 if [[ "$1" == "" ]]; then
-	export FCLI_SCHEMA_ID=`$cli agent create-schema -a "$schema_name" -v "$version" name gender tel email`
+	export FCLI_SCHEMA_ID=`$cli agent create-schema --name "$schema_name" --version "$version" name gender tel email`
 else
-	export FCLI_SCHEMA_ID=`$cli agent create-schema -a "$schema_name" -v "$version" $@`
+	export FCLI_SCHEMA_ID=`$cli agent create-schema --name "$schema_name" --version "$version" $@`
 fi
 
