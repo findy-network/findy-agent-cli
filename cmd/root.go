@@ -131,7 +131,7 @@ func init() {
 	flags.BoolVar(&rootFlags.errorTrace, "error-trace", false,
 		FlagInfo("show stack traces for errors", "", rootEnvs["error-trace"]))
 
-	flags.BoolVarP(&rootFlags.version, "version", "V", false,
+	rootCmd.Flags().BoolVarP(&rootFlags.version, "version", "V", false,
 		"print the version info")
 
 	try.To(viper.BindPFlag("logging", flags.Lookup("logging")))
