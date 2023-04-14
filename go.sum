@@ -95,8 +95,8 @@ github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1m
 github.com/envoyproxy/go-control-plane v0.9.7/go.mod h1:cwu0lG7PUMfa9snN8LXBig5ynNVH9qI8YYLbd1fK2po=
 github.com/envoyproxy/go-control-plane v0.9.9-0.20201210154907-fd9021fe5dad/go.mod h1:cXg6YxExXjJnVBQHBLXeUAgxn2UodCpnH306RInaBQk=
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
-github.com/findy-network/findy-agent-auth v0.2.5 h1:EngfZ1/ButS0iY+LAk3wKe44LpeZIDJ0YBClyL88qqY=
-github.com/findy-network/findy-agent-auth v0.2.5/go.mod h1:+a+tIzLVq5mO5ut7NT/VqvSFwPN0H/s1wz8/Mow6BQA=
+github.com/findy-network/findy-agent-auth v0.2.6 h1:G/rVQ3LRO3eQsl0rVqGOdbUUnAadJ8ZA7HhX0ESt9D8=
+github.com/findy-network/findy-agent-auth v0.2.6/go.mod h1:dZvb7hqN2/H+YMXV4bH1yQuKJVm9sCttWu8r4krgGVI=
 github.com/findy-network/findy-common-go v0.2.18 h1:2YXm95IaFQVauM3PJvsT29phMFALhPKTJ4tFS8gMrTY=
 github.com/findy-network/findy-common-go v0.2.18/go.mod h1:ydxkts2e1zqtVM4trBbnVwhvHlE8Xajvb9OGpvIOXbk=
 github.com/form3tech-oss/jwt-go v3.2.5+incompatible h1:/l4kBbb4/vGSsdtB5nUe8L7B9mImVMaBPw9L/0TBHU8=
