@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+location=$(dirname "$BASH_SOURCE")
+name=$(basename "$location")
+[[ "$name" = "." ]] && name=$(basename "$PWD")
+
+"$location/logout"
+"$location/login"
+
+token=`cat $location/token`
+
+echo "new token: $token"
+
+for file in ????????-????-????-????-????????????/cfg.yaml; do
+	cat "$location/cfg.yaml" > "${file}.new" 
+	grep 'conn-id:' "${file}" >> "${file}.new" 
+	mv -v "${file}.new" "${file}" 
+done
