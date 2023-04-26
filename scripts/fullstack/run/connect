@@ -20,11 +20,11 @@ conn_id=$($cli agent connect --jwt "$jwt" --invitation "$invitation")
 
 echo $conn_id
 
-conn_location="$location"/"$conn_id"
+conn_location="$location/$conn_id"
 mkdir -p "$conn_location"
-echo -n "$invitation" > "$conn_location"/invitation
+echo -n "$invitation" > "$conn_location/invitation.json"
 
-cat > "$conn_location"/cfg.yaml <<EOF
+cat > "$conn_location/cfg.yaml" <<EOF
 jwt: "$jwt"
 conn-id: "$conn_id"
 EOF
