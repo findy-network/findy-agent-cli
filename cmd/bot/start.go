@@ -38,10 +38,12 @@ var startCmd = &cobra.Command{
 		if len(args) == 0 || (len(args) > 0 && args[0] == "-") {
 			md = try.To1(chat.LoadFSMMachineData(fType, os.Stdin))
 		} else {
-			fsmFile := args[0]
-			f := try.To1(os.Open(fsmFile))
-			defer f.Close()
-			md = try.To1(chat.LoadFSMMachineData(fsmFile, f))
+			md = *try.To1(loadFSM(args[0]))
+		}
+
+		var mdService *fsm.MachineData
+		if serviceFSM != "" {
+			mdService = try.To1(loadFSM(serviceFSM))
 		}
 
 		if cmd.DryRun() {
@@ -62,6 +64,7 @@ var startCmd = &cobra.Command{
 		chat.Bot{
 			Conn:        conn,
 			MachineData: md,
+			ServiceFSM:  mdService,
 		}.Run(intCh)
 
 		return nil
@@ -69,8 +72,9 @@ var startCmd = &cobra.Command{
 }
 
 var (
-	conn  client.Conn
-	fType string
+	conn       client.Conn
+	fType      string
+	serviceFSM string
 )
 
 func init() {
@@ -78,5 +82,15 @@ func init() {
 		fmt.Println(err)
 	})
 	startCmd.Flags().StringVarP(&fType, "type", "t", ".yaml", "file type used for state machine load")
+	startCmd.Flags().StringVar(&serviceFSM, "service-fsm", "", "FSM file for service level state machine load")
 	botCmd.AddCommand(startCmd)
+}
+
+func loadFSM(fsmFile string) (md *fsm.MachineData, err error) {
+	defer err2.Handle(&err)
+
+	f := try.To1(os.Open(fsmFile))
+	defer f.Close()
+	m := try.To1(chat.LoadFSMMachineData(fsmFile, f))
+	return &m, nil
 }
