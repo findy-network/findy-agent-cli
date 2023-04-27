@@ -1,0 +1,15 @@
+name: backend echo machine
+initial:
+  target: BACKEND_LOOP
+states:
+  BACKEND_LOOP:
+    transitions:
+    - trigger:
+        protocol: backend
+        rule: INPUT
+      sends:
+      - data: Hello! I'm Hello-World bot. You said '%s'
+        protocol: backend
+        rule: FORMAT
+      target: BACKEND_LOOP
+

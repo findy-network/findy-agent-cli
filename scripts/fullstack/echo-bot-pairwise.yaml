@@ -1,0 +1,81 @@
+name: main echo machine
+initial:
+  sends:
+  - data: Hello Man!
+    protocol: basic_message
+  target: MAIN_LOOP
+states:
+  MAIN_IDLE:
+    transitions:
+    - trigger:
+        data: reset
+        protocol: basic_message
+        rule: INPUT_EQUAL
+      sends:
+      - data: Going to beginning.
+        protocol: basic_message
+      target: MAIN_LOOP
+    - trigger:
+        data: stop
+        protocol: basic_message
+        rule: INPUT_EQUAL
+      sends:
+      - data: Going to end.
+        protocol: basic_message
+      target: TERMINATE
+    - trigger:
+        protocol: basic_message
+        rule: INPUT
+      sends:
+      - protocol: backend
+        rule: INPUT
+      target: MAIN_IDLE
+    - trigger:
+        protocol: backend
+        rule: INPUT
+      sends:
+      - protocol: basic_message
+        rule: INPUT
+      target: MAIN_IDLE
+  MAIN_LOOP:
+    transitions:
+    - trigger:
+        protocol: connection
+      sends:
+      - data: |-
+          -------
+          Hello New Connection! I'm echo bot.
+          Say: run, and I'll start.
+          Say: reset, and I'll go to beginning.
+          Say: stop, and I'll terminate.
+        protocol: basic_message
+      target: MAIN_LOOP
+    - sends:
+      - data: Going to end.
+        protocol: basic_message
+      trigger:
+        data: stop
+        protocol: basic_message
+        rule: INPUT_EQUAL
+      target: TERMINATE
+    - sends:
+      - data: Let's go!
+        protocol: basic_message
+      target: MAIN_IDLE
+      trigger:
+        data: run
+        protocol: basic_message
+        rule: INPUT_EQUAL
+    - sends:
+      - data: |-
+          ---------------------
+          Hello! I'm echo bot.
+          Say: run, and I'start.
+          Say: reset, and I'll go beginning.
+          Say: stop, and I'll go end and terminate FSM.
+        protocol: basic_message
+      target: MAIN_LOOP
+      trigger:
+        protocol: basic_message
+  TERMINATE:
+    terminate: true
