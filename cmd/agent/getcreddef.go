@@ -34,8 +34,6 @@ var getCredDefCmd = &cobra.Command{
 			fmt.Printf("CredDefID: %s\n", CredDefID)
 			return nil
 		}
-		c.SilenceUsage = true
-
 		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
 		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()

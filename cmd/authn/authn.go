@@ -29,8 +29,6 @@ var acatorCmd = &cobra.Command{
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
 
-		c.SilenceUsage = true
-
 		inJSON := os.Stdin
 		if args[0] != "-" {
 			inJSON = try.To1(os.Open(args[0]))
