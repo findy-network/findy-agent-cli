@@ -31,44 +31,44 @@ var startCmd = &cobra.Command{
 	Short: "start a chat bot from state machine file",
 	Long:  startCmdDoc,
 	Args:  cobra.ExactArgs(1),
-	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Handle(&err)
+	RunE:  start,
+}
 
-		var md fsm.MachineData
-		if len(args) == 0 || (len(args) > 0 && args[0] == "-") {
-			md = try.To1(chat.LoadFSMMachineData(fType, os.Stdin))
-		} else {
-			md = *try.To1(loadFSM(args[0]))
-		}
+func start(_ *cobra.Command, args []string) (err error) {
+	defer err2.Handle(&err)
 
-		var mdService *fsm.MachineData
-		if serviceFSM != "" {
-			mdService = try.To1(loadFSM(serviceFSM))
-		}
+	var md fsm.MachineData
+	if len(args) == 0 || (len(args) > 0 && args[0] == "-") {
+		md = try.To1(chat.LoadFSMMachineData(fType, os.Stdin))
+	} else {
+		md = *try.To1(loadFSM(args[0]))
+	}
 
-		if cmd.DryRun() {
-			PrintCmdData()
-			return nil
-		}
-		c.SilenceUsage = true
+	var mdService *fsm.MachineData
+	if serviceFSM != "" {
+		mdService = try.To1(loadFSM(serviceFSM))
+	}
 
-		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
-		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
-		defer conn.Close()
-
-		// Handle graceful shutdown
-		intCh := make(chan os.Signal, 1)
-		signal.Notify(intCh, syscall.SIGTERM)
-		signal.Notify(intCh, syscall.SIGINT)
-
-		chat.Bot{
-			Conn:        conn,
-			MachineData: md,
-			ServiceFSM:  mdService,
-		}.Run(intCh)
-
+	if cmd.DryRun() {
+		PrintCmdData()
 		return nil
-	},
+	}
+	baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
+	conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
+	defer conn.Close()
+
+	// Handle graceful shutdown
+	intCh := make(chan os.Signal, 1)
+	signal.Notify(intCh, syscall.SIGTERM)
+	signal.Notify(intCh, syscall.SIGINT)
+
+	chat.Bot{
+		Conn:        conn,
+		MachineData: md,
+		ServiceFSM:  mdService,
+	}.Run(intCh)
+
+	return nil
 }
 
 var (
