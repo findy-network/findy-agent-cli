@@ -1,9 +1,15 @@
 #!/bin/bash
 
+set -e
+
+debug=${1:-""}
 cli=${FCLI:-findy-agent-cli}
+
 location=$(dirname "$BASH_SOURCE")
-name=$(basename "$location")
-[[ "$name" = "." ]] && name=$(basename "$PWD")
+[[ "$debug" != "" ]] && echo "location: $location"
+
+source "$location"/name.sh
+name=$(calc_name "$debug")
 
 $cli authn register -u "$name"
 

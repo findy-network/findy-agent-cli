@@ -1,8 +1,14 @@
 #!/bin/bash
 
+set -e
+
+debug=${1:-""}
 location=$(dirname "$BASH_SOURCE")
-name=$(basename "$location")
-[[ "$name" = "." ]] && name=$(basename "$PWD")
+[[ "$debug" != "" ]] && echo "location: $location"
+
+source "$location"/name.sh
+
+name=$(calc_name)
 jwt_place="$location"/jwt
 
 cli=${FCLI:-findy-agent-cli}

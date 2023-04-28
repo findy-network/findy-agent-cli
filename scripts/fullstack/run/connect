@@ -1,11 +1,17 @@
 #!/bin/bash
 
-location=$(dirname "$BASH_SOURCE")
-name=$(basename "$location")
-[[ "$name" = "." ]] && name=$(basename "$PWD")
-jwt_place="$location"/jwt
+set -e
 
+debug=${1:-""}
 cli=${FCLI:-findy-agent-cli}
+
+location=$(dirname "$BASH_SOURCE")
+[[ "$debug" != "" ]] && echo "location: $location"
+
+source "$location"/name.sh
+name=$(calc_name "$debug")
+
+jwt_place="$location"/jwt
 jwt=$($jwt_place)
 
 if [[ ! -z $1 ]]; then

@@ -1,15 +1,21 @@
 #!/bin/bash
 
+set -e
+
+debug=${1:-""}
 cli=${FCLI:-findy-agent-cli}
 
 location=$(dirname "$BASH_SOURCE")
-name=$(basename "$location")
-[[ "$name" = "." ]] && name=$(basename "$PWD")
+[[ "$debug" != "" ]] && echo "location: $location"
+
+source "$location"/name.sh
+name=$(calc_name "$debug") # not used at the moment
+
 token_place="$location"/token
 cfg_place="$location"/cfg.yaml
 
 if [ -f "$token_place" ]; then
 	rm "$token_place"
 	rm "$cfg_place"
-	echo "Logout ok"
+	echo "Logout OK"
 fi
