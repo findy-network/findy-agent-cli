@@ -105,6 +105,8 @@ github.com/findy-network/findy-common-go v0.2.19-0.20230427095022-d20ce5107039 h
 github.com/findy-network/findy-common-go v0.2.19-0.20230427095022-d20ce5107039/go.mod h1:HE/+BlwvNCM+KjGEoRuiiwJjlQZU7QMiIaJPa+TrNhU=
 github.com/findy-network/findy-common-go v0.2.20 h1:4i5Th/CTBPEJQwmHFQFQA8LOkmgRMaiZsWx7H3TG5IU=
 github.com/findy-network/findy-common-go v0.2.20/go.mod h1:HE/+BlwvNCM+KjGEoRuiiwJjlQZU7QMiIaJPa+TrNhU=
+github.com/findy-network/findy-common-go v0.2.21-0.20230503102623-9e59442c1312 h1:KM8kP3StRaG1kn3Ns6YxXRbrEg7ciu782hRzZ3bSuvk=
+github.com/findy-network/findy-common-go v0.2.21-0.20230503102623-9e59442c1312/go.mod h1:HE/+BlwvNCM+KjGEoRuiiwJjlQZU7QMiIaJPa+TrNhU=
 github.com/form3tech-oss/jwt-go v3.2.5+incompatible h1:/l4kBbb4/vGSsdtB5nUe8L7B9mImVMaBPw9L/0TBHU8=
 github.com/form3tech-oss/jwt-go v3.2.5+incompatible/go.mod h1:pbq4aXjuKjdthFRnoDwaVPLA+WlJuPGy+QneDUgJi2k=
 github.com/frankban/quicktest v1.14.3 h1:FJKSZTDHjyhriyC81FLQ0LY93eSai0ZyR/ZIkd3ZUKE=
