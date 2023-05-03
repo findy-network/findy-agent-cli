@@ -50,6 +50,8 @@ func init() {
 	flags.StringVar(&CmdData.ConnID, "conn-id", "",
 		cmd.FlagInfo("connection id aka pairwise id", "", envs["conn-id"]))
 
+	ConnectionCmd.MarkPersistentFlagRequired("jwt")
+	ConnectionCmd.MarkPersistentFlagRequired("conn-id")
 	cmd.RootCmd().AddCommand(ConnectionCmd)
 }
 
