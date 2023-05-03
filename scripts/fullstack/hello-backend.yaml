@@ -1,4 +1,4 @@
-name: backend echo machine
+name: backend chat-room machine
 initial:
   target: BACKEND_LOOP
 states:
@@ -8,7 +8,7 @@ states:
         protocol: backend
         rule: INPUT
       sends:
-      - data: Hello! I'm Hello-World bot. You said '%s'
+      - data: Mrs. X said '%s'
         protocol: backend
         rule: FORMAT
       target: BACKEND_LOOP

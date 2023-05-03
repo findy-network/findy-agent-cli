@@ -1,7 +1,7 @@
-name: main echo machine
+name: main chat-room machine
 initial:
   sends:
-  - data: Hello Man!
+  - data: Hello Dude! Long time no see!
     protocol: basic_message
   target: MAIN_LOOP
 states:
@@ -44,7 +44,7 @@ states:
       sends:
       - data: |-
           -------
-          Hello New Connection! I'm echo bot.
+          Hello New Connection! I'm chat-room bot.
           Say: run, and I'll start.
           Say: reset, and I'll go to beginning.
           Say: stop, and I'll terminate.
@@ -69,7 +69,7 @@ states:
     - sends:
       - data: |-
           ---------------------
-          Hello! I'm echo bot.
+          Hello! I'm chat-room bot.
           Say: run, and I'start.
           Say: reset, and I'll go beginning.
           Say: stop, and I'll go end and terminate FSM.
