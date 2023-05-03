@@ -38,7 +38,6 @@ var connectCmd = &cobra.Command{
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err, "connect cmd")
 
-		c.SilenceUsage = true
 		if len(args) > 0 {
 			if args[0] == "-" {
 				invitationStr = tryReadInvitation(os.Stdin)

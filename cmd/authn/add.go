@@ -31,7 +31,6 @@ var addCmd = &cobra.Command{
 
 		try.To(myCmd.Validate())
 		if !cmd.DryRun() {
-			c.SilenceUsage = true
 			r := try.To1(myCmd.Exec(os.Stdout))
 			fmt.Println(r.Token)
 		} else {

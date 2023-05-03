@@ -22,7 +22,6 @@ var countCmd = &cobra.Command{
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
 		if !cmd.DryRun() {
-			c.SilenceUsage = true
 			try.To(Count(os.Stdout))
 		} else {
 			fmt.Println("jwt:", CmdData.JWT)

@@ -32,8 +32,6 @@ var createCredDefCmd = &cobra.Command{
 			fmt.Printf("schema ID: %s, tag: %s\n", schemaID, tag)
 			return nil
 		}
-		c.SilenceUsage = true
-
 		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
 		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()

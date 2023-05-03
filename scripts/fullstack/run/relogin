@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+debug=${1:-""}
+location=$(dirname "$BASH_SOURCE")
+[[ "$debug" != "" ]] && echo "location: $location"
+
+source "$location"/name.sh
+name=$(calc_name "$debug")
+
+"$location/logout"
+"$location/login"
+
+token=`cat $location/token`
+
+[[ "$debug" != "" ]] && echo "new token: $token"
+
+for file in $location/????????-????-????-????-????????????/cfg.yaml; do
+	cat "$location/cfg.yaml" > "${file}.new" 
+	grep 'conn-id:' "${file}" >> "${file}.new" 
+	mv -v "${file}.new" "${file}" 
+done

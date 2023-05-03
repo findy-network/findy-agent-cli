@@ -31,46 +31,50 @@ var startCmd = &cobra.Command{
 	Short: "start a chat bot from state machine file",
 	Long:  startCmdDoc,
 	Args:  cobra.ExactArgs(1),
-	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Handle(&err)
+	RunE:  start,
+}
 
-		var md fsm.MachineData
-		if len(args) == 0 || (len(args) > 0 && args[0] == "-") {
-			md = try.To1(chat.LoadFSMMachineData(fType, os.Stdin))
-		} else {
-			fsmFile := args[0]
-			f := try.To1(os.Open(fsmFile))
-			defer f.Close()
-			md = try.To1(chat.LoadFSMMachineData(fsmFile, f))
-		}
+func start(_ *cobra.Command, args []string) (err error) {
+	defer err2.Handle(&err)
 
-		if cmd.DryRun() {
-			PrintCmdData()
-			return nil
-		}
-		c.SilenceUsage = true
+	var md fsm.MachineData
+	if len(args) == 0 || (len(args) > 0 && args[0] == "-") {
+		md = try.To1(chat.LoadFSMMachineData(fType, os.Stdin))
+	} else {
+		md = *try.To1(loadFSM(args[0]))
+	}
 
-		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
-		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
-		defer conn.Close()
+	var mdService *fsm.MachineData
+	if serviceFSM != "" {
+		mdService = try.To1(loadFSM(serviceFSM))
+	}
 
-		// Handle graceful shutdown
-		intCh := make(chan os.Signal, 1)
-		signal.Notify(intCh, syscall.SIGTERM)
-		signal.Notify(intCh, syscall.SIGINT)
-
-		chat.Bot{
-			Conn:        conn,
-			MachineData: md,
-		}.Run(intCh)
-
+	if cmd.DryRun() {
+		PrintCmdData()
 		return nil
-	},
+	}
+	baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
+	conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
+	defer conn.Close()
+
+	// Handle graceful shutdown
+	intCh := make(chan os.Signal, 1)
+	signal.Notify(intCh, syscall.SIGTERM)
+	signal.Notify(intCh, syscall.SIGINT)
+
+	chat.Bot{
+		Conn:        conn,
+		MachineData: md,
+		ServiceFSM:  mdService,
+	}.Run(intCh)
+
+	return nil
 }
 
 var (
-	conn  client.Conn
-	fType string
+	conn       client.Conn
+	fType      string
+	serviceFSM string
 )
 
 func init() {
@@ -78,5 +82,15 @@ func init() {
 		fmt.Println(err)
 	})
 	startCmd.Flags().StringVarP(&fType, "type", "t", ".yaml", "file type used for state machine load")
+	startCmd.Flags().StringVar(&serviceFSM, "service-fsm", "", "FSM file for service level state machine load")
 	botCmd.AddCommand(startCmd)
+}
+
+func loadFSM(fsmFile string) (md *fsm.MachineData, err error) {
+	defer err2.Handle(&err)
+
+	f := try.To1(os.Open(fsmFile))
+	defer f.Close()
+	m := try.To1(chat.LoadFSMMachineData(fsmFile, f))
+	return &m, nil
 }

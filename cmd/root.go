@@ -23,6 +23,8 @@ var rootCmd = &cobra.Command{
 	Use:   "findy-agent-cli",
 	Short: "Findy agent cli tool",
 	Long:  `Findy agent cli tool`,
+
+	SilenceUsage: true,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
 

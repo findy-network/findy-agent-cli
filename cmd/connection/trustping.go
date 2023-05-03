@@ -20,39 +20,39 @@ var pingCmd = &cobra.Command{
 	PreRunE: func(c *cobra.Command, args []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
-	RunE: func(c *cobra.Command, args []string) (err error) {
-		defer err2.Handle(&err)
+	RunE: trustping,
+}
 
-		if cmd.DryRun() {
-			PrintCmdData()
-			return nil
+func trustping(_ *cobra.Command, _ []string) (err error) {
+	defer err2.Handle(&err)
+
+	if cmd.DryRun() {
+		PrintCmdData()
+		return nil
+	}
+	baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
+	conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
+	defer conn.Close()
+
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
+
+	ch := try.To1(client.Pairwise{ID: CmdData.ConnID, Conn: conn}.Ping(ctx))
+
+	okOutput := false
+	for status := range ch {
+		if status.State == agency.ProtocolState_ERR {
+			fmt.Fprintln(os.Stderr, "protocol error:", status.GetInfo())
+			err = fmt.Errorf("protocol error: %s", status.GetInfo())
+		} else {
+			okOutput = true
+			fmt.Println("ping status:", status.State)
 		}
-		c.SilenceUsage = true
-
-		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
-		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
-		defer conn.Close()
-
-		ctx, cancel := context.WithTimeout(context.Background(), timeout)
-		defer cancel()
-
-		ch := try.To1(client.Pairwise{ID: CmdData.ConnID, Conn: conn}.Ping(ctx))
-
-		okOutput := false
-		for status := range ch {
-			if status.State == agency.ProtocolState_ERR {
-				fmt.Fprintln(os.Stderr, "protocol error:", status.GetInfo())
-				err = fmt.Errorf("protocol error: %s", status.GetInfo())
-			} else {
-				okOutput = true
-				fmt.Println("ping status:", status.State)
-			}
-		}
-		if !okOutput {
-			err = fmt.Errorf("no response")
-		}
-		return err
-	},
+	}
+	if !okOutput {
+		err = fmt.Errorf("no response")
+	}
+	return err
 }
 
 func init() {

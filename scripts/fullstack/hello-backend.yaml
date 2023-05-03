@@ -1,0 +1,15 @@
+name: backend chat-room machine
+initial:
+  target: BACKEND_LOOP
+states:
+  BACKEND_LOOP:
+    transitions:
+    - trigger:
+        protocol: backend
+        rule: INPUT
+      sends:
+      - data: Mrs. X said '%s'
+        protocol: backend
+        rule: FORMAT
+      target: BACKEND_LOOP
+

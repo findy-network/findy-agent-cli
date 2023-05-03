@@ -45,8 +45,6 @@ var umlCmd = &cobra.Command{
 			PrintCmdData()
 			return nil
 		}
-		c.SilenceUsage = true
-
 		m := fsm.NewMachine(md)
 		url := try.To1(fsm.GenerateURL("svg", m))
 		fmt.Println(url)
