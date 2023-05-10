@@ -1,6 +1,7 @@
 use-key.sh
 cfg.yaml
 completion.sh
+recover-names.sh
 
 # Test & playground files
 *op.sh
