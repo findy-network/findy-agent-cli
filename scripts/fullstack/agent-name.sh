@@ -28,5 +28,6 @@ for a in "$@"; do
 	cmd="export $a=$a-$uuid"
 	echo "$cmd" >> "$recover_file"
 	eval "$cmd"
+	printf "echo \"your variable '%s' is ready for use\"\n" "$a" >> "$recover_file"
 	printf "your variable \$%s is ready for use\n" "$a"
 done
