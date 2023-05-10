@@ -15,7 +15,7 @@ if [[ $FCLI_SCHEMA_ID == "" ]]; then
 else
 	cli=${FCLI:-findy-agent-cli}
 
-	tag_name=`cli agent ping | sed -E 's/(^.*)(: )(.*$)/\3/g'`
+	tag_name=`$cli agent ping | sed -E 's/(^.*)(: )(.*$)/\3/g'`
 	tag_name="$tag_name""_s_tag"
 	epoc=`date +%s`
 	tag_name="$tag_name""_""$epoc"
