@@ -9,10 +9,11 @@ if [[ $_ == $0 ]]; then
 fi
 
 cli=${FCLI:-findy-agent-cli}
-schema_name=`cli agent ping | sed -E 's/(^.*)(: )(.*$)/\3/g'`
+schema_name=`$cli agent ping | sed -E 's/(^.*)(: )(.*$)/\3/g'`
 schema_name="$schema_name""_s_schema"
 echo "$schema_name"
 version=`date +%s`
+version="$version.0"
 echo "$version"
 
 if [[ "$1" == "" ]]; then
