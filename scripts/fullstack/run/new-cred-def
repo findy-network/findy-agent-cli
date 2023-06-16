@@ -19,7 +19,7 @@ else
 	tag_name="$tag_name""_s_tag"
 	epoc=`date +%s`
 	tag_name="$tag_name""_""$epoc"
-	echo "Creating cred_def: '""$tag_name""' which will take long time, please wait.."
+	echo "Creating cred_def: '""$tag_name""', which will take long time, please wait.."
 
 	export FCLI_CRED_DEF_ID=`$cli agent create-cred-def --tag TAG --id "$FCLI_SCHEMA_ID"`
 fi
