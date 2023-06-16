@@ -5,10 +5,11 @@ if [[ -z "$1" ]]; then
 	exit 1
 fi
 
-play_path=${play_path:=""}
+play_path=${play_path:-""}
 
-for a in "$@"; do
-	agent_dir="./""$play_path""$a/"
+for b in "$@"; do
+	a=$(basename "$b")
+	agent_dir="$play_path""$a/"
 	wallet_dir="$HOME/.indy_client/wallet/$a/"
 	worker_dir="$HOME/.indy_client/worker/$a""_worker/"
 
