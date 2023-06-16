@@ -5,5 +5,7 @@ if [[ -z "$1" ]]; then
 	exit 1
 fi
 
-play_path="play/" ./rm-agent.sh $@
+location=$(dirname "$BASH_SOURCE")
+[[ $location = . ]] && path="play/" || path="./"
+play_path="$path" "$location"/rm-agent.sh $@
 

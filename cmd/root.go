@@ -7,7 +7,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/findy-network/findy-agent-cli/utils"
 	"github.com/golang/glog"
 	"github.com/lainio/err2"
 	"github.com/lainio/err2/try"
@@ -28,9 +27,6 @@ var rootCmd = &cobra.Command{
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
 
-		if rootFlags.version {
-			return nil
-		}
 		goflag.Parse()
 		try.To(goflag.Set("logtostderr", "true"))
 		handleViperFlags(cmd)
@@ -38,12 +34,6 @@ var rootCmd = &cobra.Command{
 			err2.SetErrorTracer(os.Stderr)
 		}
 		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		if rootFlags.version {
-			fmt.Println(utils.Version)
-			return
-		}
 	},
 }
 
@@ -91,7 +81,6 @@ type RootFlags struct {
 	ServiceAddr string
 	TLSPath     string
 	errorTrace  bool
-	version     bool
 }
 
 // ClientFlags agent flags
@@ -132,9 +121,6 @@ func init() {
 		FlagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
 	flags.BoolVar(&rootFlags.errorTrace, "error-trace", false,
 		FlagInfo("show stack traces for errors", "", rootEnvs["error-trace"]))
-
-	rootCmd.Flags().BoolVarP(&rootFlags.version, "version", "V", false,
-		"print the version info")
 
 	try.To(viper.BindPFlag("logging", flags.Lookup("logging")))
 	try.To(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))

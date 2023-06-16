@@ -7,8 +7,11 @@ if [[ -z "$1" ]]; then
 	exit 1
 fi
 
+location=$(dirname "$BASH_SOURCE")
+[[ $location = . ]] && path="./play/" || path="./"
+
 for a in "$@"; do
-	agent_dir="./play/$a/"
+	agent_dir="$path$a/"
 
 	mkdir -p "$agent_dir"
 	pushd "$agent_dir" > /dev/null
