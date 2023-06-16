@@ -59,8 +59,7 @@ func start(_ *cobra.Command, args []string) (err error) {
 
 	// Handle graceful shutdown
 	intCh := make(chan os.Signal, 1)
-	signal.Notify(intCh, syscall.SIGTERM)
-	signal.Notify(intCh, syscall.SIGINT)
+	signal.Notify(intCh, syscall.SIGTERM, syscall.SIGINT)
 
 	chat.Bot{
 		Conn:        conn,

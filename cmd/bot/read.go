@@ -46,8 +46,7 @@ var readCmd = &cobra.Command{
 
 		// Handle graceful shutdown
 		intCh := make(chan os.Signal, 1)
-		signal.Notify(intCh, syscall.SIGTERM)
-		signal.Notify(intCh, syscall.SIGINT)
+		signal.Notify(intCh, syscall.SIGTERM, syscall.SIGINT)
 
 		ch := try.To1(conn.Listen(ctx, &agency.ClientID{ID: uuid.New().String()}))
 
