@@ -36,7 +36,7 @@ var listenCmd = &cobra.Command{
 		if cmd.DryRun() {
 			return nil
 		}
-		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
+		baseCfg := try.To1(cmd.BaseCfg())
 
 		var msleep func(d time.Duration)
 		if stressTest {

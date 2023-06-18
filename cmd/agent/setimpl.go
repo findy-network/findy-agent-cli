@@ -35,7 +35,7 @@ var enterModeCmd = &cobra.Command{
 			fmt.Printf("read: %v\n", read)
 			return nil
 		}
-		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
+		baseCfg := try.To1(cmd.BaseCfg())
 		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
