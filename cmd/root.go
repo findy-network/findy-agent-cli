@@ -5,10 +5,14 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 
+	"github.com/findy-network/findy-common-go/agency/client"
+	"github.com/findy-network/findy-common-go/rpc"
 	"github.com/golang/glog"
 	"github.com/lainio/err2"
+	"github.com/lainio/err2/assert"
 	"github.com/lainio/err2/try"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -71,6 +75,30 @@ func ServiceAddr() string {
 
 func TLSPath() string {
 	return rootFlags.TLSPath
+}
+
+func BaseCfg() (_ *rpc.ClientCfg, err error) {
+	defer err2.Handle(&err)
+
+	var baseCfg *rpc.ClientCfg
+	if TLSPath() != "" {
+		baseCfg = client.BuildConnBase(TLSPath(), ServiceAddr(), nil)
+	} else {
+		var (
+			addr string
+			port int
+		)
+		s := ServiceAddr()
+		glog.V(1).Infoln("ServiceAddr:", s)
+		ss := strings.Split(s, ":")
+		assert.SLen(ss, 2)
+		addr = ss[0]
+		port = try.To1(strconv.Atoi(ss[1]))
+		glog.V(1).Infoln("ServiceAddr:", addr, port)
+
+		baseCfg = client.BuildInsecureClientConnBase(addr, port, nil)
+	}
+	return baseCfg, nil
 }
 
 // RootFlags are the common flags

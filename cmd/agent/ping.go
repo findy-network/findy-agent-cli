@@ -30,7 +30,7 @@ var pingCmd = &cobra.Command{
 			fmt.Println("jwt:", CmdData.JWT)
 			return nil
 		}
-		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
+		baseCfg := try.To1(cmd.BaseCfg())
 		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
