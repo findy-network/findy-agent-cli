@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/findy-network/findy-agent-auth v0.2.22
-	github.com/findy-network/findy-common-go v0.2.28
+	github.com/findy-network/findy-common-go v0.2.29
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.1.1
 	github.com/google/uuid v1.3.0
@@ -17,7 +17,7 @@ require (
 )
 
 require (
-	cloud.google.com/go/compute v1.19.1 // indirect
+	cloud.google.com/go/compute v1.20.1 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	github.com/Shopify/go-lua v0.0.0-20221004153744-91867de107cf // indirect
 	github.com/btcsuite/btcd v0.22.0-beta // indirect
@@ -62,12 +62,12 @@ require (
 	golang.org/x/crypto v0.11.0 // indirect
 	golang.org/x/exp v0.0.0-20230105202349-8879d0199aa3 // indirect
 	golang.org/x/net v0.12.0 // indirect
-	golang.org/x/oauth2 v0.9.0 // indirect
+	golang.org/x/oauth2 v0.10.0 // indirect
 	golang.org/x/sys v0.10.0 // indirect
 	golang.org/x/text v0.11.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
-	google.golang.org/protobuf v1.30.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20230530153820-e85fd2cbaebc // indirect
+	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
