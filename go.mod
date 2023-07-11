@@ -3,8 +3,8 @@ module github.com/findy-network/findy-agent-cli
 go 1.20
 
 require (
-	github.com/findy-network/findy-agent-auth v0.2.22
-	github.com/findy-network/findy-common-go v0.2.29
+	github.com/findy-network/findy-agent-auth v0.2.24
+	github.com/findy-network/findy-common-go v0.2.30
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.1.1
 	github.com/google/uuid v1.3.0
@@ -26,11 +26,11 @@ require (
 	github.com/form3tech-oss/jwt-go v3.2.5+incompatible // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.4.0 // indirect
-	github.com/go-webauthn/revoke v0.1.9 // indirect
-	github.com/go-webauthn/webauthn v0.8.2 // indirect
+	github.com/go-webauthn/webauthn v0.8.4 // indirect
+	github.com/go-webauthn/x v0.1.4 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/google/go-tpm v0.3.3 // indirect
+	github.com/google/go-tpm v0.9.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hyperledger/aries-framework-go v0.1.8 // indirect
@@ -52,7 +52,7 @@ require (
 	github.com/spf13/cast v1.5.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/square/go-jose/v3 v3.0.0-20200630053402-0a67ce9b0693 // indirect
-	github.com/stretchr/testify v1.8.3 // indirect
+	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
 	github.com/teserakt-io/golang-ed25519 v0.0.0-20210104091850-3888c087a4c8 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
