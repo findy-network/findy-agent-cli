@@ -3,7 +3,7 @@ module github.com/findy-network/findy-agent-cli
 go 1.20
 
 require (
-	github.com/findy-network/findy-agent-auth v0.2.25
+	github.com/findy-network/findy-agent-auth v0.2.26
 	github.com/findy-network/findy-common-go v0.2.30
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.1.1
@@ -26,9 +26,9 @@ require (
 	github.com/form3tech-oss/jwt-go v3.2.5+incompatible // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.4.0 // indirect
-	github.com/go-webauthn/webauthn v0.8.4 // indirect
+	github.com/go-webauthn/webauthn v0.8.6 // indirect
 	github.com/go-webauthn/x v0.1.4 // indirect
-	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+	github.com/golang-jwt/jwt/v5 v5.0.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-tpm v0.9.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
