@@ -3,7 +3,7 @@ module github.com/findy-network/findy-agent-cli
 go 1.20
 
 require (
-	github.com/findy-network/findy-agent-auth v0.2.31
+	github.com/findy-network/findy-agent-auth v0.2.32
 	github.com/findy-network/findy-common-go v0.2.33
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.1.2
