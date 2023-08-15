@@ -1,6 +1,6 @@
 module github.com/findy-network/findy-agent-cli
 
-go 1.20
+go 1.21
 
 require (
 	github.com/findy-network/findy-agent-auth v0.2.32
