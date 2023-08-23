@@ -51,9 +51,9 @@ var createCredDefCmd = &cobra.Command{
 var tag string
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 	createCredDefCmd.Flags().StringVarP(&schemaID, "id", "i", "",
 		cmd.FlagInfo("Schema ID", "", getSchemaEnvs["id"]))
 	createCredDefCmd.Flags().StringVarP(&tag, "tag", "t", "", "tag of the creddef")

@@ -43,9 +43,9 @@ var addCmd = &cobra.Command{
 }
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 
 	addCmd.Flags().StringVar(&authnCmd.Token, "jwt", authnCmd.Token,
 		cmd.FlagInfo("Existing token to register a NEW authenticator", "", envs["jwt"]))

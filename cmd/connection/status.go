@@ -59,9 +59,9 @@ var statusCmd = &cobra.Command{
 var MyTypeID int32
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 
 	statusCmd.Flags().StringVarP(&MyProtocolID, "id", "i", "", "protocol id for continue")
 	statusCmd.Flags().Int32VarP(&MyTypeID, "type", "t", 4, "4=trust ping, 1=issue, ... see usage")

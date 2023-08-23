@@ -61,9 +61,9 @@ var reqProofCmd = &cobra.Command{
 }
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 
 	reqProofCmd.Flags().StringVar(&attrJSON, "attrs", "", "attrs json")
 

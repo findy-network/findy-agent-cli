@@ -54,9 +54,9 @@ var chatCmd = &cobra.Command{
 }
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 	chatCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true, "used reply ack for all request")
 	botCmd.AddCommand(chatCmd)
 }

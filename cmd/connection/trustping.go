@@ -56,8 +56,8 @@ func trustping(_ *cobra.Command, _ []string) (err error) {
 }
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 	ConnectionCmd.AddCommand(pingCmd)
 }

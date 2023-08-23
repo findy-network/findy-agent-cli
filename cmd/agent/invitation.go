@@ -67,9 +67,9 @@ var (
 )
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 
 	invitationCmd.Flags().BoolVarP(&urlFormat,
 		"url", "u", false, "if set returns URL formatted invitation")
