@@ -50,9 +50,9 @@ var pingCmd = &cobra.Command{
 var andController bool
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 	pingCmd.Flags().BoolVarP(&andController, "and-controller", "a", false,
 		"ping service agent as well")
 	AgentCmd.AddCommand(pingCmd)

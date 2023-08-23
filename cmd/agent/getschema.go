@@ -73,9 +73,9 @@ var (
 )
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 
 	flags := getSchemaCmd.Flags()
 	flags.StringVarP(&schemaID, "schema-id", "i", "",

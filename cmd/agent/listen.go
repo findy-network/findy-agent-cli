@@ -103,9 +103,9 @@ func mySleep(_ time.Duration) {
 var stressTest bool
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 
 	listenCmd.Flags().BoolVarP(&stressTest, "stress", "t", false,
 		"stress mode = immediate connection retry")

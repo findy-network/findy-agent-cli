@@ -58,9 +58,9 @@ var (
 )
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 	createSchemaCmd.Flags().StringVarP(&name, "name", "a", "", "schema name")
 	createSchemaCmd.Flags().StringVar(&version, "version", "", "schema version")
 	createSchemaCmd.MarkFlagRequired("name")

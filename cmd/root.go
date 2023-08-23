@@ -130,9 +130,9 @@ var rootEnvs = map[string]string{
 }
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		log.Println(err)
-	})
+	}))
 
 	cobra.OnInitialize(initConfig)
 

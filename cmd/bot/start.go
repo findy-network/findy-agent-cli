@@ -77,9 +77,9 @@ var (
 )
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 	startCmd.Flags().StringVarP(&fType, "type", "t", ".yaml", "file type used for state machine load")
 	startCmd.Flags().StringVar(&serviceFSM, "service-fsm", "", "FSM file for service level state machine load")
 	botCmd.AddCommand(startCmd)

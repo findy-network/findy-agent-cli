@@ -73,9 +73,9 @@ var auto bool
 var read bool
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 	enterModeCmd.Flags().BoolVarP(&auto, "auto", "a", false,
 		"set controller communication mode to auto")
 	enterModeCmd.Flags().BoolVarP(&read, "read", "r", false,

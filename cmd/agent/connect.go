@@ -91,9 +91,9 @@ var (
 )
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 
 	connectCmd.Flags().StringVar(&invitationStr, "invitation", "", "invitation json")
 	connectCmd.Flags().StringVar(&ourLabel, "label", "", "our Aries connection Label ")

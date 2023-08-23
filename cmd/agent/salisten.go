@@ -130,9 +130,9 @@ var conn client.Conn
 var ack bool
 
 func init() {
-	defer err2.Catch(func(err error) {
+	defer err2.Catch(err2.Err(func(err error) {
 		fmt.Println(err)
-	})
+	}))
 
 	saListenCmd.Flags().BoolVarP(&ack, "reply_ack", "a", true,
 		"used reply ack for all request")
