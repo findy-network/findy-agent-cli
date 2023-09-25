@@ -6,6 +6,13 @@ WRAP_BRANCH=$(shell scripts/branch.sh ../findy-wrapper-go/)
 
 SCAN_SCRIPT_URL="https://raw.githubusercontent.com/findy-network/setup-go-action/master/scanner/cp_scan.sh"
 
+cli:
+	$(eval VERSION = $(shell cat ./VERSION) $(shell date))
+	@echo "Installing version $(VERSION)"
+	go build \
+		-ldflags "-X 'github.com/findy-network/findy-agent-cli/utils.Version=$(VERSION)'" \
+		-o $(GOPATH)/bin/cli
+
 drop_wrap:
 	go mod edit -dropreplace github.com/findy-network/findy-wrapper-go
 
@@ -73,13 +80,6 @@ scan_and_report:
 
 build:
 	go build ./...
-
-cli:
-	$(eval VERSION = $(shell cat ./VERSION) $(shell date))
-	@echo "Installing version $(VERSION)"
-	go build \
-		-ldflags "-X 'github.com/findy-network/findy-agent-cli/utils.Version=$(VERSION)'" \
-		-o $(GOPATH)/bin/cli
 
 misspell:
 	@go get github.com/client9/misspell 
