@@ -8,6 +8,7 @@ states:
         protocol: backend
         rule: INPUT
       sends:
+        # version where X is user name
       - data: Mrs. X said '%s'
         protocol: backend
         rule: FORMAT
