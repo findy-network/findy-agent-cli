@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GOPATH=${GOPATH:-`go env GOPATH`}
+dont_use_tls=${1:-""}
 
 export FCLI=cli
 
@@ -17,4 +18,9 @@ if [ -z "$FCLI_KEY" ]; then
 	echo "$FCLI_KEY" >> .key-backup
 fi
 export FCLI_CONFIG=./cfg.yaml
-export FCLI_TLS_PATH="$GOPATH/src/github.com/findy-network/findy-agent/grpc/cert"
+echo "$dont_use_tls"
+if [[ "$dont_use_tls" != "" ]]; then
+	echo "No TLS is used"
+else
+	export FCLI_TLS_PATH="$GOPATH/src/github.com/findy-network/findy-agent/grpc/cert"
+fi
