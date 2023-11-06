@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/findy-network/findy-agent-cli/utils"
 	"github.com/findy-network/findy-common-go/agency/client"
 	"github.com/findy-network/findy-common-go/rpc"
 	"github.com/golang/glog"
@@ -31,12 +32,14 @@ var rootCmd = &cobra.Command{
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
 
+		// NOTE! Very important. Adds support for std flag pkg users: glog, err2
 		goflag.Parse()
+
+		// let's support our old logging env
+		utils.ParseLoggingArgs(rootFlags.logging)
 		try.To(goflag.Set("logtostderr", "true"))
 		handleViperFlags(cmd)
-		if rootFlags.errorTrace {
-			err2.SetErrorTracer(os.Stderr)
-		}
+		glog.CopyStandardLogTo("ERROR") // for err2
 		return nil
 	},
 }
@@ -108,7 +111,6 @@ type RootFlags struct {
 	logging     string
 	ServiceAddr string
 	TLSPath     string
-	errorTrace  bool
 }
 
 // ClientFlags agent flags
@@ -121,12 +123,11 @@ type ClientFlags struct {
 var rootFlags = RootFlags{}
 
 var rootEnvs = map[string]string{
-	"config":      "CONFIG",
-	"logging":     "CLI_LOGGING",
-	"dry-run":     "DRY_RUN",
-	"server":      "SERVER",
-	"tls-path":    "TLS_PATH",
-	"error-trace": "ERROR_TRACE",
+	"config":   "CONFIG",
+	"logging":  "CLI_LOGGING",
+	"dry-run":  "DRY_RUN",
+	"server":   "SERVER",
+	"tls-path": "TLS_PATH",
 }
 
 func init() {
@@ -147,8 +148,6 @@ func init() {
 		FlagInfo("TLS cert path", "", rootEnvs["tls-path"]))
 	flags.BoolVarP(&rootFlags.dryRun, "dry-run", "n", false,
 		FlagInfo("perform a trial run with no changes made", "", rootEnvs["dry-run"]))
-	flags.BoolVar(&rootFlags.errorTrace, "error-trace", false,
-		FlagInfo("show stack traces for errors", "", rootEnvs["error-trace"]))
 
 	try.To(viper.BindPFlag("logging", flags.Lookup("logging")))
 	try.To(viper.BindPFlag("dry-run", flags.Lookup("dry-run")))
@@ -157,6 +156,7 @@ func init() {
 
 	BindEnvs(rootEnvs, "")
 
+	// NOTE! Very important. Adds support for std flag pkg users: glog, err2
 	pflag.CommandLine.AddGoFlagSet(goflag.CommandLine)
 }
 
