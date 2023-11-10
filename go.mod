@@ -11,7 +11,7 @@ require (
 	github.com/golang/glog v1.1.2
 	github.com/google/uuid v1.4.0
 	github.com/lainio/err2 v0.9.51
-	github.com/spf13/cobra v1.7.0
+	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.17.0
 	google.golang.org/grpc v1.59.0
