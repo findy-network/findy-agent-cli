@@ -5,7 +5,7 @@ go 1.21
 toolchain go1.21.0
 
 require (
-	github.com/findy-network/findy-agent-auth v0.2.56
+	github.com/findy-network/findy-agent-auth v0.2.57
 	github.com/findy-network/findy-common-go v0.2.47
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.1.2
@@ -29,9 +29,9 @@ require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.5.0 // indirect
 	github.com/go-jose/go-jose/v3 v3.0.1-0.20221117193127-916db76e8214 // indirect
-	github.com/go-webauthn/webauthn v0.8.6 // indirect
+	github.com/go-webauthn/webauthn v0.9.1 // indirect
 	github.com/go-webauthn/x v0.1.4 // indirect
-	github.com/golang-jwt/jwt/v5 v5.0.0 // indirect
+	github.com/golang-jwt/jwt/v5 v5.1.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-tpm v0.9.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
