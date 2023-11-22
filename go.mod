@@ -8,7 +8,7 @@ require (
 	github.com/findy-network/findy-agent-auth v0.2.57
 	github.com/findy-network/findy-common-go v0.2.47
 	github.com/ghodss/yaml v1.0.0
-	github.com/golang/glog v1.1.2
+	github.com/golang/glog v1.2.0
 	github.com/google/uuid v1.4.0
 	github.com/lainio/err2 v0.9.51
 	github.com/spf13/cobra v1.8.0
