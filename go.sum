@@ -38,8 +38,8 @@ github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1m
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
 github.com/findy-network/findy-agent-auth v0.2.64 h1:h+45wuCI/Y2cjeRPB/uulLa/PHVFpTfC4LyxZ8LClkM=
 github.com/findy-network/findy-agent-auth v0.2.64/go.mod h1:leRjJRPyCmArF648sdLsSq6BYLJBp1OGqSXY7/8IDfE=
-github.com/findy-network/findy-common-go v0.2.50 h1:cYveAvDQIkB2h+ENzLJcZIvT/duqBr0SPK3iOKdro7Q=
-github.com/findy-network/findy-common-go v0.2.50/go.mod h1:paeEqzSoyRCQeXbzH5KZVUTInTZ6uQbN9IFmrdtLKSs=
+github.com/findy-network/findy-common-go v0.2.51 h1:qdm7i8VTaky2oj7mid529TiF79B2GEVi8StgqFRopG8=
+github.com/findy-network/findy-common-go v0.2.51/go.mod h1:beYr+TvwJ+vll9iyh5GWvqnD3lxBDl4L++ln3oEJNTY=
 github.com/form3tech-oss/jwt-go v3.2.5+incompatible h1:/l4kBbb4/vGSsdtB5nUe8L7B9mImVMaBPw9L/0TBHU8=
 github.com/form3tech-oss/jwt-go v3.2.5+incompatible/go.mod h1:pbq4aXjuKjdthFRnoDwaVPLA+WlJuPGy+QneDUgJi2k=
 github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=
