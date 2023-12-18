@@ -13,7 +13,7 @@ require (
 	github.com/lainio/err2 v0.9.51
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
-	github.com/spf13/viper v1.18.1
+	github.com/spf13/viper v1.18.2
 	google.golang.org/grpc v1.60.0
 	gopkg.in/yaml.v3 v3.0.1
 )
