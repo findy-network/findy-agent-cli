@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# echo $_ $0
+
+if [[ $_ == $0 ]]; then
+	printf 'WARNING:\tnot sourced, wont work!\n'
+	printf "Usage:\t\tsource $0 [NO_TLS]\n\n"
+fi
+
+dont_use_tls=${1:-""}
 GOPATH=${GOPATH:-`go env GOPATH`}
 
 export FCLI=cli
@@ -17,4 +25,10 @@ if [ -z "$FCLI_KEY" ]; then
 	echo "$FCLI_KEY" >> .key-backup
 fi
 export FCLI_CONFIG=./cfg.yaml
-export FCLI_TLS_PATH="$GOPATH/src/github.com/findy-network/findy-agent/grpc/cert"
+
+if [[ "$dont_use_tls" == "NO_TLS" ]]; then
+	echo "No TLS is used, unsetting FCLI_TLS_PATH"
+	unset FCLI_TLS_PATH
+else
+	export FCLI_TLS_PATH="$GOPATH/src/github.com/findy-network/findy-agent/grpc/cert"
+fi

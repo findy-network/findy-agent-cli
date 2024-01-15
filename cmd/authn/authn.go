@@ -58,7 +58,7 @@ func init() {
 		cmd.FlagInfo("used for registration name", "", envs["user-name"]))
 	flags.StringVarP(&authnCmd.PublicDIDSeed, "seed", "", "",
 		cmd.FlagInfo("public DID seed for registration", "", envs["seed"]))
-	flags.StringVar(&authnCmd.Url, "url", authnCmd.Url,
+	flags.StringVar(&authnCmd.URL, "url", authnCmd.URL,
 		cmd.FlagInfo("WebAuthn server connection URL", "", envs["url"]))
 	flags.StringVar(&authnCmd.Origin, "origin", authnCmd.Origin,
 		cmd.FlagInfo("Different Origin to use, see --url", "", envs["origin"]))
@@ -82,7 +82,7 @@ var (
 		SubCmd:        "",
 		UserName:      "",
 		PublicDIDSeed: "",
-		Url:           "http://localhost:8090",
+		URL:           "http://localhost:8090",
 		AAGUID:        "12c85a48-4baf-47bd-b51f-f192871a1511",
 		Key:           "",
 		Counter:       0,
