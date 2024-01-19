@@ -68,6 +68,8 @@ func init() {
 		cmd.FlagInfo("authenticator AAGUID", "", envs["aaguid"]))
 	flags.Uint64Var(&authnCmd.Counter, "counter", authnCmd.Counter,
 		cmd.FlagInfo("authenticator counter", "", envs["counter"]))
+	flags.BoolVar(&authnCmd.Legacy, "legacy", authnCmd.Legacy,
+		cmd.FlagInfo("authenticator legacy", "", envs["legacy"]))
 
 	acatorCmd.MarkPersistentFlagRequired("url")
 	acatorCmd.MarkPersistentFlagRequired("aaguid")
