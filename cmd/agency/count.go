@@ -21,11 +21,11 @@ var countCmd = &cobra.Command{
 	Long:  ``,
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
-		if !cmd.DryRun() {
-			try.To(Count(os.Stdout))
-		} else {
+		if cmd.DryRun() {
 			fmt.Println("jwt:", CmdData.JWT)
+			return nil
 		}
+		try.To(Count(os.Stdout))
 		return nil
 	},
 }

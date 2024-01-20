@@ -36,19 +36,20 @@ var loginCmd = &cobra.Command{
 
 		try.To(myCmd.Validate())
 
-		if !cmd.DryRun() {
-			r := try.To1(myCmd.Exec(os.Stdout))
-			if myCmd.Legacy {
-				fmt.Println(r.Token)
-				return nil
-			}
-			var result authn.Result
-			try.To(json.NewDecoder(strings.NewReader(r.Token)).Decode(&result))
-			fmt.Println(result.Token)
-		} else {
+		if cmd.DryRun() {
 			b, _ := json.MarshalIndent(myCmd, "", "  ")
 			fmt.Println(string(b))
+			return nil
 		}
+
+		r := try.To1(myCmd.Exec(os.Stdout))
+		if myCmd.Legacy {
+			fmt.Println(r.Token)
+			return nil
+		}
+		var result authn.Result
+		try.To(json.NewDecoder(strings.NewReader(r.Token)).Decode(&result))
+		fmt.Println(result.Token)
 
 		return nil
 	},

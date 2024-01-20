@@ -36,13 +36,13 @@ var acatorCmd = &cobra.Command{
 		}
 		execCmd := authnCmd.TryReadJSON(inJSON)
 
-		if !cmd.DryRun() {
-			r := try.To1(execCmd.Exec(os.Stdout))
-			fmt.Println(r.String())
-		} else {
+		if cmd.DryRun() {
 			b, _ := json.MarshalIndent(execCmd, "", "  ")
 			fmt.Println(string(b))
+			return nil
 		}
+		r := try.To1(execCmd.Exec(os.Stdout))
+		fmt.Println(r.String())
 
 		return nil
 	},
