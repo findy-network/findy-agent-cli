@@ -20,9 +20,10 @@ var loggingCmd = &cobra.Command{
 	Long:  ``,
 	RunE: func(c *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
-		if !cmd.DryRun() {
-			try.To(Logging(os.Stdout))
+		if cmd.DryRun() {
+			return nil
 		}
+		try.To(Logging(os.Stdout))
 		return nil
 	},
 }

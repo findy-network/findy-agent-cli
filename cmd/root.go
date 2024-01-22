@@ -36,10 +36,14 @@ var rootCmd = &cobra.Command{
 		goflag.Parse()
 
 		// let's support our old logging env
-		utils.ParseLoggingArgs(rootFlags.logging)
+		use, lvl := utils.ParseLoggingArgs(rootFlags.logging)
+		if use {
+			try.To(goflag.Set("v", strconv.Itoa(lvl)))
+		}
 		try.To(goflag.Set("logtostderr", "true"))
 		handleViperFlags(cmd)
 		glog.CopyStandardLogTo("ERROR") // for err2
+		glog.V(3).Infoln("remove me")
 		return nil
 	},
 }
@@ -140,7 +144,7 @@ func init() {
 	flags := rootCmd.PersistentFlags()
 	flags.StringVar(&rootFlags.cfgFile, "config", "",
 		FlagInfo("configuration file", "", rootEnvs["config"]))
-	flags.StringVar(&rootFlags.logging, "logging", "-logtostderr=true -v=0",
+	flags.StringVar(&rootFlags.logging, "logging", "",
 		FlagInfo("logging startup arguments", "", rootEnvs["logging"]))
 	flags.StringVar(&rootFlags.ServiceAddr, "server", "localhost:50051",
 		FlagInfo("gRPC server addr:port", "", rootEnvs["server"]))

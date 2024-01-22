@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 
+	"github.com/findy-network/findy-agent-auth/acator/authn"
 	"github.com/findy-network/findy-agent-auth/acator/enclave"
 	"github.com/findy-network/findy-agent-cli/cmd"
 	"github.com/lainio/err2"
@@ -34,13 +36,20 @@ var loginCmd = &cobra.Command{
 
 		try.To(myCmd.Validate())
 
-		if !cmd.DryRun() {
-			r := try.To1(myCmd.Exec(os.Stdout))
-			fmt.Println(r.Token)
-		} else {
+		if cmd.DryRun() {
 			b, _ := json.MarshalIndent(myCmd, "", "  ")
 			fmt.Println(string(b))
+			return nil
 		}
+
+		r := try.To1(myCmd.Exec(os.Stdout))
+		if myCmd.Legacy {
+			fmt.Println(r.Token)
+			return nil
+		}
+		var result authn.Result
+		try.To(json.NewDecoder(strings.NewReader(r.Token)).Decode(&result))
+		fmt.Println(result.Token)
 
 		return nil
 	},

@@ -33,13 +33,13 @@ var registerCmd = &cobra.Command{
 		myCmd.SecEnclave = enclave.New(myCmd.Key)
 
 		try.To(myCmd.Validate())
-		if !cmd.DryRun() {
-			r := try.To1(myCmd.Exec(os.Stdout))
-			fmt.Println(r.Token)
-		} else {
-			b, _ := json.MarshalIndent(myCmd, "", "  ")
+		if cmd.DryRun() {
+			b := try.To1(json.MarshalIndent(myCmd, "", "  "))
 			fmt.Println(string(b))
+			return nil
 		}
+		r := try.To1(myCmd.Exec(os.Stdout))
+		fmt.Println(r.Token)
 
 		return nil
 	},
