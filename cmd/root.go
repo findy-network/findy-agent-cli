@@ -96,12 +96,12 @@ func BaseCfg() (_ *rpc.ClientCfg, err error) {
 			port int
 		)
 		s := ServiceAddr()
-		glog.V(1).Infoln("ServiceAddr:", s)
+		glog.V(15).Infoln("ServiceAddr string from flag:", s)
 		ss := strings.Split(s, ":")
 		assert.SLen(ss, 2)
 		addr = ss[0]
 		port = try.To1(strconv.Atoi(ss[1]))
-		glog.V(1).Infoln("ServiceAddr:", addr, port)
+		glog.V(3).Infoln("ServiceAddr:", addr, port)
 
 		baseCfg = client.BuildInsecureClientConnBase(addr, port, nil)
 	}
