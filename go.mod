@@ -6,15 +6,15 @@ toolchain go1.21.0
 
 require (
 	github.com/findy-network/findy-agent-auth v0.2.74-0.20240119164137-eaacbe1fd1a7
-	github.com/findy-network/findy-common-go v0.2.57
+	github.com/findy-network/findy-common-go v0.2.59
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.2.0
-	github.com/google/uuid v1.5.0
+	github.com/google/uuid v1.6.0
 	github.com/lainio/err2 v0.9.52
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.18.2
-	google.golang.org/grpc v1.60.1
+	google.golang.org/grpc v1.61.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
