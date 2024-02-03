@@ -32,35 +32,26 @@ var pingCmd = &cobra.Command{
 			fmt.Println("jwt:", CmdData.JWT)
 			return nil
 		}
-		var elapsedTotal time.Duration
 
 		baseCfg := try.To1(cmd.BaseCfg())
-		startTime := time.Now()
-		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
+		startTime = time.Now()
+		conn = client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		info := "UNKNOWN"
-		agent := agency.NewAgentServiceClient(conn)
-		elapsedTotal = time.Since(startTime)
-		fmt.Printf("Open conn time %v\n", elapsedTotal)
-		printProgressBar()
-		for i := 0; i < count; i++ {
-			startTime = time.Now()
+		info = "UNKNOWN"
+		if count != 0 {
+			timedPing(ctx)
+		} else {
+			agent := agency.NewAgentServiceClient(conn)
 			r := try.To1(agent.Enter(ctx, &agency.ModeCmd{
 				TypeID: agency.ModeCmd_NONE,
 			}))
-			elapsed := time.Since(startTime)
-			elapsedTotal += elapsed
-			if i == 0 {
-				info = r.Info
-			}
-			printProgress(i)
+			info = r.Info
 		}
-		fmt.Println("\nAgent registered by name:", info)
-		fmt.Printf("Meantime %v\n", elapsedTotal/time.Duration(count))
+		fmt.Println("Agent registered by name:", info)
 		return nil
 	},
 }
@@ -69,6 +60,9 @@ var (
 	andController bool
 	count         int
 	preCount      int
+	elapsedTotal  time.Duration
+	startTime     time.Time
+	info          string
 )
 
 func init() {
@@ -77,12 +71,52 @@ func init() {
 	}))
 	pingCmd.Flags().BoolVarP(&andController, "and-controller", "a", false,
 		"ping service agent as well")
-	pingCmd.Flags().IntVarP(&count, "count", "c", 1,
-		"how many times we should ping")
+	pingCmd.Flags().IntVarP(&count, "count", "c", 0,
+		"how many times we should ping, 0 ping once without timing")
 	AgentCmd.AddCommand(pingCmd)
 }
 
+func timedPing(ctx context.Context) {
+	if count == 0 {
+		return
+	}
+	agent := agency.NewAgentServiceClient(conn)
+	elapsedTotal = time.Since(startTime)
+	fmt.Printf("Open connection time %v\n", elapsedTotal)
+
+	printProgressBar()
+	var (
+		maxElabsed time.Duration
+		maxIndex   = 0
+	)
+	for i := 0; i < count; i++ {
+		startTime = time.Now()
+		r := try.To1(agent.Enter(ctx, &agency.ModeCmd{
+			TypeID: agency.ModeCmd_NONE,
+		}))
+		elapsed := time.Since(startTime)
+		if elapsed > maxElabsed {
+			maxElabsed = elapsed
+			maxIndex = i + 1
+		}
+		elapsedTotal += elapsed
+		if i == 0 {
+			info = r.Info
+		}
+		printProgress(i)
+	}
+	fmt.Printf("\nMax ping time: %v at ping #%d", maxElabsed, maxIndex)
+	if count > 1 {
+		fmt.Printf("\nNormalized meantime %v",
+			(elapsedTotal-maxElabsed)/time.Duration(count-1))
+	}
+	fmt.Printf("\nMeantime %v\n\n", elapsedTotal/time.Duration(count))
+}
+
 func printProgressBar() {
+	if count == 0 {
+		return
+	}
 	fmt.Println("pinging", count, "times")
 	countNormalized := x.Whom(count > 100, 100, count)
 	for i := 0; i < countNormalized; i++ {
@@ -92,6 +126,9 @@ func printProgressBar() {
 }
 
 func printProgress(i int) {
+	if count == 0 {
+		return
+	}
 	if count > 100 {
 		normI := 100 * i / count
 		if normI != preCount || i == count-1 {
