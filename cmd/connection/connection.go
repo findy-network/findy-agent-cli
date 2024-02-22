@@ -17,10 +17,10 @@ var ConnectionCmd = &cobra.Command{
 	Use:   "connection",
 	Short: "Manage connections",
 	Long:  `Manages DIDComm based protocol communication.`,
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
-	Run: func(c *cobra.Command, args []string) {
+	Run: func(c *cobra.Command, _ []string) {
 		cmd.SubCmdNeeded(c)
 	},
 }

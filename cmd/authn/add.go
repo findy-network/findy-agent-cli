@@ -20,10 +20,10 @@ var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Adds a new authenticator to JWT specified account",
 	Long:  addDoc,
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(*cobra.Command, []string) (err error) {
 		defer err2.Handle(&err)
 
 		myCmd := authnCmd

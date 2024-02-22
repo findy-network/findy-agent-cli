@@ -25,10 +25,10 @@ var saListenCmd = &cobra.Command{
 	Use:   "salisten",
 	Short: "Start to listen service agent",
 	Long:  saListenDoc,
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(*cobra.Command, []string) (err error) {
 		defer err2.Handle(&err)
 
 		if cmd.DryRun() {

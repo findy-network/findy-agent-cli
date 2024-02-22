@@ -20,10 +20,10 @@ var registerCmd = &cobra.Command{
 	Use:   "register",
 	Short: "registers our authenticator",
 	Long:  registerDoc,
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(c *cobra.Command, _ []string) (err error) {
 		defer err2.Handle(&err)
 
 		myCmd := authnCmd

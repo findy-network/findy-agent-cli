@@ -21,10 +21,10 @@ var createSchemaCmd = &cobra.Command{
 	Short: "Creates a new schema",
 	Long:  createSchemaDoc,
 	Args:  cobra.MinimumNArgs(1),
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(_ *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
 
 		attrs := args

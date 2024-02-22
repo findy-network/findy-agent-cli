@@ -29,7 +29,7 @@ var rootCmd = &cobra.Command{
 	Long:  `Findy agent cli tool`,
 
 	SilenceUsage: true,
-	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
+	PersistentPreRunE: func(cmd *cobra.Command, _ []string) (err error) {
 		defer err2.Handle(&err)
 
 		// NOTE! Very important. Adds support for std flag pkg users: glog, err2
@@ -43,7 +43,7 @@ var rootCmd = &cobra.Command{
 		try.To(goflag.Set("logtostderr", "true"))
 		handleViperFlags(cmd)
 		glog.CopyStandardLogTo("ERROR") // for err2
-		glog.V(3).Infoln("remove me")
+		glog.V(13).Infoln("flag inits OK")
 		return nil
 	},
 }

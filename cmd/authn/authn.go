@@ -23,10 +23,10 @@ var acatorCmd = &cobra.Command{
 	Short: "WebAuthn commands",
 	Long:  acatorDoc,
 	Args:  cobra.ExactArgs(1),
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(_ *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
 
 		inJSON := os.Stdin

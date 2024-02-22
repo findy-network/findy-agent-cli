@@ -32,10 +32,10 @@ var connectCmd = &cobra.Command{
 	Use:   "connect",
 	Short: "Connect to agent",
 	Long:  connectDoc,
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(_ *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err, "connect cmd")
 
 		if len(args) > 0 {

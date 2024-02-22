@@ -13,10 +13,10 @@ var OpsCmd = &cobra.Command{
 	Use:   "agency",
 	Short: "Manage Agency",
 	Long:  ``,
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
-	Run: func(c *cobra.Command, args []string) {
+	Run: func(c *cobra.Command, _ []string) {
 		cmd.SubCmdNeeded(c)
 	},
 }
