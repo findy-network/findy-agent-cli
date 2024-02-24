@@ -3,9 +3,9 @@ initial:
   sends:
   - data: Hello Dude! Long time no see!
     protocol: basic_message
-  target: MAIN_LOOP
+  target: CMD_LOOP
 states:
-  MAIN_IDLE:
+  ECHO_LOOP:
     transitions:
     - trigger:
         data: reset
@@ -14,7 +14,7 @@ states:
       sends:
       - data: Going to beginning.
         protocol: basic_message
-      target: MAIN_LOOP
+      target: CMD_LOOP
     - trigger:
         data: stop
         protocol: basic_message
@@ -23,21 +23,27 @@ states:
       - data: Going to end.
         protocol: basic_message
       target: TERMINATE
+
+    # forward BM -> b-fsm
+    # b-fsm will annotate the message
     - trigger:
         protocol: basic_message
         rule: INPUT
       sends:
       - protocol: backend
         rule: INPUT
-      target: MAIN_IDLE
+      target: ECHO_LOOP
+
+    # handle incoming from b-fsm and send it as BM to PW end
+    # b-fsm is annotated the message by adding nome notes to it
     - trigger:
         protocol: backend
         rule: INPUT
       sends:
       - protocol: basic_message
         rule: INPUT
-      target: MAIN_IDLE
-  MAIN_LOOP:
+      target: ECHO_LOOP
+  CMD_LOOP:
     transitions:
     - trigger:
         protocol: connection
@@ -49,7 +55,7 @@ states:
           Say: reset, and I'll go to beginning.
           Say: stop, and I'll terminate.
         protocol: basic_message
-      target: MAIN_LOOP
+      target: CMD_LOOP
     - sends:
       - data: Going to end.
         protocol: basic_message
@@ -61,7 +67,7 @@ states:
     - sends:
       - data: Let's go!
         protocol: basic_message
-      target: MAIN_IDLE
+      target: ECHO_LOOP
       trigger:
         data: run
         protocol: basic_message
@@ -74,7 +80,7 @@ states:
           Say: reset, and I'll go beginning.
           Say: stop, and I'll go end and terminate FSM.
         protocol: basic_message
-      target: MAIN_LOOP
+      target: CMD_LOOP
       trigger:
         protocol: basic_message
   TERMINATE:

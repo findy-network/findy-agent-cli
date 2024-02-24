@@ -5,12 +5,13 @@ states:
   BACKEND_LOOP:
     transitions:
     - trigger:
+        data: LINE
         protocol: backend
-        rule: INPUT
+        rule: INPUT_SAVE
       sends:
-        # version where X is user name
-      - data: Mrs. X said '%s'
+        # version where X is user name, now it's CONN_ID
+      - data: The {{.CONN_ID}} said >{{.LINE}}
         protocol: backend
-        rule: FORMAT
+        rule: FORMAT_MEM
       target: BACKEND_LOOP
 
