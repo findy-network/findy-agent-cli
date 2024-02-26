@@ -1,0 +1,27 @@
+name: backend chat-room machine
+initial:
+  target: BACKEND_LOOP
+states:
+  BACKEND_LOOP:
+    transitions:
+
+    - trigger:
+        data: receiver_arriwed
+        protocol: backend
+#        rule: INPUT_SAVE_CONN
+      sends:
+      - data: receiver_arriwed
+        protocol: backend
+      target: BACKEND_LOOP
+
+
+    - trigger:
+        data: LINE
+        protocol: backend
+        rule: INPUT_SAVE
+      sends:
+        # 
+      - data: CONN_ID {{.CONN_ID}} said >{{.LINE}}
+        protocol: backend
+        rule: FORMAT_MEM
+      target: BACKEND_LOOP
