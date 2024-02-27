@@ -1,4 +1,5 @@
 name: backend chat-room machine
+keep_memory: true
 initial:
   target: BACKEND_LOOP
 states:
@@ -8,10 +9,12 @@ states:
     - trigger:
         data: receiver_arriwed
         protocol: backend
+        rule: INPUT_EQUAL
 #        rule: INPUT_SAVE_CONN
       sends:
-      - data: receiver_arriwed
+      - data: rcvr_arriwed
         protocol: backend
+        no_echo: true
       target: BACKEND_LOOP
 
 
@@ -21,7 +24,8 @@ states:
         rule: INPUT_SAVE
       sends:
         # 
-      - data: CONN_ID {{.CONN_ID}} said >{{.LINE}}
+      - data: said >{{.LINE}}
         protocol: backend
         rule: FORMAT_MEM
+        no_echo: true
       target: BACKEND_LOOP

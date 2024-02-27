@@ -24,7 +24,7 @@ states:
       - data: ACK Your sessionID is {{.SESSION_ID}}. Going on..
         protocol: basic_message
         rule: FORMAT_MEM
-      - data: select your role issuer/receiver
+      - data: select your role issuer/rcvr
         protocol: basic_message
       target: WAIT_ROLE_SELECTION
 
@@ -40,10 +40,10 @@ states:
       - data: internal_message
         rule: TRANSIENT
         protocol: transient
-      target: WAIT_DATA_AS_ISSUER
+      target: WAIT_CLIENT_DATA_AS_ISSUER
 
     - trigger:
-        data: receiver
+        data: rcvr
         protocol: basic_message
         rule: INPUT_EQUAL
       sends:
@@ -57,7 +57,7 @@ states:
     - trigger:
         protocol: basic_message
       sends:
-      - data: NACK issuer or receiver are only acceptable roles
+      - data: NACK issuer or rcvr are only acceptable roles
         protocol: basic_message
       target: WAIT_ROLE_SELECTION
 
@@ -66,14 +66,20 @@ states:
     - trigger:
         protocol: transient
       sends:
-      - data: ACK, receiver
+      - data: ACK, rcvr
         protocol: basic_message
       - data: receiver_arriwed
         protocol: backend
-        rule: FORMAT_MEM
+        no_echo: true
       target: WAIT_DATA_AS_RECEIVER
 
-  WAIT_DATA_AS_RECEIVER: # receiver is a real issuer in this bot
+# TODO: Note, the issuer role should make sure that we are here waiting for the
+# data, which means that rcvr must be invitate to join here in a certain point.
+# invitation hanppens outside of thes machines, it uses different channel. OR maybe
+# implement Client side chatbot fsms as well?
+#
+# rcvr is a real issuer in this bot
+  WAIT_DATA_AS_RECEIVER: 
     transitions:
     - trigger:
 #       rule: LUA # maybe this isn't needed, we just move one attr at time.
@@ -81,18 +87,18 @@ states:
 # TODO: we can save one attr at the time here. when ready we can send back the
 # whole data needed for issuing or what is the easiest.
         rule: INPUT_SAVE
-        data: ATTR1 # now we get purposedly whole line
+        data: ATTR1
         protocol: backend
       sends:
-      - data: Issue <attr1> is {{.ATTR1}}
+      - data: Issue <attr1> is '{{.ATTR1}}' WAS_IT
         protocol: basic_message # Issuing starts here
         rule: FORMAT_MEM
       target: WAIT_FINAL
 
-
-      # WAIT_DATA_AS_ISSUER:
-
-  WAIT_DATA_AS_ISSUER:
+# client data, aka attribs are just forwarded to rcvr, so we must wait
+# it first.
+#
+  WAIT_CLIENT_DATA_AS_ISSUER:
     transitions:
     - trigger:
         rule: INPUT_SAVE
@@ -108,13 +114,14 @@ states:
     transitions:
     - trigger:
         rule: INPUT_EQUAL
-        data: receiver_arriwed
+        data: rcvr_arriwed
         protocol: backend
       sends:
       - data: Issue <attr1> is {{.ATTR1}}
         protocol: backend
         rule: FORMAT_MEM
-      - data: role issuer got receiver_arriwed
+        no_echo: true
+      - data: role Issuer got 'rcvr_arriwed'
         protocol: basic_message
       target: WAIT_FINAL
 
