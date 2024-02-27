@@ -1,3 +1,4 @@
+-- TODO: REMOVE me
 
 local function getRegValue(reg, key)
     _, _ = reg, key
