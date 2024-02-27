@@ -1,3 +1,4 @@
+---
 name: main issuing service machine
 keep_memory: true
 initial:
@@ -5,125 +6,126 @@ initial:
 states:
   WAIT_SESSION_ID:
     transitions:
-    - trigger:
-        data: help
-        protocol: basic_message
-        rule: INPUT_EQUAL
-      sends:
-      - data: |-
-          ---------------------
-          Say: help, and I'll show this message.
-          Say: <sessionID>, and I store it, and I'll go the next cmd mode.
-        protocol: basic_message
-      target: WAIT_SESSION_ID
+      - trigger:
+          data: help
+          protocol: basic_message
+          rule: INPUT_EQUAL
+        sends:
+          - data: |-
+              ---------------------
+              Say: help, and I'll show this message.
+              Say: <sessionID>, and I store it, and I'll go the next cmd mode.
+            protocol: basic_message
+        target: WAIT_SESSION_ID
 
-    - trigger:
-        rule: INPUT_SAVE_SESSION_ID
-        protocol: basic_message
-      sends:
-      - data: ACK Your sessionID is {{.SESSION_ID}}. Going on..
-        protocol: basic_message
-        rule: FORMAT_MEM
-      - data: select your role issuer/rcvr
-        protocol: basic_message
-      target: WAIT_ROLE_SELECTION
+      - trigger:
+          rule: INPUT_SAVE_SESSION_ID
+          protocol: basic_message
+        sends:
+          - data: ACK Your sessionID is {{.SESSION_ID}}. Going on..
+            protocol: basic_message
+            rule: FORMAT_MEM
+          - data: select your role issuer/rcvr
+            protocol: basic_message
+        target: WAIT_ROLE_SELECTION
 
   WAIT_ROLE_SELECTION:
     transitions:
-    - trigger:
-        data: issuer
-        protocol: basic_message
-        rule: INPUT_EQUAL
-      sends:
-      - data: ACK, next give attr1
-        protocol: basic_message
-      - data: internal_message
-        rule: TRANSIENT
-        protocol: transient
-      target: WAIT_CLIENT_DATA_AS_ISSUER
+      - trigger:
+          data: issuer
+          protocol: basic_message
+          rule: INPUT_EQUAL
+        sends:
+          - data: ACK, next give attr1
+            protocol: basic_message
+          - data: internal_message
+            rule: TRANSIENT
+            protocol: transient
+        target: WAIT_CLIENT_DATA_AS_ISSUER
 
-    - trigger:
-        data: rcvr
-        protocol: basic_message
-        rule: INPUT_EQUAL
-      sends:
-      - data: ACK, todo rm after test
-        protocol: basic_message
-      - data: internal_message
-        rule: TRANSIENT
-        protocol: transient
-      target: TR_RECEIVER
+      - trigger:
+          data: rcvr
+          protocol: basic_message
+          rule: INPUT_EQUAL
+        sends:
+          - data: ACK, todo rm after test
+            protocol: basic_message
+          - data: internal_message
+            rule: TRANSIENT
+            protocol: transient
+        target: TR_RECEIVER
 
-    - trigger:
-        protocol: basic_message
-      sends:
-      - data: NACK issuer or rcvr are only acceptable roles
-        protocol: basic_message
-      target: WAIT_ROLE_SELECTION
+      - trigger:
+          protocol: basic_message
+        sends:
+          - data: NACK issuer or rcvr are only acceptable roles
+            protocol: basic_message
+        target: WAIT_ROLE_SELECTION
 
   TR_RECEIVER:
     transitions:
-    - trigger:
-        protocol: transient
-      sends:
-      - data: ACK, rcvr
-        protocol: basic_message
-      - data: receiver_arriwed
-        protocol: backend
-        no_echo: true
-      target: WAIT_DATA_AS_RECEIVER
+      - trigger:
+          protocol: transient
+        sends:
+          - data: ACK, rcvr
+            protocol: basic_message
+          - data: receiver_arriwed
+            protocol: backend
+            no_echo: true
+        target: WAIT_DATA_AS_RECEIVER
 
 # TODO: Note, the issuer role should make sure that we are here waiting for the
 # data, which means that rcvr must be invitate to join here in a certain point.
-# invitation hanppens outside of thes machines, it uses different channel. OR maybe
-# implement Client side chatbot fsms as well?
+# invitation hanppens outside of thes machines, it uses different channel. OR
+# maybe implement Client side chatbot fsms as well?
 #
 # rcvr is a real issuer in this bot
-  WAIT_DATA_AS_RECEIVER: 
+  WAIT_DATA_AS_RECEIVER:
     transitions:
-    - trigger:
+      - trigger:
 #       rule: LUA # maybe this isn't needed, we just move one attr at time.
 #       data: ${role.lua}
 # TODO: we can save one attr at the time here. when ready we can send back the
 # whole data needed for issuing or what is the easiest.
-        rule: INPUT_SAVE
-        data: ATTR1
-        protocol: backend
-      sends:
-      - data: Issue <attr1> is '{{.ATTR1}}' WAS_IT
-        protocol: basic_message # Issuing starts here
-        rule: FORMAT_MEM
-      target: WAIT_FINAL
+          rule: INPUT_SAVE
+          data: ATTR1
+          protocol: backend
+        sends:
+          - data: Issue <attr1> is '{{.ATTR1}}'
+            protocol: basic_message # Issuing starts here
+            rule: FORMAT_MEM
+        target: WAIT_FINAL
 
 # client data, aka attribs are just forwarded to rcvr, so we must wait
 # it first.
 #
   WAIT_CLIENT_DATA_AS_ISSUER:
     transitions:
-    - trigger:
-        rule: INPUT_SAVE
-        data: ATTR1
-        protocol: basic_message
-      sends:
-      - data: ACK Your <attr1> is {{.ATTR1}}, waiting rcvr..
-        protocol: basic_message
-        rule: FORMAT_MEM
-      target: WAIT_RCVR_TO_JOIN_AS_ISSUER
+      - trigger:
+          rule: INPUT_SAVE
+          data: ATTR1
+          protocol: basic_message
+        sends:
+          - data: ACK Your <attr1> is {{.ATTR1}}, waiting rcvr..
+            protocol: basic_message
+            rule: FORMAT_MEM
+        target: WAIT_RCVR_TO_JOIN_AS_ISSUER
 
   WAIT_RCVR_TO_JOIN_AS_ISSUER:
     transitions:
-    - trigger:
-        rule: INPUT_EQUAL
-        data: rcvr_arriwed
-        protocol: backend
-      sends:
-      - data: Issue <attr1> is {{.ATTR1}}
-        protocol: backend
-        rule: FORMAT_MEM
-        no_echo: true
-      - data: role Issuer got 'rcvr_arriwed'
-        protocol: basic_message
-      target: WAIT_FINAL
+      - trigger:
+          rule: INPUT_EQUAL
+          data: rcvr_arriwed
+          protocol: backend
+        sends:
+          - data: |-
+              {{.ATTR1}}
+            protocol: backend
+            rule: FORMAT_MEM
+            no_echo: true
+          - data: role Issuer got 'rcvr_arriwed'
+            protocol: basic_message
+        target: WAIT_FINAL
 
 # todo: no terminate at the final version
 #
@@ -136,12 +138,12 @@ states:
   WAIT_FINAL:
 #   terminate: true # rm because machine behaves weirdly
     transitions:
-    - trigger:
-        protocol: basic_message
-      sends:
-      - data: |-
-          ---------------------
-          Final state
-          ---------------------
-        protocol: basic_message
-      target: WAIT_SESSION_ID
+      - trigger:
+          protocol: basic_message
+        sends:
+          - data: |-
+              ---------------------
+              Final state
+              ---------------------
+            protocol: basic_message
+        target: WAIT_SESSION_ID
