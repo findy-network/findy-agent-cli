@@ -18,5 +18,5 @@ for a in "$@"; do
 	ln -s ../../run/* .
 	popd > /dev/null
 
-	"$agent_dir"register && "$agent_dir"login
+	"$agent_dir"register && "$agent_dir"login && "$agent_dir"auto-accept
 done
