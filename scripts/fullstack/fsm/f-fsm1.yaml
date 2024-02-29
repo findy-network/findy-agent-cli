@@ -4,6 +4,7 @@ keep_memory: true
 initial:
   target: WAIT_SESSION_ID
 states:
+  # Shared with both roles
   WAIT_SESSION_ID:
     transitions:
       - trigger:
@@ -29,6 +30,7 @@ states:
             protocol: basic_message
         target: WAIT_ROLE_SELECTION
 
+  # Shared with both roles
   WAIT_ROLE_SELECTION:
     transitions:
       - trigger:
