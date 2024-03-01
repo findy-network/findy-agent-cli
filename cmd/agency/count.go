@@ -19,7 +19,7 @@ var countCmd = &cobra.Command{
 	Use:   "count",
 	Short: "Query statistics from the agency",
 	Long:  ``,
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(*cobra.Command, []string) (err error) {
 		defer err2.Handle(&err)
 		if cmd.DryRun() {
 			fmt.Println("jwt:", CmdData.JWT)

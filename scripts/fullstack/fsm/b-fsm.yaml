@@ -4,6 +4,7 @@ initial:
 states:
   BACKEND_LOOP:
     transitions:
+
     - trigger:
         data: LINE
         protocol: backend

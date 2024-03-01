@@ -18,12 +18,12 @@ var credDefID, attrJSON string
 var issueCmd = &cobra.Command{
 	Use:   "issue",
 	Short: "Issue a credential.",
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		defer err2.Handle(&err)
 		try.To(cmd.BindEnvs(envs, ""))
 		return cmd.BindEnvs(issueEnvs, "")
 	},
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(*cobra.Command, []string) (err error) {
 		defer err2.Handle(&err, "issuing error")
 
 		if cmd.DryRun() {

@@ -1,0 +1,68 @@
+initial:
+  sends:
+  - data: internal_message
+    protocol: transient
+    rule: TRANSIENT
+  target: IDLE
+states:
+  IDLE:
+    transitions:
+    - trigger:
+        protocol: transient
+      sends:
+      - data: |2-
+
+          Hello! I'm a Chat Bot.
+          Please enter your command, name <your_name>, quit .
+        protocol: basic_message
+      - data: internal_message
+        rule: TRANSIENT
+        protocol: transient
+      target: INITIAL
+    - trigger:
+        protocol: basic_message
+      sends:
+      - data: |2-
+
+          Hello! I'm a Chat Bot.
+          Please enter your command, name <your_name>, quit .
+        protocol: basic_message
+      target: INITIAL
+
+  INITIAL:
+    transitions:
+    - trigger:
+        data: ${select2.lua}
+        protocol: basic_message
+        rule: LUA
+      sends:
+      - data: Hello {{.NAME}}! Please say something. 'reset' goes to the start.
+        protocol: basic_message
+        rule: FORMAT_MEM
+      target: INITIAL # default in lua error, others RUN, IDLE by lua
+
+  RUN:
+    transitions:
+    - trigger:
+        data: reset
+        protocol: basic_message
+        rule: INPUT_EQUAL
+      sends:
+      - data: Going to beginning...
+        protocol: basic_message
+      - data: internal_message
+        rule: TRANSIENT
+        protocol: transient
+      target: IDLE
+    - trigger:
+        data: LINE
+        protocol: basic_message
+        rule: INPUT_SAVE
+      sends:
+      - data: My man, {{.NAME}}, says> {{.LINE}}
+        protocol: basic_message
+        rule: FORMAT_MEM
+      target: RUN
+
+  QUIT:
+    terminate: true

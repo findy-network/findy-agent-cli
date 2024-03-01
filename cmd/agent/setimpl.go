@@ -25,10 +25,10 @@ var enterModeCmd = &cobra.Command{
 	Use:   "mode-cmd",
 	Short: "Enters the communication mode between CA and its controller",
 	Long:  enterModeDoc,
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(*cobra.Command, []string) (err error) {
 		defer err2.Handle(&err)
 
 		if cmd.DryRun() {

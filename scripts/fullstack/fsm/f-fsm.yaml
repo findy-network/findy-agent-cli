@@ -1,9 +1,11 @@
 name: main chat-room machine
+keep_memory: true
 initial:
   sends:
-  - data: Hello Dude! Long time no see!
-    protocol: basic_message
-  target: CMD_LOOP
+    # this is quite a random aka unnesessary because this executed only when machine is just started
+    - data: Hello Dude! Long time no see! In room mode.
+      protocol: basic_message
+  target: ROOM_LOOP
 states:
   ECHO_LOOP:
     transitions:
@@ -14,7 +16,7 @@ states:
       sends:
       - data: Going to beginning.
         protocol: basic_message
-      target: CMD_LOOP
+      target: ROOM_LOOP
     - trigger:
         data: stop
         protocol: basic_message
@@ -27,11 +29,13 @@ states:
     # forward BM -> b-fsm
     # b-fsm will annotate the message
     - trigger:
+        data: LINE
         protocol: basic_message
-        rule: INPUT
+        rule: INPUT_SAVE
       sends:
-      - protocol: backend
-        rule: INPUT
+      - data: session {{.SESSION_ID}} with {{.CALLSIGN}} says {{.LINE}}
+        protocol: backend
+        rule: FORMAT_MEM
       target: ECHO_LOOP
 
     # handle incoming from b-fsm and send it as BM to PW end
@@ -43,19 +47,42 @@ states:
       - protocol: basic_message
         rule: INPUT
       target: ECHO_LOOP
+
+  ROOM_LOOP:
+    transitions:
+    - sends:
+      - data: |-
+          ---------------------
+          Say: help, and I'll show this message.
+          Say: <sessionID>, select sessionID and i store it.
+          Say: continue, and I'll go the next cmd mode.
+        protocol: basic_message
+      target: ROOM_LOOP
+      trigger:
+        data: help
+        protocol: basic_message
+        rule: INPUT_EQUAL
+
+    - trigger:
+        data: continue
+        protocol: basic_message
+        rule: INPUT_EQUAL
+      target: CMD_LOOP
+      sends:
+      - data: Going CMD mode...
+        protocol: basic_message
+
+    - sends:
+      - data: Your sessionID is {{.SESSION_ID}}. Going CMD mode..
+        protocol: basic_message
+        rule: FORMAT_MEM
+      target: CMD_LOOP
+      trigger:
+        protocol: basic_message
+        rule: INPUT_SAVE_SESSION_ID
+
   CMD_LOOP:
     transitions:
-    - trigger:
-        protocol: connection
-      sends:
-      - data: |-
-          -------
-          Hello New Connection! I'm chat-room bot.
-          Say: run, and I'll start.
-          Say: reset, and I'll go to beginning.
-          Say: stop, and I'll terminate.
-        protocol: basic_message
-      target: CMD_LOOP
     - sends:
       - data: Going to end.
         protocol: basic_message
@@ -78,10 +105,23 @@ states:
           Hello! I'm chat-room bot.
           Say: run, and I'start.
           Say: reset, and I'll go beginning.
+          Say: help, and I'll show this message.
+          Say: <callsign>, select call sign and i store it.
           Say: stop, and I'll go end and terminate FSM.
         protocol: basic_message
       target: CMD_LOOP
       trigger:
+        data: help
         protocol: basic_message
+        rule: INPUT_EQUAL
+    - sends:
+      - data: Your call sing is {{.CALLSIGN}}.
+        protocol: basic_message
+        rule: FORMAT_MEM
+      target: CMD_LOOP
+      trigger:
+        data: CALLSIGN
+        protocol: basic_message
+        rule: INPUT_SAVE
   TERMINATE:
     terminate: true

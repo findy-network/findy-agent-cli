@@ -17,7 +17,7 @@ var pingCmd = &cobra.Command{
 	Use:   "trustping",
 	Short: "Trustping protocol",
 	Long:  `Executes Aries trust ping protocol.`,
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		return cmd.BindEnvs(envs, "")
 	},
 	RunE: trustping,

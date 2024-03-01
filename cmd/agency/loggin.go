@@ -18,7 +18,7 @@ var loggingCmd = &cobra.Command{
 	Use:   "logging",
 	Short: "Manage logging level of the agency",
 	Long:  ``,
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(*cobra.Command, []string) (err error) {
 		defer err2.Handle(&err)
 		if cmd.DryRun() {
 			return nil

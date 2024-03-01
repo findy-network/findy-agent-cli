@@ -28,7 +28,7 @@ var umlCmd = &cobra.Command{
 	Short: "uml a chat bot from state machine file",
 	Long:  umlCmdDoc,
 	Args:  cobra.ExactArgs(1),
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(_ *cobra.Command, args []string) (err error) {
 		defer err2.Handle(&err)
 
 		var md fsm.MachineData

@@ -21,19 +21,19 @@ var getSchemaCmd = &cobra.Command{
 	Use:   "get-schema",
 	Short: "Gets schema data",
 	Long:  getSchemaDoc,
-	PreRunE: func(c *cobra.Command, args []string) (err error) {
+	PreRunE: func(*cobra.Command, []string) (err error) {
 		defer err2.Handle(&err)
 		try.To(cmd.BindEnvs(envs, ""))
 		return cmd.BindEnvs(getSchemaEnvs, "")
 	},
-	RunE: func(c *cobra.Command, args []string) (err error) {
+	RunE: func(*cobra.Command, []string) (err error) {
 		defer err2.Handle(&err)
 
 		if cmd.DryRun() {
 			fmt.Printf("schemaID: %s\n", schemaID)
 			return nil
 		}
-		baseCfg := client.BuildConnBase(cmd.TLSPath(), cmd.ServiceAddr(), nil)
+		baseCfg := try.To1(cmd.BaseCfg())
 		conn := client.TryAuthOpen(CmdData.JWT, baseCfg)
 		defer conn.Close()
 

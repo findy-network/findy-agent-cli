@@ -29,7 +29,7 @@ var rootCmd = &cobra.Command{
 	Long:  `Findy agent cli tool`,
 
 	SilenceUsage: true,
-	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
+	PersistentPreRunE: func(cmd *cobra.Command, _ []string) (err error) {
 		defer err2.Handle(&err)
 
 		// NOTE! Very important. Adds support for std flag pkg users: glog, err2
@@ -43,7 +43,7 @@ var rootCmd = &cobra.Command{
 		try.To(goflag.Set("logtostderr", "true"))
 		handleViperFlags(cmd)
 		glog.CopyStandardLogTo("ERROR") // for err2
-		glog.V(3).Infoln("remove me")
+		glog.V(13).Infoln("flag inits OK")
 		return nil
 	},
 }
@@ -96,12 +96,12 @@ func BaseCfg() (_ *rpc.ClientCfg, err error) {
 			port int
 		)
 		s := ServiceAddr()
-		glog.V(1).Infoln("ServiceAddr:", s)
+		glog.V(15).Infoln("ServiceAddr string from flag:", s)
 		ss := strings.Split(s, ":")
 		assert.SLen(ss, 2)
 		addr = ss[0]
 		port = try.To1(strconv.Atoi(ss[1]))
-		glog.V(1).Infoln("ServiceAddr:", addr, port)
+		glog.V(3).Infoln("ServiceAddr:", addr, port)
 
 		baseCfg = client.BuildInsecureClientConnBase(addr, port, nil)
 	}

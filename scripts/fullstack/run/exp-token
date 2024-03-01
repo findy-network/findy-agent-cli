@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Token's current expiration timestamp:"
+date -d @`./info-token | jq '.exp' | tail -1`

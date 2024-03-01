@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+debug=${1:-""}
+location=$(dirname "$BASH_SOURCE")
+[[ "$debug" != "" ]] && echo "location: $location"
+
+
+token=`cat $location/token`
+
+cut -d"." -f1,2 <<< $token | sed 's/\./\n/g' | base64 --decode -i 2> /dev/null | jq
+

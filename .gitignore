@@ -10,7 +10,7 @@ exports/
 tmp/
 scripts/test/client?00/
 scripts/test/op/
-Session.vim
+*.vim
 todo.md
 
 # Binaries for programs and plugins

@@ -23,6 +23,7 @@ states:
       target: WAITING_EMAIL_PROOF_QA
       trigger:
         protocol: basic_message
+
   WAITING_EMAIL_PROOF_QA:
     transitions:
     - sends:
@@ -51,6 +52,7 @@ states:
         protocol: present_proof
         rule: ACCEPT_AND_INPUT_VALUES
         type_id: ANSWER_NEEDED_PROOF_VERIFY
+
   WAITING_NEXT_CMD:
     transitions:
     - sends:
@@ -70,6 +72,7 @@ states:
         data: LINE
         protocol: basic_message
         rule: INPUT_SAVE
+
   WAITING2_EMAIL_PROOF:
     transitions:
     - sends:

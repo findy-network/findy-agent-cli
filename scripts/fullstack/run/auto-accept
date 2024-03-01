@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+debug=${1:-""}
+cli=${FCLI:-findy-agent-cli}
+
+location=$(dirname "$BASH_SOURCE")
+[[ "$debug" != "" ]] && echo "location: $location"
+
+jwt_place="$location"/jwt
+jwt=$($jwt_place)
+
+cli=${FCLI:-findy-agent-cli}
+
+$cli agent mode-cmd --auto --jwt="$jwt"
+

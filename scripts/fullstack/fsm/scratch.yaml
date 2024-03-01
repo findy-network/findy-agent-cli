@@ -1,0 +1,36 @@
+  WAIT_ROLE:
+    transitions:
+    - trigger:
+        data: help
+        protocol: basic_message
+        rule: INPUT_EQUAL
+      sends:
+      - data: |-
+          ---------------------
+          Say: help, and I'll show this message.
+          Say: <role>, and I store it.
+          say: continue, and I'll go the next state.
+        protocol: basic_message
+      target: WAIT_ROLE
+
+    - trigger:
+        rule: INPUT_SAVE
+        data: ROLE
+        protocol: basic_message
+      sends:
+      - data: ACK Your <role> is {{.ROLE}}. Going on..
+        protocol: basic_message
+        rule: FORMAT_MEM
+      target: CMD_LOOP
+
+    - trigger:
+        rule: INPUT_EQUAL
+        data: continue
+        protocol: basic_message
+      sends:
+      - data: ACK Your <role> is {{.ROLE}}. Going on..
+        protocol: basic_message
+        rule: FORMAT_MEM
+      target: CMD_LOOP
+
+

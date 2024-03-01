@@ -17,14 +17,15 @@ import (
 
 var startCmdDoc = `The command starts a multi-tenant chat bot service.
 
-	findy-agent-cli bot start <filename.yaml/json|->
+	findy-agent-cli bot start <filename>
 
-If - is given instead of the FSM declaration file, it will be read from stdio.
+	Accepted file format is YAML or JSON
+	If - is given instead of the filename, the content will be read from stdio.
 
 The chat bot can serve what ever purpose it is programmed. The programming is
-done thru state machines. The machines can be declared either YAML or JSON. The
-specification for the state machine language can be found from:
-  [todo URL here when spec is ready]`
+done thru state machines. The specification for the state machine language can
+be found from:
+  https://findy-network.github.io/blog/2023/03/13/no-code-ssi-chatbots-fsm-part-i/`
 
 var startCmd = &cobra.Command{
 	Use:   "start",
