@@ -69,6 +69,7 @@ Allocate the following agents:
 
 Here's an example of how you could
 1. allocate the agents,
+1. have access to FSM files by making links,
 1. create schema and credential definition (done in `issuing`),
 1. create DIDComm connections between `issuing`, `seller`, and `buyer` *where
    the last is done in this phase just for testing the environment*. During the
@@ -79,6 +80,9 @@ Here's an example of how you could
 cd "$MY_ROOT"
 make-play-agent.sh issuing seller buyer verifier
 cd play/issuing
+ln -s ../../fsm/issuing-service-f-fsm.yaml
+ln -s ../../fsm/issuing-service-b-fsm.yaml
+open `cli bot uml issuing-service-f-fsm.yaml` # UML rendering
 source ./new-schema
 source ./new-cred-def
 ./invitation | ../seller/connect
@@ -121,6 +125,10 @@ Notes about current implementation:
 - every message sends a `basic_message` reply, which usually starts with `ACK`. See
   the `YAML` file for more information. The reply messages aren't drawn to the
   sequence diagram below to keep it as simple as possible.
+- you can render state machines to UML:
+  ```shell
+  open `cli bot uml issuing-service-f-fsm.yaml` # give correct FSM file
+  ```
 
 ```mermaid
 sequenceDiagram
