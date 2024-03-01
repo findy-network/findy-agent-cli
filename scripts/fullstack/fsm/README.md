@@ -107,38 +107,48 @@ source ./new-cred-def
 
 ## Sequence Diagram
 
+Notes about current implementation:
+- only one attribute value schema is implemented. Start with that and we add
+  cases where more attributes can be entered later.
+- every message sends `basic_message` reply which usually start with `ACK`. See
+  the `YAML` file for more information. The reply messages aren't drawn to the
+  sequence diagram below to keep it simple as possible.
+
 ```mermaid
 sequenceDiagram
     autonumber
 
     participant Seller
 
-    box transparent Issuing Service
+    %% box Grey Issuing Service
     participant IssuerFSM
     participant BackendFSM
     participant RcvrFSM
-    end
+    %% end
 
     participant Buyer
 
-    Note left of Wallet User: User reads QR-code from /issue-page
-    BackendFSM->>IssuerFSM: <<New connection!>>
-    IssuerFSM->>BackendFSM: "What's your email?"
-    Note right of BackendFSM: Aries Basic message protocol
-    BackendFSM->>RcvrFSM: Send message
-    RcvrFSM->>Wallet User: <<Message received!>>
-    Wallet User->>RcvrFSM: "workshopper@example.com"
-    RcvrFSM->>BackendFSM: Send message
-    BackendFSM->>IssuerFSM: <<Message received!>>
-    IssuerFSM->>Seller: Send email
-    Seller-->>Wallet User: <<email>>
-    Wallet User->>IssuerFSM: Navigate to http://localhost:3001/email/xxx
-    Note right of BackendFSM: Aries Issue credential protocol
-    IssuerFSM->>BackendFSM: Send credential offer
-    BackendFSM->>RcvrFSM: Send offer
-    RcvrFSM->>Wallet User: <<Offer received!>>
-    Wallet User->>RcvrFSM: Accept
-    RcvrFSM->>BackendFSM: <<Protocol continues>
-    BackendFSM->>IssuerFSM: <<Credential issued!>>
-    RcvrFSM->>Wallet User: <<Credential received!>>
+    Seller -) IssuerFSM: <session_id> (GUID)
+    Seller -) IssuerFSM: issuer [= role]
+    loop Schema's attributes
+    Seller -) IssuerFSM: <attribute_value>
+    end
+
+    alt Send thru existing connection 
+    Seller -) Buyer: <session_id> (same as above, design how app knows that this is a command)
+    end
+
+    Buyer -) RcvrFSM: <session_id>
+    Buyer -) RcvrFSM: rcvr [= role]
+
+    RcvrFSM -) BackendFSM: receiver_arriwed
+    BackendFSM -) IssuerFSM: rcvr_arriwed
+    loop Schema's attributes
+    IssuerFSM -) BackendFSM: <attribute_value>
+    BackendFSM -) RcvrFSM: <attribute_value>
+    end
+    IssuerFSM -) BackendFSM: attributes done (not implemented, one attrib)
+    BackendFSM -) RcvrFSM: attributes done (not implemented, one attrib)
+
+    RcvrFSM -) Buyer: CREDENTIAL ISSUING PROTOCOL
 ```
