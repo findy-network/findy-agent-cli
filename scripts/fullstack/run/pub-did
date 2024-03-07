@@ -1,7 +1,11 @@
 #!/bin/bash
 
+pub_url="http://localhost:8080/dyn?did=`ca-token`&label=PUB_DID"
+
 if [[ $1 == "url" ]]; then
-	curl -s "http://localhost:8080/dyn?did=`ca-token`&label=PUB_DID&url=yes"
+	curl -s "$pub_url&url=yes"
+elif [[ $1 == "print" ]]; then
+	echo "$pub_url"
 else
-	curl -s "http://localhost:8080/dyn?did=`ca-token`&label=PUB_DID"
+	curl -s $pub_url
 fi
