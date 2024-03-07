@@ -1,1 +1,7 @@
-curl "http://localhost:8080/dyn?ca=`ca-token`&l=pubDid"
+#!/bin/bash
+
+if [[ $1 == "url" ]]; then
+	curl -s "http://localhost:8080/dyn?did=`ca-token`&label=PUB_DID&url=yes"
+else
+	curl -s "http://localhost:8080/dyn?did=`ca-token`&label=PUB_DID"
+fi
