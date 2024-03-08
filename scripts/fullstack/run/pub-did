@@ -1,6 +1,8 @@
 #!/bin/bash
 
-pub_url="http://localhost:8080/dyn?did=`ca-token`&label=PUB_DID"
+agency_url=${FCLI_URL_API:-"http://localhost:8080"}
+label=${label:-"PUB_DID"}
+pub_url="$agency_url/dyn?did=`ca-token`&label=$label"
 
 if [[ $1 == "url" ]]; then
 	curl -s "$pub_url&url=yes"
