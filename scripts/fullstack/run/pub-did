@@ -1,0 +1,13 @@
+#!/bin/bash
+
+agency_url=${FCLI_URL_API:-"http://localhost:8080"}
+label=${label:-"PUB_DID"}
+pub_url="$agency_url/dyn?did=`did`&label=$label"
+
+if [[ $1 == "url" ]]; then
+	curl -s "$pub_url&url=yes"
+elif [[ $1 == "print" ]]; then
+	echo "$pub_url"
+else
+	curl -s $pub_url
+fi

@@ -9,5 +9,4 @@ location=$(dirname "$BASH_SOURCE")
 
 token=`cat $location/token`
 
-cut -d"." -f1,2 <<< $token | sed 's/\./\n/g' | base64 --decode -i 2> /dev/null | jq
-
+cut -d"." -f1,2 <<< $token | sed 's/\./\n/g' | base64 --decode 2> /dev/null
