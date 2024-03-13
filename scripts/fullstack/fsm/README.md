@@ -186,7 +186,7 @@ sequenceDiagram
 
     participant Seller
 
-    box Lightgray Issuing Service
+    box Issuing Service
     participant IssuerFSM
     participant BackendFSM
     participant RcvrFSM
