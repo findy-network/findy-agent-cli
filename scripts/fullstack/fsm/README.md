@@ -242,28 +242,29 @@ sequenceDiagram
    `basic_message`.
 1. The *Seller* role sends the same sessionID directly to the *buyer* role. The
    communication channel can be their existing DIDComm connection or something
-   else, but the *buyer* needs to know how react to that line if it's a
+   else, but the *buyer* needs to know how to react to that line if it's a
    `basic_message`.
 1. The *Buyer* role or app implementation for the role sends the received
-   `sessionID` to the chatbot, i.e., it joins to the same session.
+   `sessionID` to the chatbot, i.e., joins the same session.
 1. The *Buyer* role sends the `rcvr` word to the chatbot to make explicit role
-   selection. (We could leave this out in some version of FSM implementation,
-   and rely only the order of the messages, but this allows us better to
-   understand and keep things open for the future extensions.)
-1. The *Rcvr FSM* instance has now got the real credential holder (Buyer/Receiver)
-   and it sends a `receiver_arriwed` string to the Backend FSM.
+   selection. (We could leave this out in some version of FSM implementation
+   and rely only on the order of the messages, but this allows us to understand
+   better and keep things open for future extensions.)
+1. The *Rcvr FSM* instance has now got the actual credential holder
+   (Buyer/Receiver) and it sends a `receiver_arriwed` string to the Backend FSM.
 1. The *Backend FSM* sends a `rcvr_arrriwed` to the *Issuer FSM* as a
    `basic_message`.
 1. Now the *Issuer FSM* loops thru all previously received (from *Seller*)
-   attribute values and sends the to the *Backend FSM*.
-1. The *Backend FSM* sends the attribute vales to the *Rcvr FSM* as a
+   attribute values and sends them to the *Backend FSM*.
+1. The *Backend FSM* sends the attribute values to the *Rcvr FSM* as a
    `basic_messages`
 1. **Optional for the future**: if there would be more attributes than one, this
    would be the place to send the information that all attributes are sent to
-   the Backend FSM. Other way to implement these state-machines would add
+   the Backend FSM. Another way to implement these state machines would be to add
    information to both *Issuing* and *Receiving FSMs* how many attributes there
-   are, and receiving states would declared to rely on that knowledge.
-1. **Optional**: see the previous step. The *Backend* FSM works as forwarder for all of
-   the cases where the issuing and the receiving FSM instances need to
-   communicate with each others in side the chatbot service. 
+   are, and receiving states would be declared to rely on that knowledge.
+1. **Optional**: see the previous step. The *Backend* FSM works as a forwarder
+   for all of the cases where the issuing and the receiving FSM instances need
+   to communicate with each other through the chatbot service. 
 1. Finally the *RcvrFMS* executes **credential issuing protocol**.
+
