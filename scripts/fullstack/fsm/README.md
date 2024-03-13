@@ -151,21 +151,28 @@ export PUB_DID=$(./pub-did print)
    ```shell
    cli bot start --service-fsm issuing-service-b-fsm.yaml issuing-service-f-fsm.yaml -v=1
    ```
-1. go back to `seller` terminal A (`cli bot read`) read-only to responses
-1. go back to `seller` terminal B (`cli bot chat`)
-    1. optional: enter 'help' to get used to
-    1. enter <sessionID>, select something easy
-    1. enter <role>, == 'issuer'
-    1. enter <attr_data>, select something easy
-1. go back to `buyer` terminal A (`cli bot read `) read-only to responses
-1. go back to `buyer` terminal B (`cli bot chat`)
-    1. optional: enter 'help' to get used to
-    1. enter <sessionID>, select something easy
-    1. enter <role>, == 'rcvr'
-1. see both A (bot read) terminals; the results should be that the credential is
-   issued.
+1. go back to `seller` terminal A and enter `cli bot read`. This is a read-only
+   terminal window for the chatbot's responses.
+1. go back to `seller` terminal B and enter `cli bot chat`. This is a write-only
+   terminal window to send chat messages.
+    1. (optional: enter 'help' to get used to)
+    1. enter `sessionID`, select something easy
+    1. enter `role`, == 'issuer'
+    1. enter `attr_data`, select something easy
+1. go back to `buyer` terminal A and enter `cli bot read`. This is a read-only
+   terminal window for the chatbot's responses.
+1. go back to `buyer` terminal B and enter `cli bot chat`. This is a write-only
+   terminal window to send chat messages.
+    1. (optional: enter 'help' to get used to)
+    1. enter `sessionID`, same as with the `seller`!
+    1. enter `role`, == 'rcvr'
+1. see `Buyer`'s A terminal (`cli bot read` cmd running); the results should be
+   that the credential is issued.
 1. go to terminal B and enter something to move FSM instances to the start state.
 1. It's optional; you could rerun it with the same players.
+
+> Tip, when you started the *Issuing Service Chatbot* with `-v=1` you could
+> monitor it's state transitions in real-time.
 
 ## Sequence Diagram
 
