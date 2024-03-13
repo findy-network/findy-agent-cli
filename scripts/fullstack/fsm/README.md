@@ -82,7 +82,7 @@ mode is ON for the agent. The check it **after** the `cli agent ping` works:
 cli agent mode-cmd -r
 ```
 
-> Tip, if you have problems with CLI commands check our `FCLI_` prefixed envs.
+> Tip, if you have problems with CLI commands check your `FCLI_` prefixed envs.
 
 The result should be AUTO_ACCEPT. Note that allocation scripts do this automatically.
 
@@ -186,7 +186,7 @@ sequenceDiagram
 
     participant Seller
 
-    box transparent Lightgray Issuing Service
+    box transparent Gray Issuing Service
     participant IssuerFSM
     participant BackendFSM
     participant RcvrFSM
