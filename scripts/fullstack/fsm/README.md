@@ -16,17 +16,17 @@ proof based on it.
 
 But the CredDefID brings us some problems:
 1. How we find a correct CredDefID when it's needed?
-1. How about fully symmetric case when every one can be a issuer, a holder, and
-   a verifier same time. In these uses case everyone can issue a credentials,
+1. How about fully symmetric cases when everyone can be a issuer, a holder, and
+   a verifier same time. In these uses cases everyone can issue a credentials,
    and everyone can receive proofs of them. For example, we have a use case
-   where a seller (any body in a market place) wants to issue a receipt of the
+   where a seller (anybody in a market place) wants to issue a receipt of the
    transaction.
 
 There are other problems, but all of the rest are based on the same core problem.
 
 We'll solve the problem number 2 by using a notary type services. We start with
 one service and we have made a reference chatbot implementation to issue
-credentials behalf of a logical issuer, aka seller. We also have implement our
+credentials behalf of a logical issuer, aka seller. We also have implemented our
 version of a *public* DID. With these tools we have been able to solve the
 problem quite elegantly.
 
@@ -34,8 +34,8 @@ problem quite elegantly.
 
 In some way yes, but the end result isn't more centralized than the suggested
 trust-registries for other or similar problems in SSI field. In a certain way
-this model add self-sovereignty because now every one can issue, and every one
-can build these issuing services to their use cases.
+this model add self-sovereignty because now everyone can issue, and everyone
+can build these issuing services for their use cases.
 
 ### More Reading
 
@@ -263,8 +263,8 @@ sequenceDiagram
    would be the place to send the information that all attributes are sent to
    the Backend FSM. Other way to implement these state-machines would add
    information to both *Issuing* and *Receiving FSMs* how many attributes there
-   are, and receiving states would declared to rely on that knowlege.
-1. **Optinal**: see the previous step. The *Backend* FSM works as forwarder for all of
+   are, and receiving states would declared to rely on that knowledge.
+1. **Optional**: see the previous step. The *Backend* FSM works as forwarder for all of
    the cases where the issuing and the receiving FSM instances need to
    communicate with each others in side the chatbot service. 
 1. Finally the *RcvrFMS* executes **credential issuing protocol**.
