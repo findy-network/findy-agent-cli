@@ -76,11 +76,13 @@ communicating with your agency.
 ### Very Important
 
 If you create new wallets directly with the CLI tool, make sure that auto-accept
-mode is ON for the agent. The check it after the `agent ping` works:
+mode is ON for the agent. The check it **after** the `cli agent ping` works:
 
 ```shell
 cli agent mode-cmd -r
 ```
+
+> Tip, if you have problems with CLI commands check our `FCLI_` prefixed envs.
 
 The result should be AUTO_ACCEPT. Note that allocation scripts do this automatically.
 
@@ -184,7 +186,7 @@ sequenceDiagram
 
     participant Seller
 
-    box Issuing Service
+    box transparent Lightgray Issuing Service
     participant IssuerFSM
     participant BackendFSM
     participant RcvrFSM
