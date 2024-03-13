@@ -144,9 +144,9 @@ export PUB_DID=$(./pub-did print)
 ## Use The Issuing Service
 
 1. open 2 separated terminals (see the workshop material on how to init envs) to
-   work as `seller`, leave it to be.
+   work as `seller`, leave them to be.
 1. open 2 separated terminals (see the workshop material on how to init envs) to
-   work as `buyer`, leave it to be.
+   work as `buyer`, leave them to be.
 1. go back to the previous `issuing` terminal and start the chatbot:
    ```shell
    cli bot start --service-fsm issuing-service-b-fsm.yaml issuing-service-f-fsm.yaml -v=1
@@ -261,7 +261,7 @@ sequenceDiagram
    better and keep things open for future extensions.)
 1. The *Rcvr FSM* instance has now got the actual credential holder
    (Buyer/Receiver) and it sends a `receiver_arriwed` string to the Backend FSM.
-1. The *Backend FSM* sends a `rcvr_arrriwed` to the *Issuer FSM* as a
+1. The *Backend FSM* sends a `rcvr_arriwed` to the *Issuer FSM* as a
    `basic_message`.
 1. Now the *Issuer FSM* loops thru all previously received (from *Seller*)
    attribute values and sends them to the *Backend FSM*.
