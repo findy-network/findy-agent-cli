@@ -9,5 +9,5 @@ if [[ $1 == "url" ]]; then
 elif [[ $1 == "print" ]]; then
 	echo "$pub_url"
 else
-	curl -s $pub_url
+	curl -s "$pub_url"
 fi
