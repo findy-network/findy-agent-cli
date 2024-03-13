@@ -1,7 +1,45 @@
 # Readme
 
 This is a brief documentation of how to get started with
-`issuing-service-?-fsm.ymal` chatbot files. Before we continue, here's a list of
+`issuing-service-?-fsm.ymal` chatbot files. The `issuing chatbot` in the FSM
+YAML files is a reference implementation that meant to be customized by the
+needs of your project.
+
+### What Problem Does It Solves?
+
+The Hyperledger Indy based SSI system is implemented with CL signature scheme
+for ZKPs. That system needs the concept of *Credential Definition* that is stored
+to its creators wallet. The Credential Definition has and ID which is quite
+similar than DID in the Indy based AnonCreds system. The CredDefID is public.
+Everyone who know it can request a proofs based on it or request to present a
+proof based on it. 
+
+But the CredDefID brings us some problems:
+1. How we find a correct CredDefID when it's needed?
+1. How about fully symmetric case when every one can be a issuer, a holder, and
+   a verifier same time. In these uses case everyone can issue a credentials,
+   and everyone can receive proofs of them. For example, we have a use case
+   where a seller (any body in a market place) wants to issue a receipt of the
+   transaction.
+
+There are other problems, but all of the rest are based on the same core problem.
+
+We'll solve the problem number 2 by using a notary type services. We start with
+one service and we have made a reference chatbot implementation to issue
+credentials behalf of a logical issuer, aka seller. We also have implement our
+version of a *public* DID. With these tools we have been able to solve the
+problem quite elegantly.
+
+#### Isn't This Centralization?
+
+In some way yes, but the end result isn't more centralized than the suggested
+trust-registries for other or similar problems in SSI field. In a certain way
+this model add self-sovereignty because now every one can issue, and every one
+can build these issuing services to their use cases.
+
+### More Reading
+
+Before we continue, here's a list of
 documents and places that are helpful when playing with these:
 
 1. [Getting Started](https://findy-network.github.io/blog/2023/01/30/getting-started-with-ssi-service-agent-development/)
@@ -89,7 +127,18 @@ source ./new-cred-def
 ./invitation | ../buyer/connect
 ```
 
+Optionally store *a public DID* of the *Issuing Service Chatbot*:
+
+```shell
+export PUB_DID=$(./pub-did print)
+```
+
 > **Note! Leave this terminal open and do not enter new commands to it yet.**
+
+> **Note! `source ./new-cred-def` initializes `FCLI_CRED_DEF_ID` environment
+> variable. The `issuing-service-f-fsm.yaml` file references to this variable,
+> i.e. it's mandatory, *or* you could hard-code the *credential definition
+> value* to your `issuing-service-f-fsm.yaml`.**
 
 ## Use The Issuing Service
 
@@ -136,7 +185,7 @@ sequenceDiagram
 
     participant Seller
 
-    box Grey Issuing Service
+    box Issuing Service
     participant IssuerFSM
     participant BackendFSM
     participant RcvrFSM
@@ -168,3 +217,54 @@ sequenceDiagram
 
     RcvrFSM -) Buyer: CREDENTIAL ISSUING PROTOCOL
 ```
+
+#### Pre-steps (not in the diagram)
+
+1. We can generate a public DID for the *Issuing Service Chatbot*. 
+   ```shell
+   cd play/issuing # or where your bot is
+   export PUB_DID=$(./pub-did print)
+   ```
+1. Save this `PUB_DID` to your app's configuration. It's where *Issuing Service
+   Chatbot* can be found when needed. Note, `PUB_DID` is a URL which returns a
+   new invitation on every load. You can treat is as a URL template:
+   ```
+   http://localhost:8080/dyn?did=8NCqkhnNjeTwMmK68DHDPx&label=<you_ad_number>
+   ```
+   You can enter your case specific data like ad number to the `label` arg.
+
+#### Steps
+
+1. Actual *Seller* role or app implementation for the role generates a sessionID 
+   (GUID) and sends it to *Issuing Service Chatbot* as a `basic_message`.
+1. The *Seller* role is a logical issuer, so it sends the `issuer` string as a
+   `basic_message` to the *Issuer FMS* instance.
+1. The *Seller* role sends a <attr_val> (case specific in your schema) as a
+   `basic_message`.
+1. The *Seller* role sends the same sessionID directly to the *buyer* role. The
+   communication channel can be their existing DIDComm connection or something
+   else, but the *buyer* needs to know how react to that line if it's a
+   `basic_message`.
+1. The *Buyer* role or app implementation for the role sends the received
+   `sessionID` to the chatbot, i.e., it joins to the same session.
+1. The *Buyer* role sends the `rcvr` word to the chatbot to make explicit role
+   selection. (We could leave this out in some version of FSM implementation,
+   and rely only the order of the messages, but this allows us better to
+   understand and keep things open for the future extensions.)
+1. The *Rcvr FSM* instance has now got the real credential holder (Buyer/Receiver)
+   and it sends a `receiver_arriwed` string to the Backend FSM.
+1. The *Backend FSM* sends a `rcvr_arrriwed` to the *Issuer FSM* as a
+   `basic_message`.
+1. Now the *Issuer FSM* loops thru all previously received (from *Seller*)
+   attribute values and sends the to the *Backend FSM*.
+1. The *Backend FSM* sends the attribute vales to the *Rcvr FSM* as a
+   `basic_messages`
+1. **Optional for the future**: if there would be more attributes than one, this
+   would be the place to send the information that all attributes are sent to
+   the Backend FSM. Other way to implement these state-machines would add
+   information to both *Issuing* and *Receiving FSMs* how many attributes there
+   are, and receiving states would declared to rely on that knowlege.
+1. **Optinal**: see the previous step. The *Backend* FSM works as forwarder for all of
+   the cases where the issuing and the receiving FSM instances need to
+   communicate with each others in side the chatbot service. 
+1. Finally the *RcvrFMS* executes **credential issuing protocol**.
