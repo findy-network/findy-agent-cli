@@ -186,7 +186,7 @@ sequenceDiagram
 
     participant Seller
 
-    box transparent Gray
+    box Lightgray Issuing Service
     participant IssuerFSM
     participant BackendFSM
     participant RcvrFSM
