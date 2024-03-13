@@ -1,41 +1,40 @@
 # Readme
 
-This is a brief documentation of how to get started with
+The document tells how to start with
 `issuing-service-?-fsm.ymal` chatbot files. The `issuing chatbot` in the FSM
-YAML files is a reference implementation that meant to be customized by the
+YAML files are a reference implementation meant to be customized to the
 needs of your project.
 
-### What Problem Does It Solves?
+### What Problem Does It Solve?
 
-The Hyperledger Indy based SSI system is implemented with CL signature scheme
-for ZKPs. That system needs the concept of *Credential Definition* that is stored
-to its creators wallet. The Credential Definition has and ID which is quite
-similar than DID in the Indy based AnonCreds system. The CredDefID is public.
-Everyone who know it can request a proofs based on it or request to present a
-proof based on it. 
+The Hyperledger Indy-based SSI system is implemented with a CL signature scheme
+for ZKPs. That system needs the concept of *Credential Definition* stored in its
+creator's wallet. The Credential Definition has an ID, which is quite similar to
+DID in the Indy-based AnonCreds system. The CredDefID is public. Everyone who
+knows it can request proof based on it or request to present a proof based on
+it. 
 
 But the CredDefID brings us some problems:
-1. How we find a correct CredDefID when it's needed?
-1. How about fully symmetric cases when everyone can be a issuer, a holder, and
-   a verifier same time. In these uses cases everyone can issue a credentials,
-   and everyone can receive proofs of them. For example, we have a use case
-   where a seller (anybody in a market place) wants to issue a receipt of the
+1. How do we find a correct CredDefID when it's needed?
+1. How about fully symmetric cases when everyone can simultaneously be an
+   issuer, a holder, and a verifier? Everyone can issue credentials and receive
+   proof of them in these use cases. For example, we have a use case where a
+   seller (anybody in a marketplace) wants to issue a receipt for the
    transaction.
 
-There are other problems, but all of the rest are based on the same core problem.
+There are other problems, but the rest are based on the same core problem.
 
-We'll solve the problem number 2 by using a notary type services. We start with
-one service and we have made a reference chatbot implementation to issue
-credentials behalf of a logical issuer, aka seller. We also have implemented our
-version of a *public* DID. With these tools we have been able to solve the
-problem quite elegantly.
+We'll solve problem number 2 by using a notary-type service. We started with one
+service and implemented a reference chatbot to issue credentials on behalf of a
+logical issuer, aka seller. We also have implemented our version of a *public*
+DID. With these tools, we have solved the problem quite elegantly.
 
 #### Isn't This Centralization?
 
-In some way yes, but the end result isn't more centralized than the suggested
-trust-registries for other or similar problems in SSI field. In a certain way
-this model add self-sovereignty because now everyone can issue, and everyone
-can build these issuing services for their use cases.
+In some ways, yes, but the result isn't more centralized than the suggested
+trust registries for other or similar problems in the SSI field. In a certain
+way, this model adds self-sovereignty because now everyone can issue, and
+everyone can build these issuing services for their use cases.
 
 ### More Reading
 
