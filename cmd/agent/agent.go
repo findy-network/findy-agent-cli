@@ -37,6 +37,7 @@ func init() {
 	flags.StringVar(&CmdData.JWT, "jwt", "",
 		cmd.FlagInfo("Agent JWT token", "", envs["jwt"]))
 
+	AgentCmd.MarkPersistentFlagRequired("jwt")
 	cmd.RootCmd().AddCommand(AgentCmd)
 }
 
