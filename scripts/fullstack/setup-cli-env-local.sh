@@ -10,7 +10,11 @@ fi
 dont_use_tls=${1:-""}
 GOPATH=${GOPATH:-`go env GOPATH`}
 
-export FCLI=cli
+# =====================================
+# TODO: use your alias or symlink here:
+export FCLI=findy-agent-cli # default!
+export FCLI=cli  # our override
+# =====================================
 
 cli=${FCLI:-findy-agent-cli}
 . ../sa-compl.sh "$cli" "$cli"
