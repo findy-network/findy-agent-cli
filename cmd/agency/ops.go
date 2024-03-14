@@ -34,6 +34,7 @@ func init() {
 	flags.StringVar(&CmdData.JWT, "jwt", "",
 		cmd.FlagInfo("Agency management JWT", "", envs["jwt"]))
 
+	OpsCmd.MarkPersistentFlagRequired("jwt")
 	cmd.RootCmd().AddCommand(OpsCmd)
 }
 
