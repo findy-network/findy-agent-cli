@@ -5,7 +5,7 @@ go 1.21
 toolchain go1.21.0
 
 require (
-	github.com/findy-network/findy-agent-auth v0.2.81
+	github.com/findy-network/findy-agent-auth v0.2.82
 	github.com/findy-network/findy-common-go v0.2.65
 	github.com/ghodss/yaml v1.0.0
 	github.com/golang/glog v1.2.0
@@ -28,10 +28,10 @@ require (
 	github.com/form3tech-oss/jwt-go v3.2.5+incompatible // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.6.0 // indirect
-	github.com/go-jose/go-jose/v3 v3.0.1 // indirect
-	github.com/go-webauthn/webauthn v0.10.1 // indirect
-	github.com/go-webauthn/x v0.1.8 // indirect
-	github.com/golang-jwt/jwt/v5 v5.2.0 // indirect
+	github.com/go-jose/go-jose/v3 v3.0.3 // indirect
+	github.com/go-webauthn/webauthn v0.10.2 // indirect
+	github.com/go-webauthn/x v0.1.9 // indirect
+	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-tpm v0.9.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
@@ -59,7 +59,7 @@ require (
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
-	github.com/stretchr/testify v1.8.4 // indirect
+	github.com/stretchr/testify v1.9.0 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/teserakt-io/golang-ed25519 v0.0.0-20210104091850-3888c087a4c8 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
