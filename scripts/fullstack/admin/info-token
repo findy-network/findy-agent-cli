@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cut -d"." -f1,2 <<< $FCLI_JWT | sed 's/\./\n/g' | base64 --decode 2> /dev/null
