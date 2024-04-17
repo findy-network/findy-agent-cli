@@ -2,6 +2,10 @@
 
 [![test](https://github.com/findy-network/findy-agent-cli/actions/workflows/test.yml/badge.svg?branch=dev)](https://github.com/findy-network/findy-agent-cli/actions/workflows/test.yml)
 [![codecov](https://codecov.io/github/findy-network/findy-agent-cli/branch/dev/graph/badge.svg?token=ILLXRTH8PS)](https://codecov.io/github/findy-network/findy-agent-cli)
+![last-commit](https://img.shields.io/github/last-commit/findy-network/findy-agent-cli)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/findy-network/findy-agent-cli)
+![GitHub contributors](https://img.shields.io/github/contributors/findy-network/findy-agent-cli)
+
 
 ## Getting Started
 
