@@ -49,6 +49,13 @@ even though it is possible to set one up using a common indy-plenum ledger.
    anymore, `make clean` will remove all the generated data and allocated
    resources.
 
+   **UPDATE:** because of PostgreSQL and docker-compose problems in macOS the
+   default `docker-compose.yml` file handles SQL db files as transient. To make
+   them persistent, *remove* following line from the compose file:
+   ```shell
+      PGDATA: /var/lib/pg_data # <- remove me to keep vault files persistent
+   ```
+
 1. Build playground environment with CLI tool. It's usually
    good idea to have some test data at the backend before UI development or
    application logic itself. Now, when your whole stack is running thanks to
