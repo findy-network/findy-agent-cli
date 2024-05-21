@@ -52,7 +52,8 @@ services:
   vault-db:
     image: postgres:13.1-alpine
     volumes:
-      - .data/vault:/var/lib/postgresql/data
+      - .data/vault:/var/lib/postgresql/data:Z
     environment:
+      PGDATA: /var/lib/pg_data
       POSTGRES_DB: "vault"
       POSTGRES_PASSWORD: "password"
